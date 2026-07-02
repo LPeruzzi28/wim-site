@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projets d'école — WIM!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="site-nav">
+        <a href="index.html">← Accueil</a>
+        <a href="inspirations.html">Inspirations →</a>
+    </nav>
+
+    <section class="portfolio">
+        <h2 id="portfolio-title">Projets d'école</h2>
+        <div class="portfolio-grid" id="portfolio-grid"></div>
+    </section>
+
+    <div class="portfolio-modal" id="portfolio-modal">
+        <div class="portfolio-modal-content">
+            <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">&times;</button>
+            <div class="portfolio-modal-media" id="portfolio-modal-media"></div>
+            <span class="portfolio-modal-tag" id="portfolio-modal-tag"></span>
+            <h3 id="portfolio-modal-title"></h3>
+            <p id="portfolio-modal-desc"></p>
+            <div class="portfolio-modal-links" id="portfolio-modal-links"></div>
+        </div>
+    </div>
+
+    <script src="portfolio.js"></script>
+</body>
+</html>

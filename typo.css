@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Anton";
+    src: url(fonts/Anton-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Sora";
+    src: url(fonts/Sora-VariableFont_wght.ttf);
+}
+
+h1#title{
+    color: var(--textcolor-normal);
+    font-family: Anton;
+}
+
+
+

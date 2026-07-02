@@ -1,0 +1,15 @@
+.spotify-widget {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: min(320px, calc(100vw - 2rem));
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(87, 74, 52, 0.35);
+    z-index: 50;
+}
+
+.spotify-widget iframe {
+    display: block;
+    border: none;
+}

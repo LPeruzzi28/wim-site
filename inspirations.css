@@ -1,0 +1,85 @@
+section.inspo {
+    padding: 2rem 1rem 4rem;
+}
+
+h2#inspo-title {
+    color: var(--textcolor-normal);
+    font-family: Anton;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+p.inspo-intro {
+    font-family: Sora;
+    color: var(--textcolor-normal);
+    margin-bottom: 1.5rem;
+    max-width: 40rem;
+}
+
+.inspo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.inspo-card {
+    display: block;
+    background: var(--textcolor-lightgrey);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--textcolor-normal);
+    font-family: Sora;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.inspo-card:hover,
+.inspo-card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
+}
+
+.inspo-card-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: var(--backgroud-color);
+}
+
+.inspo-card-thumb.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Anton;
+    font-size: 0.95rem;
+    color: var(--textcolor-normal);
+    text-align: center;
+    padding: 1rem;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--backgroud-color),
+        var(--backgroud-color) 10px,
+        var(--textcolor-lightgrey) 10px,
+        var(--textcolor-lightgrey) 20px
+    );
+}
+
+.inspo-card-body {
+    padding: 0.9rem 1rem;
+}
+
+.inspo-card-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--textcolor-lightred);
+    margin-bottom: 0.3rem;
+}
+
+.inspo-card-name {
+    font-family: Anton;
+    font-size: 1.1rem;
+    margin: 0;
+}

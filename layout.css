@@ -1,0 +1,19 @@
+body{
+    background: var(--backgroud-color);
+
+    section.top{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    h1{
+        font-size: 5rem;
+        margin-left: 1rem;
+
+    }
+
+    p.Intro-text{
+        margin-left: 1rem;
+    }
+}
+
