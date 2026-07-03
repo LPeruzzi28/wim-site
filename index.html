@@ -4,24 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WIM!</title>
-    <link rel="stylesheet" href="style.css">  
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section class="top">
-        <section class="Intro">
-            <h1 id="title">What Isnpire Me !</h1>
-            <p class="Intro-text">
-                Everything that i relate to, stuff i like watching, films that i liked or song, people i like or stuff i make, you get the idea.
-                I just want to document and keep track of what gets me going, and be honest with myself. 
-                A hybrid between a personal page and a portfolio. And maybe it will pique your creativity and will push you to do something you really want.
-            </p>
-        </section>
-    </section>
-
     <nav class="site-nav">
-        <a href="projets.html">Projets d'école →</a>
-        <a href="inspirations.html">Inspirations →</a>
+        <a href="#home" data-view-link="home">Accueil</a>
+        <a href="#projets" data-view-link="projets">Projets d'école</a>
+        <a href="#inspirations" data-view-link="inspirations">Inspirations</a>
     </nav>
+
+    <main>
+        <section data-view="home">
+            <section class="top">
+                <section class="Intro">
+                    <h1 id="title">What Inspire Me !</h1>
+                    <p class="Intro-text">
+                        Everything that i relate to, stuff i like watching, films that i liked or song, people i like or stuff i make, you get the idea.
+                        I just want to document and keep track of what gets me going, and be honest with myself.
+                        A hybrid between a personal page and a portfolio. And maybe it will pique your creativity and will push you to do something you really want.
+                    </p>
+                </section>
+            </section>
+        </section>
+
+        <section data-view="projets" hidden>
+            <section class="portfolio">
+                <h2 id="portfolio-title">Projets d'école</h2>
+                <div class="portfolio-grid" id="portfolio-grid"></div>
+            </section>
+
+            <div class="portfolio-modal" id="portfolio-modal">
+                <div class="portfolio-modal-content">
+                    <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">&times;</button>
+                    <div class="portfolio-modal-media" id="portfolio-modal-media"></div>
+                    <span class="portfolio-modal-tag" id="portfolio-modal-tag"></span>
+                    <h3 id="portfolio-modal-title"></h3>
+                    <p id="portfolio-modal-desc"></p>
+                    <div class="portfolio-modal-links" id="portfolio-modal-links"></div>
+                </div>
+            </div>
+        </section>
+
+        <section data-view="inspirations" hidden>
+            <section class="inspo">
+                <h2 id="inspo-title">Inspirations</h2>
+                <p class="inspo-intro"></p>
+                <div class="inspo-grid" id="inspo-grid"></div>
+            </section>
+        </section>
+    </main>
 
     <div class="spotify-widget">
         <div id="spotify-embed"></div>
@@ -29,5 +60,8 @@
 
     <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script src="spotify.js"></script>
+    <script src="portfolio.js"></script>
+    <script src="inspirations.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

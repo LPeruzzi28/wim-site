@@ -1,17 +1,22 @@
 nav.site-nav {
     padding: 1.5rem 1rem 0;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 nav.site-nav a {
-    font-family: Sora;
+    font-family: Anton;
     color: var(--textcolor-normal);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
 }
 
 nav.site-nav a:hover {
+    color: var(--textcolor-lightred);
+}
+
+nav.site-nav a.active {
     color: var(--textcolor-lightred);
 }
 
@@ -42,13 +47,14 @@ h2#portfolio-title {
     padding: 0;
     font-family: Sora;
     color: var(--textcolor-normal);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .portfolio-card:hover,
 .portfolio-card:focus-visible {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
+    background: var(--textcolor-lightred);
 }
 
 .portfolio-card-thumb {
@@ -88,6 +94,16 @@ h2#portfolio-title {
     letter-spacing: 0.05em;
     color: var(--textcolor-lightred);
     margin-bottom: 0.4rem;
+}
+
+.portfolio-card:hover .portfolio-card-tag,
+.portfolio-card:focus-visible .portfolio-card-tag {
+    color: var(--backgroud-color);
+}
+
+.portfolio-card:hover .portfolio-card-title,
+.portfolio-card:focus-visible .portfolio-card-title {
+    color: var(--backgroud-color);
 }
 
 .portfolio-card-title {
