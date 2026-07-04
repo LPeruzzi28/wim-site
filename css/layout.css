@@ -1,3 +1,16 @@
+html {
+    scroll-behavior: smooth;
+}
+
+[data-view] {
+    filter: brightness(0.45);
+    transition: filter 0.4s ease;
+}
+
+[data-view].in-view {
+    filter: none;
+}
+
 body{
     background: var(--backgroud-color);
 
