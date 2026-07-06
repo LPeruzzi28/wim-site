@@ -106,8 +106,8 @@ projects.forEach(project => {
     card.className = "portfolio-card";
     card.innerHTML = `
         ${project.image
-            ? `<img class="portfolio-card-thumb" src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}">`
-            : `<div class="portfolio-card-thumb placeholder">Image bientôt disponible</div>`}
+            ? `<div class="portfolio-card-thumb-wrap"><img class="portfolio-card-thumb" src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}"></div>`
+            : `<div class="portfolio-card-thumb-wrap placeholder">Image bientôt disponible</div>`}
         <div class="portfolio-card-body">
             <span class="portfolio-card-tag">${project.tag}</span>
             <h3 class="portfolio-card-title">${project.title}</h3>

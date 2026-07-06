@@ -21,6 +21,7 @@ body{
     p.Intro-text{
         margin-left: 1rem;
         margin-right: 1rem;
+        color: var(--textcolor-normal);
     }
 }
 

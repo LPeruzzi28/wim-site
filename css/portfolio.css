@@ -57,17 +57,24 @@ h2#portfolio-title {
     background: var(--textcolor-lightred);
 }
 
-.portfolio-card-thumb {
+.portfolio-card-thumb-wrap {
     display: block;
     width: calc(100% - 1.2rem);
     aspect-ratio: 4 / 3;
-    object-fit: cover;
     margin: 0.6rem 0.6rem 0;
     border-radius: 8px;
+    overflow: hidden;
     background: var(--backgroud-color);
 }
 
-.portfolio-card-thumb.placeholder {
+.portfolio-card-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portfolio-card-thumb-wrap.placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,6 +169,7 @@ h2#portfolio-title {
 
 .portfolio-modal-media {
     margin: -1.5rem -1.5rem 1rem;
+    overflow: hidden;
 }
 
 .portfolio-modal-media img {
@@ -233,8 +241,8 @@ h2#portfolio-title {
         gap: 0.75rem;
     }
 
-    .portfolio-card-thumb,
-    .portfolio-card-thumb.placeholder {
+    .portfolio-card-thumb-wrap,
+    .portfolio-card-thumb-wrap.placeholder {
         aspect-ratio: 1 / 1;
     }
 
