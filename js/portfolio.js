@@ -15,6 +15,7 @@ const projects = [
         tag: "PHP / SQL · Projet d'une semaine",
         desc: "Projet d'une semaine mélangeant PHP et SQL. On a dû créer une page web qui présente divers scénarios autour de l'évolution climatique.",
         image: "projet-ecole/sae3/sae3-screenshot.png",
+        imageStyle: "object-position: top;",
         links: [
             { label: "Voir le site", href: "https://vivreensuisse.objectif-fitness.ch" }
         ]
@@ -24,6 +25,7 @@ const projects = [
         tag: "Base de données",
         desc: "Projet de création et gestion de base de données : on nous a fourni des tableaux Excel remplis de données et nous avons dû créer la base de données pour en sortir certaines informations qui nous étaient demandées.",
         image: "projet-ecole/InfraDon-lampadaire/base-donnees-carres-flottants_78370-6689.avif",
+        imageStyle: "transform: scale(1.6);",
         links: [
             { label: "Voir le poster (PDF)", href: "projet-ecole/InfraDon-lampadaire/poster_A3_InfraDon.pdf" }
         ]
@@ -51,6 +53,7 @@ const projects = [
         tag: "Dataviz",
         desc: "Nous devions choisir une statistique et en tirer une représentation que nous voulions mettre en avant sous forme de graphique.",
         image: "projet-ecole/repGraph/RepGraph.png",
+        imageStyle: "object-position: left top;",
         links: [
             { label: "Voir le PDF", href: "projet-ecole/repGraph/RepGraph_LouisPeruzzi.pdf" }
         ]
@@ -67,6 +70,7 @@ const projects = [
         tag: "Projet de groupe · Communication",
         desc: "Projet en groupe de deux : un club de foot suisse nous a été assigné et nous avons dû réaliser un audit de leur communication, puis un site web mettant en avant tous les rapports réalisés par les différentes équipes de la classe.",
         image: "projet-ecole/auditcom-clubfoot/auditcom-screenshot.png",
+        imageStyle: "object-position: top;",
         links: []
     }
 ];
@@ -82,7 +86,7 @@ const modalClose = document.getElementById("portfolio-modal-close");
 
 function openModal(project) {
     modalMedia.innerHTML = project.image
-        ? `<img src="${encodeURI(project.image)}" alt="${project.title}">`
+        ? `<img src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}">`
         : "";
     modalTag.textContent = project.tag;
     modalTitle.textContent = project.title;
@@ -102,7 +106,7 @@ projects.forEach(project => {
     card.className = "portfolio-card";
     card.innerHTML = `
         ${project.image
-            ? `<img class="portfolio-card-thumb" src="${encodeURI(project.image)}" alt="${project.title}">`
+            ? `<img class="portfolio-card-thumb" src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}">`
             : `<div class="portfolio-card-thumb placeholder">Image bientôt disponible</div>`}
         <div class="portfolio-card-body">
             <span class="portfolio-card-tag">${project.tag}</span>

@@ -24,7 +24,7 @@ p.inspo-intro {
 
 .inspo-card {
     display: block;
-    background: var(--textcolor-lightgrey);
+    background: var(--card-color);
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -41,10 +41,12 @@ p.inspo-intro {
 }
 
 .inspo-card-thumb {
-    width: 100%;
+    display: block;
+    width: calc(100% - 1.2rem);
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    display: block;
+    margin: 0.6rem 0.6rem 0;
+    border-radius: 8px;
     background: var(--backgroud-color);
 }
 
@@ -57,6 +59,7 @@ p.inspo-intro {
     color: var(--textcolor-normal);
     text-align: center;
     padding: 1rem;
+    box-sizing: border-box;
     background: repeating-linear-gradient(
         45deg,
         var(--backgroud-color),
@@ -93,4 +96,31 @@ p.inspo-intro {
 .inspo-card:hover .inspo-card-name,
 .inspo-card:focus-visible .inspo-card-name {
     color: var(--backgroud-color);
+}
+
+@media (max-width: 700px) {
+    section.inspo {
+        padding: 2rem 1rem 3rem;
+    }
+
+    h2#inspo-title {
+        font-size: 1.9rem;
+    }
+
+    .inspo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .inspo-card-body {
+        padding: 0.6rem;
+    }
+
+    .inspo-card-tag {
+        font-size: 0.6rem;
+    }
+
+    .inspo-card-name {
+        font-size: 0.9rem;
+    }
 }

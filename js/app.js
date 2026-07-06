@@ -4,9 +4,8 @@
 const sections = document.querySelectorAll("[data-view]");
 const navLinks = document.querySelectorAll("[data-view-link]");
 
-// Choisit la section dont le centre est le plus proche du centre de l'écran
-// (plus fiable qu'un IntersectionObserver à seuil fixe pour des sections
-// de hauteurs très différentes, comme "Accueil" qui est courte).
+// Surligne le lien de nav de la section dont le centre est le plus proche
+// du centre de l'écran.
 function updateActiveSection() {
     const viewportCenter = window.innerHeight / 2;
     let closest = sections[0];
@@ -22,7 +21,6 @@ function updateActiveSection() {
         }
     });
 
-    sections.forEach(section => section.classList.toggle("in-view", section === closest));
     navLinks.forEach(link => {
         link.classList.toggle("active", link.dataset.viewLink === closest.dataset.view);
     });

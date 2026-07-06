@@ -15,7 +15,6 @@ const clips = [
     { title: "Chasing Cities — Tyron", file: "audio/12. Chasing Cities.mp3" },
     { title: "Sowing The Seeds Of Love — Tears For Fears", file: "audio/13. Sowing The Seeds Of Love.mp3" },
     { title: "Here I Come — Dennis Brown", file: "audio/14. Here I Come.mp3" },
-    { title: "Where (U Are) — DJ Sonnenbrand", file: "audio/15. Where (U Are).mp3" },
     { title: "Spitting Off the Edge of the World — Yeah Yeah Yeahs/Perfume Genius", file: "audio/16. Spitting Off the Edge of the World.mp3" },
     { title: "Save That Shit — Chief Keef/Soulja Boy", file: "audio/17. Save That Shit.mp3" },
     { title: "2am — Slightly Stoopid", file: "audio/18. 2am.mp3" },
