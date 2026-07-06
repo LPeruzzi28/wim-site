@@ -28,13 +28,28 @@ const barFill = document.getElementById("player-bar-fill");
 
 let currentIndex = -1;
 
+// "Sac à mélange" : on tire tous les morceaux un par un dans un ordre
+// aléatoire avant de remélanger, pour éviter qu'un même titre revienne
+// trop souvent (un tirage aléatoire pur peut sembler répétitif sur peu
+// de morceaux, cf. l'ancien algo de shuffle de Spotify).
+let queue = [];
+
+function refillQueue() {
+    queue = clips.map((_, i) => i);
+    for (let i = queue.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [queue[i], queue[j]] = [queue[j], queue[i]];
+    }
+    if (queue.length > 1 && queue[queue.length - 1] === currentIndex) {
+        const swapWith = Math.floor(Math.random() * (queue.length - 1));
+        [queue[queue.length - 1], queue[swapWith]] = [queue[swapWith], queue[queue.length - 1]];
+    }
+}
+
 function pickRandomIndex() {
     if (clips.length === 1) return 0;
-    let i;
-    do {
-        i = Math.floor(Math.random() * clips.length);
-    } while (i === currentIndex);
-    return i;
+    if (queue.length === 0) refillQueue();
+    return queue.pop();
 }
 
 function loadClip(index) {
