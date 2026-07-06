@@ -5,7 +5,6 @@ const clips = [
     { title: "Bam Bam — Sister Nancy", file: "audio/2. Bam Bam.mp3" },
     { title: "Out Getting Ribs — Feeling Blew", file: "audio/3. Out Getting Ribs.mp3" },
     { title: "Born Slippy (Nuxx) — Underworld", file: "audio/4. Born Slippy (Nuxx) - Radio Edit.mp3" },
-    { title: "L'Amour Toujours — Gigi D'Agostino", file: "audio/5. L'Amour Toujours.mp3" },
     { title: "Porcelain — Moby", file: "audio/6. Porcelain.mp3" },
     { title: "Night Nurse — Gregory Isaacs", file: "audio/7. Night Nurse.mp3" },
     { title: "Closer to the Sun — Slightly Stoopid", file: "audio/8. Closer to the Sun.mp3" },
@@ -16,7 +15,6 @@ const clips = [
     { title: "Sowing The Seeds Of Love — Tears For Fears", file: "audio/13. Sowing The Seeds Of Love.mp3" },
     { title: "Here I Come — Dennis Brown", file: "audio/14. Here I Come.mp3" },
     { title: "Spitting Off the Edge of the World — Yeah Yeah Yeahs/Perfume Genius", file: "audio/16. Spitting Off the Edge of the World.mp3" },
-    { title: "Save That Shit — Chief Keef/Soulja Boy", file: "audio/17. Save That Shit.mp3" },
     { title: "2am — Slightly Stoopid", file: "audio/18. 2am.mp3" },
     { title: "Gypsy — Fleetwood Mac", file: "audio/19. Gypsy.mp3" }
 ];

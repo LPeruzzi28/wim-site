@@ -26,14 +26,27 @@ function updateActiveSection() {
     });
 }
 
+// Le fond bouge un peu moins vite que le contenu (léger effet parallaxe)
+// au lieu de rester totalement fixe ou de scroller à la même vitesse.
+const bgLayer = document.getElementById("bg-layer");
+const parallaxFactor = 0.2;
+const parallaxMaxOffset = 400; // doit rester sous la marge basse du calque (voir .bg-layer)
+
+function updateParallax() {
+    const offset = Math.min(window.scrollY * parallaxFactor, parallaxMaxOffset);
+    bgLayer.style.transform = `translateY(${-offset}px)`;
+}
+
 let ticking = false;
 window.addEventListener("scroll", () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
         updateActiveSection();
+        updateParallax();
         ticking = false;
     });
 });
 window.addEventListener("resize", updateActiveSection);
 updateActiveSection();
+updateParallax();

@@ -2,10 +2,18 @@ html {
     scroll-behavior: smooth;
 }
 
+.bg-layer {
+    position: fixed;
+    inset: -60px 0 -420px 0;
+    z-index: -1;
+    background: var(--backgroud-color) url(../images/plan-de-travail-1.jpg) center / cover no-repeat;
+    will-change: transform;
+}
+
 body{
     margin: 0;
     overflow-x: hidden;
-    background: var(--backgroud-color) url(../images/plan-de-travail-1.jpg) center / cover fixed no-repeat;
+    background: var(--backgroud-color);
 
     section.top{
         display: grid;
@@ -26,11 +34,6 @@ body{
 }
 
 @media (max-width: 700px) {
-    body {
-        /* background-attachment: fixed est capricieux sur mobile (Safari iOS) */
-        background-attachment: scroll;
-    }
-
     body h1 {
         font-size: 2.75rem;
     }
