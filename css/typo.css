@@ -1,16 +1,30 @@
 @font-face {
     font-family: "Anton";
     src: url(../fonts/Anton-Regular.ttf);
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Sora";
     src: url(../fonts/Sora-VariableFont_wght.ttf);
+    font-display: swap;
 }
 
 h1#title{
-    color: var(--textcolor-normal);
+    color: var(--card-color);
     font-family: Anton;
+    letter-spacing: 0.01em;
+    text-shadow:
+        0.0125em 0.0125em 0 var(--textcolor-normal),
+        0.025em  0.025em  0 var(--textcolor-normal),
+        0.0375em 0.0375em 0 var(--textcolor-normal),
+        0.05em   0.05em   0 var(--textcolor-normal),
+        0.0625em 0.0625em 0 var(--textcolor-normal),
+        0.075em  0.075em  0 var(--textcolor-normal),
+        0.0875em 0.0875em 0 var(--textcolor-normal),
+        0.1em    0.1em    0 var(--textcolor-normal),
+        0.11em   0.13em   0.02em var(--textcolor-lightred),
+        0.14em   0.17em   0.3em  rgba(0, 0, 0, 0.45);
 }
 
 

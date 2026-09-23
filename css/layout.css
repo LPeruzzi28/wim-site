@@ -21,8 +21,10 @@ body{
     }
 
     h1{
-        font-size: 5rem;
+        font-size: clamp(3.5rem, 12vw, 11rem);
         margin-left: 1rem;
+        margin-top: 0.25em;
+        line-height: 1;
 
     }
 
@@ -33,9 +35,19 @@ body{
     }
 }
 
-@media (max-width: 700px) {
-    body h1 {
-        font-size: 2.75rem;
-    }
+h1#title{
+    transform-style: preserve-3d;
+}
+
+/* Apparition en douceur au scroll (voir js/app.js) */
+.reveal{
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible{
+    opacity: 1;
+    transform: translateY(0);
 }
 
