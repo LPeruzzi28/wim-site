@@ -1,0 +1,88 @@
+/* Trame de demi-teintes (halftone) sur toute la page, façon impression
+   sérigraphiée bon marché */
+body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.14) 1px, transparent 1.3px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+}
+
+/* Vignette douce pour donner un peu de profondeur, comme un papier imprimé */
+body::after{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.18) 100%);
+}
+
+/* Effet de "mauvais calage" d'impression : une seconde couleur d'encre
+   légèrement décalée derrière le texte, comme sur un flyer sérigraphié
+   bon marché. Nécessite un attribut data-text reprenant le texte. */
+.print-fx{
+    position: relative;
+    display: inline-block;
+}
+
+.print-fx::before,
+.print-fx::after{
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-shadow: none;
+    z-index: -1;
+}
+
+.print-fx::before{
+    color: var(--textcolor-lightred);
+    transform: translate(0.05em, 0.055em);
+    opacity: 0.9;
+}
+
+.print-fx::after{
+    color: var(--textcolor-normal);
+    transform: translate(-0.04em, -0.03em);
+    opacity: 0.5;
+}
+
+/* Puce carrée façon liste de flyer, réutilisée dans la nav et les tags */
+nav.site-nav a{
+    position: relative;
+}
+
+nav.site-nav a::before{
+    content: "▪ ";
+    color: var(--textcolor-lightred);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+nav.site-nav a:hover::before,
+nav.site-nav a.active::before{
+    opacity: 1;
+}
+
+.portfolio-card-tag::before,
+.inspo-card-tag::before{
+    content: "▪ ";
+    font-size: 0.7em;
+    vertical-align: 0.05em;
+}
+
+/* Cadre d'encre franc au survol des cartes, façon ticket/carton imprimé */
+.portfolio-card:hover,
+.portfolio-card:focus-visible,
+.inspo-card:hover,
+.inspo-card:focus-visible{
+    box-shadow:
+        0 8px 20px rgba(87, 74, 52, 0.25),
+        0 0 0 3px var(--textcolor-normal);
+}
