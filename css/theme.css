@@ -1,12 +1,8 @@
 :root{
-    --backgroud-color: #d9cd9c;
-    --textcolor-normal:#3B0F1F;
-    --textcolor-lightgrey:#BFBAB0;
-    --textcolor-lightred:#B55A54;
-    --card-color: #EDE3CC;
-
-    --teal: #2E4A43;
-    --teal-light: #557067;
-    --mustard: #E3A83B;
-    --rust: #B24422;
+    --backgroud-color: #F4EEE1;
+    --textcolor-normal: #201411;
+    --textcolor-lightgrey: #9C917E;
+    --textcolor-lightred: #C1442C;
+    --accent-blue: #2A4B8D;
+    --card-color: #FFFCF6;
 }

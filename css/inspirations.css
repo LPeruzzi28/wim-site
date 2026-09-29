@@ -1,134 +1,112 @@
 section.inspo {
-    background: var(--rust);
-    padding: 3rem 1rem 4rem;
+    max-width: 74rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+    box-sizing: border-box;
 }
 
 h2#inspo-title {
-    color: var(--card-color);
+    color: var(--textcolor-normal);
     font-family: Anton;
-    font-size: 2.75rem;
-    letter-spacing: 0.01em;
-    margin-bottom: 0.5rem;
-    text-shadow:
-        0.0125em 0.0125em 0 var(--textcolor-normal),
-        0.025em  0.025em  0 var(--textcolor-normal),
-        0.0375em 0.0375em 0 var(--textcolor-normal),
-        0.05em   0.05em   0 var(--textcolor-normal),
-        0.0625em 0.0625em 0 var(--textcolor-normal),
-        0.075em  0.075em  0 var(--textcolor-normal),
-        0.08em   0.1em    0.02em var(--textcolor-lightred),
-        0.1em    0.13em   0.22em rgba(0, 0, 0, 0.45);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    letter-spacing: -0.005em;
+    margin: 0 0 0.75rem;
 }
 
 p.inspo-intro {
     font-family: Sora;
-    color: var(--card-color);
-    margin-bottom: 1.5rem;
-    max-width: 40rem;
+    color: var(--textcolor-lightgrey);
+    margin-bottom: 2.5rem;
+    max-width: 36rem;
 }
 
 .inspo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+    gap: 1.75rem;
 }
 
 .inspo-card {
     display: block;
     background: var(--card-color);
-    border-radius: 12px;
+    border: 1px solid rgba(32, 20, 17, 0.08);
+    border-radius: 4px;
     overflow: hidden;
     text-decoration: none;
     color: var(--textcolor-normal);
     font-family: Sora;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
 }
-
-/* Cartes légèrement épinglées de travers, comme sur un mur d'affiches */
-.inspo-card:nth-child(4n+1) { transform: rotate(1deg); }
-.inspo-card:nth-child(4n+2) { transform: rotate(-0.8deg); }
-.inspo-card:nth-child(4n+3) { transform: rotate(0.6deg); }
-.inspo-card:nth-child(4n+4) { transform: rotate(-1.2deg); }
 
 .inspo-card:hover,
 .inspo-card:focus-visible {
-    transform: translateY(-4px) rotate(0deg);
-    box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
-    background: var(--mustard);
-    color: var(--textcolor-normal);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(32, 20, 17, 0.14);
+    border-color: var(--accent-blue);
 }
 
 .inspo-card-thumb {
     display: block;
-    width: calc(100% - 1.2rem);
+    width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    margin: 0.6rem 0.6rem 0;
-    border-radius: 8px;
     background: var(--backgroud-color);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inspo-card:hover .inspo-card-thumb {
+    transform: scale(1.05);
 }
 
 .inspo-card-thumb.placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Anton;
-    font-size: 0.95rem;
-    color: var(--textcolor-normal);
+    font-family: Sora;
+    font-size: 0.8rem;
+    color: var(--textcolor-lightgrey);
     text-align: center;
     padding: 1rem;
     box-sizing: border-box;
-    background: repeating-linear-gradient(
-        45deg,
-        var(--backgroud-color),
-        var(--backgroud-color) 10px,
-        var(--textcolor-lightgrey) 10px,
-        var(--textcolor-lightgrey) 20px
-    );
+    background: var(--backgroud-color);
 }
 
 .inspo-card-body {
-    padding: 0.9rem 1rem;
+    padding: 1rem 1.1rem 1.2rem;
 }
 
 .inspo-card-tag {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--textcolor-lightred);
-    margin-bottom: 0.3rem;
+    letter-spacing: 0.1em;
+    color: var(--textcolor-lightgrey);
+    margin-bottom: 0.35rem;
 }
 
 .inspo-card-name {
     font-family: Anton;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     margin: 0;
+    transition: color 0.25s ease;
+}
+
+.inspo-card:hover .inspo-card-name {
+    color: var(--accent-blue);
 }
 
 @media (max-width: 700px) {
     section.inspo {
-        padding: 2rem 1rem 3rem;
-    }
-
-    h2#inspo-title {
-        font-size: 1.9rem;
+        padding: 3rem 1.25rem 4rem;
     }
 
     .inspo-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
+        gap: 1rem;
     }
 
     .inspo-card-body {
-        padding: 0.6rem;
-    }
-
-    .inspo-card-tag {
-        font-size: 0.6rem;
-    }
-
-    .inspo-card-name {
-        font-size: 0.9rem;
+        padding: 0.75rem 0.85rem 1rem;
     }
 }

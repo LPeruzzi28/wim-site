@@ -1,17 +1,17 @@
 .player {
     position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 1.25rem;
+    right: 1.25rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
     background: var(--textcolor-normal);
-    color: var(--backgroud-color);
+    color: var(--card-color);
     border-radius: 999px;
     padding: 0.6rem 1rem;
-    box-shadow: 0 8px 24px rgba(87, 74, 52, 0.35);
+    box-shadow: 0 12px 30px rgba(32, 20, 17, 0.25);
     z-index: 50;
-    width: min(280px, calc(100vw - 2rem));
+    width: min(280px, calc(100vw - 2.5rem));
     font-family: Sora;
 }
 
@@ -26,7 +26,7 @@
     border-radius: 50%;
     border: none;
     background: var(--textcolor-lightred);
-    color: var(--backgroud-color);
+    color: var(--card-color);
     cursor: pointer;
 }
 
@@ -34,11 +34,11 @@
     width: 1.8rem;
     height: 1.8rem;
     background: transparent;
-    color: var(--backgroud-color);
+    color: var(--card-color);
 }
 
 .player-toggle:hover {
-    background: var(--backgroud-color);
+    background: var(--card-color);
     color: var(--textcolor-lightred);
 }
 
@@ -71,7 +71,7 @@
 .player-bar {
     height: 4px;
     border-radius: 999px;
-    background: rgba(217, 205, 156, 0.3);
+    background: rgba(255, 252, 246, 0.2);
     cursor: pointer;
 }
 
