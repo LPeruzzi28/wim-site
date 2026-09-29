@@ -27,69 +27,19 @@
             <section class="top">
                 <svg class="hero-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                     <defs>
-                        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                            <stop class="stop-glow-a" offset="0%" />
-                            <stop class="stop-glow-b" offset="45%" />
-                            <stop class="stop-glow-c" offset="100%" />
-                        </radialGradient>
-                        <linearGradient id="skyFade" x1="0" y1="0" x2="0" y2="1">
-                            <stop class="stop-sky-a" offset="0%" />
-                            <stop class="stop-sky-b" offset="100%" />
-                        </linearGradient>
-                        <g id="cactus">
-                            <rect x="-14" y="-160" width="28" height="160" rx="14" />
-                            <rect x="-54" y="-110" width="22" height="70" rx="11" />
-                            <rect x="-40" y="-118" width="30" height="24" rx="12" />
-                            <rect x="32" y="-95" width="22" height="60" rx="11" />
-                            <rect x="10" y="-110" width="30" height="22" rx="11" />
-                        </g>
+                        <filter id="roughEdge" x="-40%" y="-40%" width="180%" height="180%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="noise" />
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="46" xChannelSelector="R" yChannelSelector="G" />
+                        </filter>
+                        <filter id="roughEdgeSmall" x="-40%" y="-40%" width="180%" height="180%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="3" result="noise" />
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" xChannelSelector="R" yChannelSelector="G" />
+                        </filter>
                     </defs>
 
-                    <rect class="hero-sky" x="0" y="0" width="1600" height="760" fill="url(#skyFade)" />
-
-                    <g class="hero-rays">
-                        <line x1="1300" y1="300" x2="1410" y2="300" />
-                        <line x1="1265" y1="385" x2="1343" y2="463" />
-                        <line x1="1180" y1="420" x2="1180" y2="530" />
-                        <line x1="1095" y1="385" x2="1017" y2="463" />
-                        <line x1="1060" y1="300" x2="950" y2="300" />
-                        <line x1="1095" y1="215" x2="1017" y2="137" />
-                        <line x1="1180" y1="180" x2="1180" y2="70" />
-                        <line x1="1265" y1="215" x2="1343" y2="137" />
-                        <line x1="1291" y1="346" x2="1333" y2="363" />
-                        <line x1="1226" y1="411" x2="1243" y2="453" />
-                        <line x1="1134" y1="411" x2="1117" y2="453" />
-                        <line x1="1069" y1="346" x2="1028" y2="363" />
-                        <line x1="1069" y1="254" x2="1028" y2="237" />
-                        <line x1="1134" y1="189" x2="1117" y2="147" />
-                        <line x1="1226" y1="189" x2="1243" y2="147" />
-                        <line x1="1291" y1="254" x2="1333" y2="237" />
-                    </g>
-
-                    <circle class="hero-glow" cx="1180" cy="300" r="380" fill="url(#sunGlow)" />
-                    <circle class="hero-sun" cx="1180" cy="300" r="100" />
-
-                    <g class="hero-stars">
-                        <circle cx="120" cy="140" r="2.5" />
-                        <circle cx="260" cy="90" r="1.8" />
-                        <circle cx="420" cy="180" r="2" />
-                        <circle cx="700" cy="110" r="1.6" />
-                        <circle cx="880" cy="70" r="2.2" />
-                        <circle cx="960" cy="200" r="1.6" />
-                        <circle cx="60" cy="260" r="1.8" />
-                        <circle cx="1400" cy="120" r="2" />
-                        <circle cx="1500" cy="220" r="1.6" />
-                    </g>
-
-                    <path class="hero-bird hero-bird-1" d="M286,160 Q293,151 300,160 Q307,151 314,160" />
-                    <path class="hero-bird hero-bird-2" d="M520,240 Q525,234 530,240 Q535,234 540,240" />
-
-                    <path class="hero-ridge-back" d="M0,750 L100,700 L220,730 L340,660 L480,710 L600,650 L740,700 L860,640 L1000,690 L1140,660 L1280,710 L1420,670 L1600,720 L1600,900 L0,900 Z" />
-                    <path class="hero-ridge-mid" d="M0,790 L130,745 L260,775 L400,720 L540,760 L680,710 L820,755 L950,705 L1100,750 L1250,715 L1400,760 L1600,735 L1600,900 L0,900 Z" />
-                    <path class="hero-ridge-front" d="M0,820 L150,760 L300,800 L420,740 L560,790 L700,730 L850,780 L980,720 L1140,770 L1300,730 L1450,790 L1600,750 L1600,900 L0,900 Z" />
-
-                    <use href="#cactus" class="hero-cactus" transform="translate(150,795) scale(0.65)" />
-                    <use href="#cactus" class="hero-cactus" transform="translate(1430,780) scale(0.5)" />
+                    <path class="hero-blob hero-blob-rust" filter="url(#roughEdge)" d="M840,340 C840,160 990,20 1180,20 C1370,20 1520,150 1520,340 C1520,510 1400,640 1180,640 C980,640 840,500 840,340 Z" />
+                    <path class="hero-blob hero-blob-blue" filter="url(#roughEdgeSmall)" d="M760,560 C760,460 840,380 950,380 C1060,380 1130,460 1130,560 C1130,650 1040,710 950,710 C850,710 760,650 760,560 Z" />
+                    <path class="hero-blob hero-blob-mustard" filter="url(#roughEdgeSmall)" d="M1230,480 C1230,410 1290,360 1360,360 C1430,360 1480,410 1480,480 C1480,545 1420,590 1360,590 C1290,590 1230,545 1230,480 Z" />
                 </svg>
                 <span class="corner corner-tl">Scroll pour explorer</span>
                 <section class="Intro">

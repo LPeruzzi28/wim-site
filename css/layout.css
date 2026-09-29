@@ -58,15 +58,17 @@ body{
     .cursor-dot{ display: none; }
 }
 
-/* Grain très léger pour donner de la texture au fond sombre */
+/* Grain marqué sur toute la page, façon papier/sérigraphie plutôt
+   qu'un rendu numérique trop lisse */
 body::before{
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 main, .site-header, .player{
@@ -159,97 +161,64 @@ nav.site-nav {
 .accent-rust{ color: var(--textcolor-lightred); }
 .accent-blue-text{ color: var(--accent-blue); }
 
-/* Scène décorative en fond du hero : soleil, étoiles, crêtes désertiques
-   (inspirée du board Pinterest), animée légèrement en continu et au scroll. */
+/* Formes abstraites texturées en fond du hero : pas une scène narrative,
+   juste la couleur et le grain du board Pinterest — bords irréguliers
+   via un filtre de déplacement (feTurbulence), pas des courbes vectorielles
+   parfaites. */
 .hero-scene{
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    mix-blend-mode: screen;
 }
 
-.stop-sky-a{ stop-color: #0E0A10; }
-.stop-sky-b{ stop-color: #2A140E; }
+.hero-blob{
+    opacity: 0.9;
+}
 
-.stop-glow-a{ stop-color: var(--textcolor-lightred); stop-opacity: 0.6; }
-.stop-glow-b{ stop-color: var(--accent-mustard); stop-opacity: 0.24; }
-.stop-glow-c{ stop-color: var(--accent-mustard); stop-opacity: 0; }
+.hero-blob-rust{
+    fill: var(--textcolor-lightred);
+    animation: blob-drift-a 26s ease-in-out infinite;
+    transform-origin: 1180px 330px;
+}
 
-.hero-sun{
+.hero-blob-blue{
+    fill: var(--accent-blue);
+    mix-blend-mode: color-dodge;
+    opacity: 0.7;
+    animation: blob-drift-b 19s ease-in-out infinite;
+    transform-origin: 950px 545px;
+}
+
+.hero-blob-mustard{
     fill: var(--accent-mustard);
-}
-
-.hero-glow{
-    transform-origin: 1180px 300px;
-    animation: sun-pulse 8s ease-in-out infinite;
-}
-
-@keyframes sun-pulse{
-    0%, 100% { transform: scale(1); opacity: 0.85; }
-    50% { transform: scale(1.12); opacity: 1; }
-}
-
-.hero-rays{
-    stroke: var(--accent-mustard);
-    stroke-width: 2;
-    stroke-linecap: round;
-    opacity: 0.35;
-    transform-origin: 1180px 300px;
-    animation: rays-spin 90s linear infinite;
-}
-
-@keyframes rays-spin{
-    to{ transform: rotate(360deg); }
-}
-
-.hero-stars circle{
-    fill: var(--textcolor-cream);
-    opacity: 0.4;
-}
-
-.hero-bird{
-    fill: none;
-    stroke: var(--textcolor-lightgrey);
-    stroke-width: 2.5;
-    stroke-linecap: round;
+    mix-blend-mode: color-dodge;
     opacity: 0.55;
+    animation: blob-drift-c 23s ease-in-out infinite;
+    transform-origin: 1360px 475px;
 }
 
-.hero-bird-1{ animation: bird-drift-1 22s ease-in-out infinite; }
-.hero-bird-2{ animation: bird-drift-2 28s ease-in-out infinite; }
-
-@keyframes bird-drift-1{
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(90px, -24px); }
+@keyframes blob-drift-a{
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(2deg); }
 }
 
-@keyframes bird-drift-2{
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-70px, 18px); }
+@keyframes blob-drift-b{
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-14px, 10px) scale(1.06); }
 }
 
-.hero-ridge-back{
-    fill: var(--backgroud-raised);
-}
-
-.hero-ridge-mid{
-    fill: #1A0F0A;
-}
-
-.hero-ridge-front{
-    fill: #0E0906;
-}
-
-.hero-cactus{
-    fill: #0E0906;
+@keyframes blob-drift-c{
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(12px, -10px) scale(0.96); }
 }
 
 @media (prefers-reduced-motion: reduce){
-    .hero-glow,
-    .hero-rays,
-    .hero-bird-1,
-    .hero-bird-2{
+    .hero-blob-rust,
+    .hero-blob-blue,
+    .hero-blob-mustard{
         animation: none;
     }
 }

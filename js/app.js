@@ -113,28 +113,24 @@ if (hasGsap && !prefersReducedMotion) {
         });
     });
 
-    // Parallaxe sur la scène du hero (soleil + crêtes) au scroll : chaque
-    // calque bouge à une vitesse différente pour donner de la profondeur.
+    // Parallaxe sur les formes du hero au scroll : chacune bouge à une
+    // vitesse différente pour donner de la profondeur.
     const heroTop = document.querySelector("section.top");
     if (heroTop) {
-        gsap.to(".hero-ridge-back", {
-            y: -30,
+        gsap.to(".hero-blob-rust", {
+            y: -70,
             ease: "none",
             scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
         });
-        gsap.to(".hero-ridge-mid", {
-            y: -60,
+        gsap.to(".hero-blob-blue", {
+            y: -110,
+            x: -20,
             ease: "none",
             scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
         });
-        gsap.to(".hero-ridge-front, .hero-cactus", {
-            y: -100,
-            ease: "none",
-            scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
-        });
-        gsap.to(".hero-glow, .hero-sun", {
-            y: 60,
-            x: 30,
+        gsap.to(".hero-blob-mustard", {
+            y: -140,
+            x: 20,
             ease: "none",
             scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
         });
