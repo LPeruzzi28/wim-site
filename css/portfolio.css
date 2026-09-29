@@ -1,21 +1,3 @@
-nav.site-nav {
-    position: fixed;
-    top: 1.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 200;
-    display: flex;
-    gap: 1.75rem;
-    align-items: center;
-    padding: 0.75rem 1.75rem;
-    border-radius: 999px;
-    background: rgba(24, 17, 12, 0.75);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(244, 234, 217, 0.12);
-    font-family: Sora;
-}
-
 nav.site-nav a {
     position: relative;
     color: var(--textcolor-cream);
@@ -43,11 +25,12 @@ nav.site-nav a[data-view-link="inspirations"].active {
 }
 
 section.portfolio {
-    max-width: 76rem;
-    margin: 0 auto;
-    padding: 7rem 1.5rem 5rem;
+    position: relative;
+    max-width: 82rem;
+    padding: 7rem 3vw 5rem 4vw;
     box-sizing: border-box;
     counter-reset: project;
+    overflow: hidden;
 }
 
 h2#portfolio-title {
@@ -281,16 +264,6 @@ h2#portfolio-title::after{
 }
 
 @media (max-width: 700px) {
-    nav.site-nav {
-        top: 0.9rem;
-        gap: 1.1rem;
-        padding: 0.6rem 1.1rem;
-    }
-
-    nav.site-nav a {
-        font-size: 0.68rem;
-    }
-
     section.portfolio {
         padding: 5.5rem 1.25rem 3rem;
     }

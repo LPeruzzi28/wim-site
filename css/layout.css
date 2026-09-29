@@ -8,11 +8,13 @@ body{
     background: var(--backgroud-color);
     color: var(--textcolor-cream);
     position: relative;
+    cursor: none;
 
     section.top{
+        position: relative;
         display: grid;
         grid-template-columns: 1fr;
-        min-height: 88vh;
+        min-height: 92vh;
         align-items: center;
     }
 
@@ -30,6 +32,31 @@ body{
     }
 }
 
+@media (hover: none){
+    body{ cursor: auto; }
+}
+
+/* Curseur personnalisé qui suit la souris et grossit sur les éléments
+   interactifs (voir js/app.js). Désactivé sur écrans tactiles. */
+.cursor-dot{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: var(--textcolor-lightred);
+    pointer-events: none;
+    z-index: 999;
+    mix-blend-mode: difference;
+    will-change: transform;
+}
+
+@media (hover: none){
+    .cursor-dot{ display: none; }
+}
+
 /* Grain très léger pour donner de la texture au fond sombre */
 body::before{
     content: "";
@@ -41,15 +68,78 @@ body::before{
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
-main, nav.site-nav, .player{
+main, .site-header, .player{
     position: relative;
     z-index: 1;
 }
 
+/* En-tête : marque à gauche, nav + horloge à droite, plus de pilule
+   flottante isolée au centre. */
+.site-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 2rem;
+    box-sizing: border-box;
+}
+
+.brand{
+    font-family: Anton;
+    font-size: 1.2rem;
+    letter-spacing: 0.01em;
+    color: var(--textcolor-cream);
+    text-decoration: none;
+}
+
+.header-right{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+nav.site-nav {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    background: rgba(24, 17, 12, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(244, 234, 217, 0.12);
+    font-family: Sora;
+}
+
+.clock{
+    font-family: Sora;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--textcolor-lightgrey);
+}
+
+/* Labels ancrés dans les coins du hero, comme des repères d'éditeur */
+.corner{
+    position: absolute;
+    font-family: Sora;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--textcolor-lightgrey);
+}
+
+.corner-tl{ top: 1.5rem; left: 1.5rem; }
+.corner-br{ bottom: 1.5rem; right: 1.5rem; }
+
 .Intro{
-    padding: 7.5rem 1.5rem 2rem;
-    max-width: 76rem;
-    margin: 0 auto;
+    padding: 0 1.5rem 0 4vw;
+    max-width: 62rem;
     width: 100%;
     box-sizing: border-box;
 }
@@ -68,48 +158,89 @@ main, nav.site-nav, .player{
 .accent-rust{ color: var(--textcolor-lightred); }
 .accent-blue-text{ color: var(--accent-blue); }
 
-/* Apparition d'entrée du titre au chargement de la page */
-.Intro .kicker,
-.Intro h1{
-    opacity: 0;
-    transform: translateY(18px);
-    animation: intro-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Bandeau défilant en continu */
+.marquee{
+    overflow: hidden;
+    border-top: 1px solid rgba(244, 234, 217, 0.12);
+    border-bottom: 1px solid rgba(244, 234, 217, 0.12);
+    padding: 1.1rem 0;
 }
 
-.Intro h1{
-    animation-delay: 0.12s;
+.marquee-track{
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: marquee-scroll 28s linear infinite;
 }
 
-@keyframes intro-rise{
-    to{
-        opacity: 1;
-        transform: translateY(0);
-    }
+.marquee-track span{
+    font-family: Anton;
+    font-size: 1.4rem;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--textcolor-lightgrey);
+    display: flex;
+    align-items: center;
+    gap: 3rem;
 }
 
-/* Apparition en douceur au scroll (voir js/app.js) */
-.reveal{
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+.marquee-track span::after{
+    content: "—";
+    color: var(--textcolor-lightred);
 }
 
-.reveal.is-visible{
-    opacity: 1;
-    transform: translateY(0);
+@keyframes marquee-scroll{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+}
+
+/* Grand chiffre fantôme derrière les titres de section */
+.ghost-number{
+    position: absolute;
+    top: -1.5rem;
+    right: 1rem;
+    font-family: Anton;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    color: var(--backgroud-raised);
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
 }
 
 @media (prefers-reduced-motion: reduce){
-    .Intro .kicker,
-    .Intro h1{
+    .marquee-track{
         animation: none;
-        opacity: 1;
-        transform: none;
     }
 }
 
+@media (max-width: 900px){
+    .header-right .clock{ display: none; }
+}
+
 @media (max-width: 700px){
-    .Intro{
-        padding: 6rem 1.25rem 2rem;
+    .site-header{
+        padding: 1.25rem 1.25rem;
     }
+
+    nav.site-nav{
+        gap: 1rem;
+        padding: 0.55rem 1.1rem;
+    }
+
+    nav.site-nav a{
+        font-size: 0.68rem;
+    }
+
+    .Intro{
+        padding: 0 1.25rem;
+        max-width: 100%;
+    }
+
+    .corner{
+        display: none;
+    }
+
+    body{ cursor: auto; }
+    .cursor-dot{ display: none; }
 }

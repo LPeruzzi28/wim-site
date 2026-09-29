@@ -1,9 +1,10 @@
 section.inspo {
-    max-width: 76rem;
-    margin: 0 auto;
-    padding: 4rem 1.5rem 6rem;
+    position: relative;
+    max-width: 82rem;
+    padding: 4rem 3vw 6rem 4vw;
     box-sizing: border-box;
     counter-reset: inspo;
+    overflow: hidden;
 }
 
 h2#inspo-title {
