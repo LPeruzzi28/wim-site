@@ -38,7 +38,7 @@ h2#portfolio-title {
 }
 
 .portfolio-card {
-    background: var(--card-color);
+    background: var(--textcolor-lightred);
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
@@ -46,8 +46,8 @@ h2#portfolio-title {
     text-align: left;
     padding: 0;
     font-family: Sora;
-    color: var(--textcolor-normal);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    color: var(--card-color);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .portfolio-card:hover,
@@ -55,6 +55,7 @@ h2#portfolio-title {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
     background: var(--backgroud-color);
+    color: var(--textcolor-normal);
 }
 
 .portfolio-card-thumb-wrap {
@@ -102,13 +103,13 @@ h2#portfolio-title {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--textcolor-lightred);
+    color: var(--card-color);
     margin-bottom: 0.4rem;
 }
 
-.portfolio-card:hover .portfolio-card-title,
-.portfolio-card:focus-visible .portfolio-card-title {
-    color: var(--textcolor-lightred);
+.portfolio-card:hover .portfolio-card-tag,
+.portfolio-card:focus-visible .portfolio-card-tag {
+    color: var(--textcolor-normal);
 }
 
 .portfolio-card-title {

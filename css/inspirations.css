@@ -24,13 +24,13 @@ p.inspo-intro {
 
 .inspo-card {
     display: block;
-    background: var(--card-color);
+    background: var(--textcolor-lightred);
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
-    color: var(--textcolor-normal);
+    color: var(--card-color);
     font-family: Sora;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .inspo-card:hover,
@@ -38,6 +38,7 @@ p.inspo-intro {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
     background: var(--backgroud-color);
+    color: var(--textcolor-normal);
 }
 
 .inspo-card-thumb {
@@ -78,19 +79,19 @@ p.inspo-intro {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--textcolor-lightred);
+    color: var(--card-color);
     margin-bottom: 0.3rem;
+}
+
+.inspo-card:hover .inspo-card-tag,
+.inspo-card:focus-visible .inspo-card-tag {
+    color: var(--textcolor-normal);
 }
 
 .inspo-card-name {
     font-family: Anton;
     font-size: 1.1rem;
     margin: 0;
-}
-
-.inspo-card:hover .inspo-card-name,
-.inspo-card:focus-visible .inspo-card-name {
-    color: var(--textcolor-lightred);
 }
 
 @media (max-width: 700px) {
