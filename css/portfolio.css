@@ -1,38 +1,35 @@
 nav.site-nav {
-    padding: 2rem 1.5rem 0;
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
     display: flex;
-    gap: 2.25rem;
+    gap: 1.75rem;
+    align-items: center;
+    padding: 0.75rem 1.75rem;
+    border-radius: 999px;
+    background: rgba(24, 17, 12, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(244, 234, 217, 0.12);
     font-family: Sora;
 }
 
 nav.site-nav a {
     position: relative;
-    color: var(--textcolor-normal);
+    color: var(--textcolor-cream);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding-bottom: 0.35rem;
+    transition: color 0.25s ease;
 }
 
-nav.site-nav a::after{
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-nav.site-nav a:hover::after,
-nav.site-nav a.active::after{
-    transform: scaleX(1);
-    transform-origin: left;
+nav.site-nav a[data-view-link="home"]:hover,
+nav.site-nav a[data-view-link="home"].active {
+    color: var(--accent-mustard);
 }
 
 nav.site-nav a[data-view-link="projets"]:hover,
@@ -46,51 +43,88 @@ nav.site-nav a[data-view-link="inspirations"].active {
 }
 
 section.portfolio {
-    max-width: 74rem;
+    max-width: 76rem;
     margin: 0 auto;
     padding: 7rem 1.5rem 5rem;
     box-sizing: border-box;
+    counter-reset: project;
 }
 
 h2#portfolio-title {
-    color: var(--textcolor-normal);
+    color: var(--textcolor-cream);
     font-family: Anton;
-    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
     letter-spacing: -0.005em;
-    margin: 0 0 2.5rem;
+    margin: 0 0 0.5rem;
+}
+
+h2#portfolio-title::after{
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 4px;
+    margin-top: 1.25rem;
+    background: var(--textcolor-lightred);
+    border-radius: 999px;
 }
 
 .portfolio-grid {
+    margin-top: 2.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
 }
 
 .portfolio-card {
+    counter-increment: project;
+    position: relative;
     background: var(--card-color);
-    border: 1px solid rgba(32, 20, 17, 0.08);
-    border-radius: 4px;
+    border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
+    border: none;
     text-align: left;
     padding: 0;
     font-family: Sora;
     color: var(--textcolor-normal);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .portfolio-card:hover,
 .portfolio-card:focus-visible {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(32, 20, 17, 0.14);
-    border-color: var(--textcolor-lightred);
+    transform: translateY(-8px);
+    box-shadow: 0 26px 55px rgba(0, 0, 0, 0.4);
 }
+
+.portfolio-card::before{
+    content: counter(project, decimal-leading-zero);
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 2;
+    font-family: Sora;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--textcolor-cream);
+    background: var(--textcolor-lightred);
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-card:nth-child(3n+2)::before{ background: var(--accent-mustard); color: var(--textcolor-normal); }
+.portfolio-card:nth-child(3n)::before{ background: var(--accent-blue); }
 
 .portfolio-card-thumb-wrap {
     display: block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    background: var(--backgroud-color);
+    background: var(--backgroud-raised);
 }
 
 .portfolio-card-thumb {
@@ -102,7 +136,7 @@ h2#portfolio-title {
 }
 
 .portfolio-card:hover .portfolio-card-thumb {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
 .portfolio-card-thumb-wrap.placeholder {
@@ -115,33 +149,31 @@ h2#portfolio-title {
     text-align: center;
     padding: 1rem;
     box-sizing: border-box;
-    background: var(--backgroud-color);
+    background: var(--backgroud-raised);
 }
 
 .portfolio-card-body {
-    padding: 1.25rem 1.4rem 1.5rem;
+    padding: 1.35rem 1.5rem 1.6rem;
 }
 
 .portfolio-card-tag {
     display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--textcolor-lightgrey);
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+    color: var(--textcolor-lightred);
+    margin-bottom: 0.55rem;
 }
+
+.portfolio-card:nth-child(3n+2) .portfolio-card-tag{ color: #9C6E14; }
+.portfolio-card:nth-child(3n) .portfolio-card-tag{ color: var(--accent-blue); }
 
 .portfolio-card-title {
     font-family: Anton;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     letter-spacing: -0.005em;
     margin: 0;
-    transition: color 0.25s ease;
-}
-
-.portfolio-card:hover .portfolio-card-title {
-    color: var(--textcolor-lightred);
 }
 
 /* Modal */
@@ -150,11 +182,11 @@ h2#portfolio-title {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(20, 12, 10, 0.65);
+    background: rgba(10, 7, 5, 0.78);
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    z-index: 100;
+    z-index: 300;
 }
 
 .portfolio-modal.open {
@@ -169,7 +201,7 @@ h2#portfolio-title {
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    border-radius: 6px;
+    border-radius: 10px;
     padding: 1.75rem;
     position: relative;
 }
@@ -178,21 +210,20 @@ h2#portfolio-title {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
-    color: var(--textcolor-normal);
-    border: 1px solid rgba(32, 20, 17, 0.2);
+    background: var(--backgroud-color);
+    color: var(--textcolor-cream);
+    border: none;
     border-radius: 50%;
     width: 2.2rem;
     height: 2.2rem;
     font-size: 1.25rem;
     line-height: 1;
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .portfolio-modal-close:hover{
-    border-color: var(--textcolor-lightred);
-    color: var(--textcolor-lightred);
+    background: var(--textcolor-lightred);
 }
 
 .portfolio-modal-media {
@@ -203,22 +234,22 @@ h2#portfolio-title {
 .portfolio-modal-media img {
     width: 100%;
     display: block;
-    border-radius: 6px 6px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 
 .portfolio-modal-tag {
     display: inline-block;
     font-size: 0.7rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--textcolor-lightred);
     margin-bottom: 0.5rem;
 }
 
 #portfolio-modal-title {
     font-family: Anton;
-    font-size: 1.8rem;
+    font-size: 1.85rem;
     margin: 0 0 0.85rem;
 }
 
@@ -240,7 +271,7 @@ h2#portfolio-title {
     color: var(--card-color);
     text-decoration: none;
     padding: 0.55rem 1rem;
-    border-radius: 4px;
+    border-radius: 999px;
     font-size: 0.85rem;
     transition: background 0.2s ease;
 }
@@ -251,30 +282,26 @@ h2#portfolio-title {
 
 @media (max-width: 700px) {
     nav.site-nav {
-        gap: 1.25rem;
-        flex-wrap: wrap;
-        padding: 1.5rem 1.25rem 0;
+        top: 0.9rem;
+        gap: 1.1rem;
+        padding: 0.6rem 1.1rem;
     }
 
     nav.site-nav a {
-        font-size: 0.75rem;
+        font-size: 0.68rem;
     }
 
     section.portfolio {
-        padding: 4rem 1.25rem 3rem;
-    }
-
-    h2#portfolio-title {
-        margin-bottom: 1.75rem;
+        padding: 5.5rem 1.25rem 3rem;
     }
 
     .portfolio-grid {
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 1.5rem;
     }
 
     .portfolio-card-body {
-        padding: 1rem 1.1rem 1.25rem;
+        padding: 1.1rem 1.25rem 1.35rem;
     }
 
     .portfolio-modal {

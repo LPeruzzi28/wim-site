@@ -1,8 +1,11 @@
 :root{
-    --backgroud-color: #F4EEE1;
-    --textcolor-normal: #201411;
-    --textcolor-lightgrey: #9C917E;
-    --textcolor-lightred: #C1442C;
-    --accent-blue: #2A4B8D;
-    --card-color: #FFFCF6;
+    --backgroud-color: #18110C;
+    --backgroud-raised: #241A12;
+    --textcolor-normal: #1A120D;
+    --textcolor-lightgrey: #B4A594;
+    --textcolor-cream: #F4EAD9;
+    --textcolor-lightred: #D2572E;
+    --accent-mustard: #E8B23D;
+    --accent-blue: #4E86C6;
+    --card-color: #F4EAD9;
 }
