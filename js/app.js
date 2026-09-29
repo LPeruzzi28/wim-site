@@ -52,17 +52,13 @@ if (projectCountEl && typeof projects !== "undefined") {
     projectCountEl.textContent = `${String(projects.length).padStart(2, "0")} Projets`;
 }
 
-// Bandeau défilant construit à partir des vraies catégories des projets
-// et inspirations (voir js/portfolio.js et js/inspirations.js).
+// Bandeau défilant construit uniquement à partir des vraies catégories
+// des projets de Louis (voir js/portfolio.js) — pas des inspirations, qui
+// décrivent d'autres personnes et n'ont rien à faire dans ce bandeau.
 const marqueeTrack = document.getElementById("marquee-track");
-if (marqueeTrack) {
+if (marqueeTrack && typeof projects !== "undefined") {
     const words = new Set();
-    if (typeof projects !== "undefined") {
-        projects.forEach(p => p.tag.split(/[·,]/).forEach(w => words.add(w.trim())));
-    }
-    if (typeof inspirations !== "undefined") {
-        inspirations.forEach(i => words.add(i.tag.trim()));
-    }
+    projects.forEach(p => p.tag.split(/[·,]/).forEach(w => words.add(w.trim())));
     const list = Array.from(words);
     const html = list.map(w => `<span>${w}</span>`).join("");
     marqueeTrack.innerHTML = html + html;
@@ -122,12 +118,17 @@ if (hasGsap && !prefersReducedMotion) {
     const heroTop = document.querySelector("section.top");
     if (heroTop) {
         gsap.to(".hero-ridge-back", {
-            y: -40,
+            y: -30,
             ease: "none",
             scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
         });
-        gsap.to(".hero-ridge-front", {
-            y: -90,
+        gsap.to(".hero-ridge-mid", {
+            y: -60,
+            ease: "none",
+            scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
+        });
+        gsap.to(".hero-ridge-front, .hero-cactus", {
+            y: -100,
             ease: "none",
             scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
         });
