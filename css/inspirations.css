@@ -3,10 +3,20 @@ section.inspo {
 }
 
 h2#inspo-title {
-    color: var(--textcolor-normal);
+    color: var(--card-color);
     font-family: Anton;
-    font-size: 2.5rem;
+    font-size: 2.75rem;
+    letter-spacing: 0.01em;
     margin-bottom: 0.5rem;
+    text-shadow:
+        0.0125em 0.0125em 0 var(--textcolor-normal),
+        0.025em  0.025em  0 var(--textcolor-normal),
+        0.0375em 0.0375em 0 var(--textcolor-normal),
+        0.05em   0.05em   0 var(--textcolor-normal),
+        0.0625em 0.0625em 0 var(--textcolor-normal),
+        0.075em  0.075em  0 var(--textcolor-normal),
+        0.08em   0.1em    0.02em var(--textcolor-lightred),
+        0.1em    0.13em   0.22em rgba(0, 0, 0, 0.45);
 }
 
 p.inspo-intro {
