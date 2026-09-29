@@ -127,6 +127,21 @@ p.inspo-intro {
     font-family: Anton;
     font-size: 1.05rem;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Indique que la carte ouvre un lien externe (contrairement aux cartes
+   de réalisations, qui ouvrent le détail du projet sur place) */
+.inspo-card-external{
+    opacity: 0.45;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.inspo-card:hover .inspo-card-external{
+    opacity: 0.9;
+    transform: translate(2px, -2px);
 }
 
 @media (max-width: 700px) {

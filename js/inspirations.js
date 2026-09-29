@@ -85,7 +85,10 @@ inspirations.forEach(item => {
             : `<div class="inspo-card-thumb placeholder">Image bientôt disponible</div>`}
         <div class="inspo-card-body">
             <span class="inspo-card-tag">${item.tag}</span>
-            <h3 class="inspo-card-name">${item.name}</h3>
+            <h3 class="inspo-card-name">
+                ${item.name}
+                <svg class="inspo-card-external" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </h3>
         </div>
     `;
     inspoGrid.appendChild(card);

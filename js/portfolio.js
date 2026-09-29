@@ -110,7 +110,10 @@ projects.forEach(project => {
             : `<div class="portfolio-card-thumb-wrap placeholder">Image bientôt disponible</div>`}
         <div class="portfolio-card-body">
             <span class="portfolio-card-tag">${project.tag}</span>
-            <h3 class="portfolio-card-title">${project.title}</h3>
+            <h3 class="portfolio-card-title">
+                ${project.title}
+                <svg class="portfolio-card-expand" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M8 3H3V8M16 3H21V8M8 21H3V16M16 21H21V16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </h3>
         </div>
     `;
     card.addEventListener("click", () => openModal(project));

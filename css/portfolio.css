@@ -157,6 +157,21 @@ h2#portfolio-title::after{
     font-size: 1.4rem;
     letter-spacing: -0.005em;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Indique que la carte ouvre le détail du projet (pas un lien externe,
+   contrairement aux cartes d'inspirations) */
+.portfolio-card-expand{
+    opacity: 0.45;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.portfolio-card:hover .portfolio-card-expand{
+    opacity: 0.9;
+    transform: scale(1.1);
 }
 
 /* Modal */

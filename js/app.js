@@ -71,7 +71,7 @@ if (hasGsap && !prefersReducedMotion) {
     gsap.registerPlugin(ScrollTrigger);
 
     // Entrée du hero : les éléments apparaissent en cascade.
-    gsap.from([".corner-tl", ".kicker", "#title", ".corner-br", ".marquee"], {
+    gsap.from([".corner-tl", ".kicker", "#title", ".Intro-text", ".corner-br", ".marquee"], {
         opacity: 0,
         y: 22,
         duration: 0.9,
