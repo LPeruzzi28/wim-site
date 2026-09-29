@@ -25,6 +25,30 @@
     <main>
         <section id="home" data-view="home">
             <section class="top">
+                <svg class="hero-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                            <stop class="stop-glow-a" offset="0%" />
+                            <stop class="stop-glow-b" offset="45%" />
+                            <stop class="stop-glow-c" offset="100%" />
+                        </radialGradient>
+                    </defs>
+                    <circle class="hero-glow" cx="1180" cy="300" r="380" fill="url(#sunGlow)" />
+                    <circle class="hero-sun" cx="1180" cy="300" r="100" />
+                    <g class="hero-stars">
+                        <circle cx="120" cy="140" r="2.5" />
+                        <circle cx="260" cy="90" r="1.8" />
+                        <circle cx="420" cy="180" r="2" />
+                        <circle cx="700" cy="110" r="1.6" />
+                        <circle cx="880" cy="70" r="2.2" />
+                        <circle cx="960" cy="200" r="1.6" />
+                        <circle cx="60" cy="260" r="1.8" />
+                        <circle cx="1400" cy="120" r="2" />
+                        <circle cx="1500" cy="220" r="1.6" />
+                    </g>
+                    <path class="hero-ridge-back" d="M0,750 L100,700 L220,730 L340,660 L480,710 L600,650 L740,700 L860,640 L1000,690 L1140,660 L1280,710 L1420,670 L1600,720 L1600,900 L0,900 Z" />
+                    <path class="hero-ridge-front" d="M0,820 L150,760 L300,800 L420,740 L560,790 L700,730 L850,780 L980,720 L1140,770 L1300,730 L1450,790 L1600,750 L1600,900 L0,900 Z" />
+                </svg>
                 <span class="corner corner-tl">Scroll pour explorer</span>
                 <section class="Intro">
                     <span class="kicker">Louis Peruzzi</span>

@@ -16,6 +16,7 @@ body{
         grid-template-columns: 1fr;
         min-height: 92vh;
         align-items: center;
+        overflow: hidden;
     }
 
     h1{
@@ -157,6 +158,53 @@ nav.site-nav {
 
 .accent-rust{ color: var(--textcolor-lightred); }
 .accent-blue-text{ color: var(--accent-blue); }
+
+/* Scène décorative en fond du hero : soleil, étoiles, crêtes désertiques
+   (inspirée du board Pinterest), animée légèrement en continu et au scroll. */
+.hero-scene{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.stop-glow-a{ stop-color: var(--textcolor-lightred); stop-opacity: 0.55; }
+.stop-glow-b{ stop-color: var(--accent-mustard); stop-opacity: 0.22; }
+.stop-glow-c{ stop-color: var(--accent-mustard); stop-opacity: 0; }
+
+.hero-sun{
+    fill: var(--accent-mustard);
+}
+
+.hero-glow{
+    transform-origin: 1180px 300px;
+    animation: sun-pulse 8s ease-in-out infinite;
+}
+
+@keyframes sun-pulse{
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.12); opacity: 1; }
+}
+
+.hero-stars circle{
+    fill: var(--textcolor-cream);
+    opacity: 0.4;
+}
+
+.hero-ridge-back{
+    fill: var(--backgroud-raised);
+}
+
+.hero-ridge-front{
+    fill: #120C08;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .hero-glow{
+        animation: none;
+    }
+}
 
 /* Bandeau défilant en continu */
 .marquee{

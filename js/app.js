@@ -117,6 +117,28 @@ if (hasGsap && !prefersReducedMotion) {
         });
     });
 
+    // Parallaxe sur la scène du hero (soleil + crêtes) au scroll : chaque
+    // calque bouge à une vitesse différente pour donner de la profondeur.
+    const heroTop = document.querySelector("section.top");
+    if (heroTop) {
+        gsap.to(".hero-ridge-back", {
+            y: -40,
+            ease: "none",
+            scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
+        });
+        gsap.to(".hero-ridge-front", {
+            y: -90,
+            ease: "none",
+            scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
+        });
+        gsap.to(".hero-glow, .hero-sun", {
+            y: 60,
+            x: 30,
+            ease: "none",
+            scrollTrigger: { trigger: heroTop, start: "top top", end: "bottom top", scrub: true }
+        });
+    }
+
     // Curseur personnalisé qui suit la souris et grossit sur les éléments
     // interactifs.
     const cursor = document.getElementById("cursor-dot");
