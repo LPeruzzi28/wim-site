@@ -21,6 +21,7 @@ nav.site-nav a.active {
 }
 
 section.portfolio {
+    background: var(--teal);
     padding: 6rem 1rem 4rem;
 }
 
@@ -60,9 +61,15 @@ h2#portfolio-title {
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
+/* Cartes légèrement épinglées de travers, comme sur un mur d'affiches */
+.portfolio-card:nth-child(4n+1) { transform: rotate(-1.1deg); }
+.portfolio-card:nth-child(4n+2) { transform: rotate(0.9deg); }
+.portfolio-card:nth-child(4n+3) { transform: rotate(-0.6deg); }
+.portfolio-card:nth-child(4n+4) { transform: rotate(1.2deg); }
+
 .portfolio-card:hover,
 .portfolio-card:focus-visible {
-    transform: translateY(-4px);
+    transform: translateY(-4px) rotate(0deg);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
     background: var(--backgroud-color);
     color: var(--textcolor-normal);

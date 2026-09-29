@@ -1,5 +1,6 @@
 section.inspo {
-    padding: 2rem 1rem 4rem;
+    background: var(--rust);
+    padding: 3rem 1rem 4rem;
 }
 
 h2#inspo-title {
@@ -21,7 +22,7 @@ h2#inspo-title {
 
 p.inspo-intro {
     font-family: Sora;
-    color: var(--textcolor-normal);
+    color: var(--card-color);
     margin-bottom: 1.5rem;
     max-width: 40rem;
 }
@@ -34,20 +35,26 @@ p.inspo-intro {
 
 .inspo-card {
     display: block;
-    background: var(--textcolor-lightred);
+    background: var(--card-color);
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
-    color: var(--card-color);
+    color: var(--textcolor-normal);
     font-family: Sora;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
+/* Cartes légèrement épinglées de travers, comme sur un mur d'affiches */
+.inspo-card:nth-child(4n+1) { transform: rotate(1deg); }
+.inspo-card:nth-child(4n+2) { transform: rotate(-0.8deg); }
+.inspo-card:nth-child(4n+3) { transform: rotate(0.6deg); }
+.inspo-card:nth-child(4n+4) { transform: rotate(-1.2deg); }
+
 .inspo-card:hover,
 .inspo-card:focus-visible {
-    transform: translateY(-4px);
+    transform: translateY(-4px) rotate(0deg);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
-    background: var(--backgroud-color);
+    background: var(--mustard);
     color: var(--textcolor-normal);
 }
 
@@ -89,13 +96,8 @@ p.inspo-intro {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--card-color);
+    color: var(--textcolor-lightred);
     margin-bottom: 0.3rem;
-}
-
-.inspo-card:hover .inspo-card-tag,
-.inspo-card:focus-visible .inspo-card-tag {
-    color: var(--textcolor-normal);
 }
 
 .inspo-card-name {
