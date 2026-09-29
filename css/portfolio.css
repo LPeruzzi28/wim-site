@@ -54,7 +54,7 @@ h2#portfolio-title {
 .portfolio-card:focus-visible {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
-    background: var(--textcolor-lightred);
+    background: var(--backgroud-color);
 }
 
 .portfolio-card-thumb-wrap {
@@ -106,14 +106,9 @@ h2#portfolio-title {
     margin-bottom: 0.4rem;
 }
 
-.portfolio-card:hover .portfolio-card-tag,
-.portfolio-card:focus-visible .portfolio-card-tag {
-    color: var(--backgroud-color);
-}
-
 .portfolio-card:hover .portfolio-card-title,
 .portfolio-card:focus-visible .portfolio-card-title {
-    color: var(--backgroud-color);
+    color: var(--textcolor-lightred);
 }
 
 .portfolio-card-title {

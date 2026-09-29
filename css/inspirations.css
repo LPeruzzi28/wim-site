@@ -37,7 +37,7 @@ p.inspo-intro {
 .inspo-card:focus-visible {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(87, 74, 52, 0.25);
-    background: var(--textcolor-lightred);
+    background: var(--backgroud-color);
 }
 
 .inspo-card-thumb {
@@ -82,11 +82,6 @@ p.inspo-intro {
     margin-bottom: 0.3rem;
 }
 
-.inspo-card:hover .inspo-card-tag,
-.inspo-card:focus-visible .inspo-card-tag {
-    color: var(--backgroud-color);
-}
-
 .inspo-card-name {
     font-family: Anton;
     font-size: 1.1rem;
@@ -95,7 +90,7 @@ p.inspo-intro {
 
 .inspo-card:hover .inspo-card-name,
 .inspo-card:focus-visible .inspo-card-name {
-    color: var(--backgroud-color);
+    color: var(--textcolor-lightred);
 }
 
 @media (max-width: 700px) {
