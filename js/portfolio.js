@@ -131,9 +131,9 @@ function setWf(index) {
 
 function updateSizes() {
     const w = acc.clientWidth, h = acc.clientHeight;
-    const rows = document.documentElement.dataset.wfMode === "2";
-    acc.style.setProperty("--fw", `${Math.round(rows ? w : w * 0.58)}px`);
-    acc.style.setProperty("--fh", `${Math.round(rows ? h * 0.62 : h)}px`);
+    const stacked = window.innerWidth <= 800;   // mobile : les capsules sont empilées à l'horizontale
+    acc.style.setProperty("--fw", `${Math.round(stacked ? w : w * 0.58)}px`);
+    acc.style.setProperty("--fh", `${Math.round(stacked ? h * 0.62 : h)}px`);
 }
 
 projects.forEach((project, index) => {
@@ -178,7 +178,7 @@ function startAuto() {
         const visible = r.bottom > 0 && r.top < window.innerHeight;
         if (document.hidden || !visible || modal.classList.contains("open")) return;
         setWfAuto((activeIndex + 1) % projects.length);
-    }, 3600);
+    }, 4000);
 }
 panels.forEach((panel, i) => {
     panel.addEventListener("pointerenter", () => { activeIndex = i; });
@@ -192,7 +192,6 @@ grid.appendChild(acc);
 startAuto();
 updateSizes();
 new ResizeObserver(updateSizes).observe(acc);
-window.addEventListener("wf-mode", updateSizes);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {

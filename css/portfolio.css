@@ -1,5 +1,5 @@
-/* ---------- Section work : accordéon, 3 formats (html[data-wf-mode]) ----------
-   1 = bandes verticales   2 = rangées horizontales   3 = capsules verticales */
+/* ---------- Section work : accordéon de capsules ----------
+   Chaque projet est une capsule verticale ; celle qu'on survole s'ouvre en grand rectangle arrondi. */
 
 .work { position: relative; }
 
@@ -117,39 +117,41 @@
 .wf-panel.is-active::after { opacity: 1; }
 .wf-panel-v, .wf-panel-h { z-index: 2; }
 
-/* ===== 1 : bandes verticales ===== */
-html[data-wf-mode="1"] .wf-acc {
-    grid-template-columns: var(--cols);
-    transition: grid-template-columns 0.8s var(--ease);
-}
-
-/* ===== 2 : rangées horizontales ===== */
-html[data-wf-mode="2"] .wf-acc {
-    grid-template-rows: var(--rows);
-    transition: grid-template-rows 0.8s var(--ease);
-}
-
-html[data-wf-mode="2"] .wf-panel-v {
-    left: clamp(1rem, 2vw, 2rem);
-    bottom: 50%;
-    transform: translateY(50%);
-    writing-mode: horizontal-tb;
-    font-size: clamp(1.1rem, 1.8vw, 1.9rem);
-}
-
-/* ===== 3 : capsules ===== */
-html[data-wf-mode="3"] .wf-acc {
+/* ===== capsules ===== */
+.wf-acc {
     gap: 0.6rem;
     grid-template-columns: var(--cols);
     transition: grid-template-columns 0.8s var(--ease);
 }
 
-html[data-wf-mode="3"] .wf-panel { border-radius: 999px; transition: border-radius 0.8s var(--ease); }
-html[data-wf-mode="3"] .wf-panel.is-active { border-radius: 2.2rem; }
-html[data-wf-mode="3"] .wf-panel-v { bottom: 1.8rem; }
+.wf-panel {
+    border-radius: 999px;
+    transition: border-radius 0.8s var(--ease), box-shadow 0.8s var(--ease);
+}
 
+.wf-panel.is-active {
+    border-radius: 2.4rem;
+    box-shadow: 0 34px 50px -30px rgba(20, 6, 0, 0.6);
+}
+
+.wf-panel-v { bottom: 1.8rem; }
+
+/* Mobile : les capsules sont couchées et empilées */
 @media (max-width: 800px) {
-    .wf-acc { height: 34rem; }
+    .wf-acc {
+        height: 34rem;
+        grid-template-columns: none;
+        grid-template-rows: var(--rows);
+        transition: grid-template-rows 0.8s var(--ease);
+    }
+    .wf-panel.is-active { border-radius: 1.8rem; }
+    .wf-panel-v {
+        left: clamp(1rem, 4vw, 1.6rem);
+        bottom: 50%;
+        transform: translateY(50%);
+        writing-mode: horizontal-tb;
+        font-size: 1.1rem;
+    }
     .wf-panel-title { font-size: 2rem; }
 }
 

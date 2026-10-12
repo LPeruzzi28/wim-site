@@ -60,26 +60,6 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Format de l'accordéon work (sélecteur temporaire pour comparer 3 propositions) ----------
-const wfButtons = document.querySelectorAll("[data-wf-style]");
-function applyWfMode() {
-    const style = document.documentElement.getAttribute("data-wf");
-    document.documentElement.setAttribute("data-wf-mode", window.innerWidth <= 800 ? "2" : style);
-    wfButtons.forEach(b => b.classList.toggle("is-active", b.dataset.wfStyle === style));
-    window.dispatchEvent(new Event("wf-mode"));
-}
-function setWfStyle(n, persist) {
-    if (!["1", "2", "3"].includes(n)) n = "1";
-    document.documentElement.setAttribute("data-wf", n);
-    if (persist) {
-        try { localStorage.setItem("wim-wf", n); } catch (e) {}
-    }
-    applyWfMode();
-}
-wfButtons.forEach(b => b.addEventListener("click", () => setWfStyle(b.dataset.wfStyle, true)));
-window.addEventListener("resize", applyWfMode);
-setWfStyle(document.documentElement.getAttribute("data-wf"), false);
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
