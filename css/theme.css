@@ -1,14 +1,47 @@
-/* Palette : bleu denim, crème, rouge brique */
+/* Couleur de fond : 4 propositions, choisies via <html data-color="..."> */
+
+:root,
+:root[data-color="olive"] {
+    --bg: #66723F;
+    --floor: #8E9C62;
+    --ink: #F3EEDF;
+    --mute: #D6DDBE;
+    --line: rgba(243, 238, 223, 0.32);
+    --accent: #E2552B;
+    --on-accent: #F3EEDF;
+}
+
+:root[data-color="moutarde"] {
+    --bg: #D9A52B;
+    --floor: #EDC668;
+    --ink: #1B1409;
+    --mute: #5C4410;
+    --line: rgba(27, 20, 9, 0.28);
+    --accent: #B8381F;
+    --on-accent: #F3EEDF;
+}
+
+:root[data-color="sapin"] {
+    --bg: #2C4A3E;
+    --floor: #5E8473;
+    --ink: #F1EEE2;
+    --mute: #B9CCC1;
+    --line: rgba(241, 238, 226, 0.3);
+    --accent: #E2552B;
+    --on-accent: #F1EEE2;
+}
+
+:root[data-color="bordeaux"] {
+    --bg: #6E2430;
+    --floor: #A55868;
+    --ink: #F4ECE0;
+    --mute: #DDBFC3;
+    --line: rgba(244, 236, 224, 0.3);
+    --accent: #E8A33A;
+    --on-accent: #1B0F0A;
+}
 
 :root {
-    --bg: #3B6190;
-    --ink: #F1EEE6;
-    --mute: #C5D3E6;
-    --line: rgba(241, 238, 230, 0.3);
-    --accent: #FF3A2D;
-    --accent-2: #4D6BFF;
-    --on-accent: #F1EEE6;
-
     --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
     --gutter: clamp(1rem, 2.4vw, 2.25rem);
     --ease: cubic-bezier(0.16, 1, 0.3, 1);

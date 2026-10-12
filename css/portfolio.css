@@ -1,81 +1,146 @@
-/* ---------- Liste des projets : un catalogue, une ligne par projet ---------- */
+/* ---------- Carrousel des projets ----------
+   Sans JS (ou animations réduites) : défilement horizontal natif.
+   Avec GSAP : la section est épinglée et le scroll vertical fait avancer les cartes. */
 
-.list {
-    border-top: 1px solid var(--line);
-    margin: 0 var(--gutter);
+.work { position: relative; }
+
+.work-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 1rem var(--gutter) 3rem;
+}
+
+.work-viewport::-webkit-scrollbar { display: none; }
+
+.work-track {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    width: max-content;
+}
+
+.work-progress { display: none; }
+
+.work.is-pinned {
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.work.is-pinned .head { padding-top: 5.5rem; padding-bottom: 0.5rem; }
+.work.is-pinned .head h2 { font-size: clamp(3rem, min(10vw, 17vh), 10rem); }
+
+.work.is-pinned .work-viewport {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding-bottom: 3.5rem;
+}
+
+.work.is-pinned .work-progress {
+    display: block;
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 1.4rem;
+    height: 3px;
+    background: var(--line);
+}
+
+.work-progress span {
+    display: block;
+    height: 100%;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 .portfolio-card {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 17rem) 3rem;
-    align-items: baseline;
-    column-gap: var(--gutter);
-    width: 100%;
-    padding: clamp(0.9rem, 1.6vw, 1.4rem) 0;
+    flex: none;
+    width: min(32vw, 52vh);
+    min-width: 270px;
+    padding: 0;
     border: 0;
-    border-bottom: 1px solid var(--line);
     background: none;
     color: inherit;
     font: inherit;
     text-align: left;
     cursor: pointer;
-    position: relative;
-    transition: color 0.25s ease, padding 0.5s var(--ease);
+    scroll-snap-align: start;
+    will-change: transform;
 }
 
-.portfolio-card::before {
-    content: "";
-    position: absolute;
-    inset: 0 calc(var(--gutter) * -1);
-    background: #B8552E url("../images/plan-de-travail-1.jpg") center / cover;
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.45s var(--ease);
-    z-index: 0;
+/* Décalage vertical alterné : plus vivant qu'une rangée droite */
+.portfolio-card:nth-child(even) { margin-top: clamp(2rem, 9vh, 6rem); }
+
+.portfolio-card-media {
+    display: block;
+    padding: 0.75rem;
+    background: #B8552E url("../images/plan-de-travail-1.jpg") 0 0 / 300% auto;
+    transition: transform 0.7s var(--ease);
 }
 
-.portfolio-card > * { position: relative; z-index: 1; }
+.portfolio-card:nth-child(4n+2) .portfolio-card-media { background-position: 40% 30%; }
+.portfolio-card:nth-child(4n+3) .portfolio-card-media { background-position: 80% 60%; }
+.portfolio-card:nth-child(4n) .portfolio-card-media { background-position: 20% 90%; }
 
-.portfolio-card:hover,
-.portfolio-card:focus-visible {
-    color: #0B0B0B;
-    outline: 0;
+.portfolio-card:hover .portfolio-card-media,
+.portfolio-card:focus-visible .portfolio-card-media { transform: rotate(-1.6deg) scale(1.02); }
+
+.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+.portfolio-card-zoom {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #111;
 }
 
-.portfolio-card:hover::before,
-.portfolio-card:focus-visible::before {
-    transform: scaleY(1);
+.portfolio-card-inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: transform 1.2s var(--ease);
+}
+
+.portfolio-card:hover .portfolio-card-inner { transform: scale(1.08); }
+
+.portfolio-card-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portfolio-card-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    color: var(--mute);
 }
 
 .portfolio-card-title {
-    font-size: clamp(1.8rem, 5.4vw, 5.2rem);
+    margin-top: 1rem;
+    font-size: clamp(1.9rem, 3.2vw, 3.4rem);
     line-height: 0.95;
     padding-bottom: 0.05em;
-    transition: transform 0.5s var(--ease);
+    transition: transform 0.6s var(--ease), color 0.3s ease;
 }
 
-.portfolio-card:hover .portfolio-card-title {
-    transform: translateX(0.5rem);
-}
+.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); color: var(--accent); }
 
 .portfolio-card-tag {
-    font-size: 1.3rem;
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 1.15rem;
     font-weight: 700;
     line-height: 1.2;
-    color: var(--mute); transition: color 0.25s ease; }
-.portfolio-card:hover .portfolio-card-tag { color: #0B0B0B; }
-
-.portfolio-card-cta {
-    justify-self: end;
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 1;
-    transition: transform 0.5s var(--ease);
+    color: var(--mute);
 }
-
-.portfolio-card:hover .portfolio-card-cta { transform: translateX(0.4rem); }
-
-.portfolio-card-thumb { display: none; }
 
 /* ---------- Modal ---------- */
 
@@ -87,7 +152,7 @@
     align-items: center;
     justify-content: center;
     padding: clamp(0.75rem, 3vw, 2.5rem);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.78);
 }
 
 .portfolio-modal.open {
@@ -200,13 +265,6 @@
 @keyframes rise-in { from { opacity: 0; transform: translateY(1.5rem); } }
 
 @media (max-width: 800px) {
-    .portfolio-card {
-        grid-template-columns: minmax(0, 1fr) auto;
-        row-gap: 0.4rem;
-    }
-    .portfolio-card-tag { grid-column: 1; grid-row: 2; }
-    .portfolio-card-cta { grid-column: 2; grid-row: 1; }
-
     .portfolio-modal-content {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;

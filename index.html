@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-color="olive">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+        try {
+            var c = new URLSearchParams(location.search).get("color") || localStorage.getItem("wim-color");
+            if (["olive", "moutarde", "sapin", "bordeaux"].indexOf(c) > -1) document.documentElement.setAttribute("data-color", c);
+        } catch (e) {}
+    </script>
 </head>
 <body>
     <header class="bar">
@@ -48,12 +54,25 @@
         <section class="work" id="work" data-view="work">
             <header class="head">
                 <h2>work</h2>
-                <p>projets d'école et personnels. clique sur une ligne pour voir le détail.</p>
+                <p>projets d'école et personnels. fais défiler, clique sur un projet pour voir le détail.</p>
             </header>
 
-            <div class="list" id="portfolio-grid"></div>
+            <div class="work-viewport">
+                <div class="work-track" id="portfolio-grid"></div>
+            </div>
+            <div class="work-progress" aria-hidden="true"><span></span></div>
+        </section>
 
-            <div class="portfolio-modal" id="portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
+        <section class="inspo" id="inspo" data-view="inspo">
+            <header class="head">
+                <h2>inspo</h2>
+                <p>les créateurs, chaînes et comptes qui nourrissent mon travail. clique sur une case pour ouvrir leur page.</p>
+            </header>
+            <div class="inspo-rows" id="inspo-grid"></div>
+        </section>
+    </main>
+
+    <div class="portfolio-modal" id="portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
                 <div class="portfolio-modal-content">
                     <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">fermer ×</button>
                     <div class="portfolio-modal-media" id="portfolio-modal-media"></div>
@@ -65,16 +84,6 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section class="inspo" id="inspo" data-view="inspo">
-            <header class="head">
-                <h2>inspo</h2>
-                <p>les créateurs, chaînes et comptes qui nourrissent mon travail. chaque case ouvre leur page.</p>
-            </header>
-            <div class="inspo-grid" id="inspo-grid"></div>
-        </section>
-    </main>
 
     <footer class="foot">
         <p class="foot-big">wim!</p>
@@ -85,7 +94,12 @@
         </div>
     </footer>
 
-    <div class="preview" id="preview" aria-hidden="true"><img alt=""></div>
+    <div class="swatches" id="swatches" role="group" aria-label="Couleur de fond (temporaire)">
+        <button type="button" data-color="olive" style="--c:#66723F" title="Olive"></button>
+        <button type="button" data-color="moutarde" style="--c:#D9A52B" title="Moutarde"></button>
+        <button type="button" data-color="sapin" style="--c:#2C4A3E" title="Vert sapin"></button>
+        <button type="button" data-color="bordeaux" style="--c:#6E2430" title="Bordeaux"></button>
+    </div>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>

@@ -112,11 +112,18 @@ projects.forEach(project => {
     const card = document.createElement("button");
     card.className = "portfolio-card";
     card.type = "button";
-    if (project.image) card.dataset.preview = project.image;
     card.innerHTML = `
+        <span class="portfolio-card-media">
+            <span class="portfolio-card-zoom">
+                <span class="portfolio-card-inner">
+                    ${project.image
+                        ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+                        : `<span class="portfolio-card-placeholder">image bientôt disponible</span>`}
+                </span>
+            </span>
+        </span>
         <h3 class="portfolio-card-title">${project.title}</h3>
         <span class="portfolio-card-tag">${project.tag}</span>
-        <span class="portfolio-card-cta" aria-hidden="true">→</span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

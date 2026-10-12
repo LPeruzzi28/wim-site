@@ -73,21 +73,43 @@ const inspirations = [
 
 const inspoGrid = document.getElementById("inspo-grid");
 
-inspirations.forEach(item => {
+function buildInspoCard(item, hidden) {
     const card = document.createElement("a");
     card.className = "inspo-card";
     card.href = item.link;
     card.target = "_blank";
     card.rel = "noopener";
+    if (hidden) {
+        card.setAttribute("aria-hidden", "true");
+        card.tabIndex = -1;
+    }
     card.innerHTML = `
         <div class="inspo-card-media">
             ${item.image
-                ? `<img src="${encodeURI(item.image)}" alt="${item.name}" loading="lazy">`
+                ? `<img src="${encodeURI(item.image)}" alt="${hidden ? "" : item.name}" loading="lazy" draggable="false">`
                 : `<div class="placeholder">image bientôt disponible</div>`}
         </div>
         <div class="inspo-card-body">
             <h3 class="inspo-card-name">${item.name}</h3>
         </div>
     `;
-    inspoGrid.appendChild(card);
+    return card;
+}
+
+// Deux rangées ; chaque rangée contient sa liste deux fois pour boucler sans coupure.
+const half = Math.ceil(inspirations.length / 2);
+[inspirations.slice(0, half), inspirations.slice(half)].forEach(items => {
+    const row = document.createElement("div");
+    row.className = "inspo-row";
+    const track = document.createElement("div");
+    track.className = "inspo-track";
+    // Répète la liste assez de fois pour dépasser la largeur d'un grand écran, puis double le tout.
+    const repeat = 2;
+    for (let pass = 0; pass < 2; pass++) {
+        for (let r = 0; r < repeat; r++) {
+            items.forEach(item => track.appendChild(buildInspoCard(item, pass > 0 || r > 0)));
+        }
+    }
+    row.appendChild(track);
+    inspoGrid.appendChild(row);
 });
