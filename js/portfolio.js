@@ -108,82 +108,47 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Trois présentations de la même liste (une seule affichée selon <html data-work>) :
-// 1 = grille, 2 = liste de titres (image au survol), 3 = liste + grande image à côté.
-const viewGrid = document.createElement("div");
-const viewList = document.createElement("div");
-const viewSplit = document.createElement("div");
-viewGrid.className = "work-view work-view--grid";
-viewList.className = "work-view work-view--list";
-viewSplit.className = "work-view work-view--split";
+// Mosaïque : les images ont des formats différents mais chaque rang est "justifié" (il remplit toute la
+// largeur à hauteur égale), ce qui donne un mur d'images sans trou. Aucun texte au repos : le titre et la
+// catégorie apparaissent au survol (toujours visibles sur écran tactile).
+// "ratio" = largeur / hauteur voulue pour chaque image ; "rows" = quels projets sur quel rang.
+const mosaicRatios = [1.1, 1.5, 0.9, 1.4, 1.9, 0.8, 0.75, 1.5];
+const mosaicRows = [[0, 1, 2], [3, 4], [5, 6, 7]];
 
-const splitStage = document.createElement("div");
-splitStage.className = "ws-stage";
-const splitList = document.createElement("div");
-splitList.className = "ws-list";
-viewSplit.append(splitStage, splitList);
+const mosaic = document.createElement("div");
+mosaic.className = "wm";
 
-const imgTag = (project, extra = "") => project.image
-    ? `<img src="${encodeURI(project.image)}" alt="${extra ? "" : project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
-    : "";
-
-function setActiveSplit(index) {
-    splitStage.querySelectorAll(".ws-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
-    splitList.querySelectorAll(".ws-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
-}
-
-projects.forEach((project, index) => {
-    // 1. grille
-    const card = document.createElement("button");
-    card.className = "wg-card";
-    card.type = "button";
-    card.style.setProperty("--n", index);
-    card.innerHTML = `
-        <span class="wg-zoom"><span class="wg-inner">${project.image ? imgTag(project) : `<span class="wg-empty">Image bientôt disponible</span>`}</span></span>
-        <span class="wg-meta">
-            <h3 class="wg-title">${project.title}</h3>
-            <span class="wg-tag">${project.tag}</span>
-        </span>
-    `;
-    card.addEventListener("click", () => openModal(project));
-    viewGrid.appendChild(card);
-
-    // 2. liste
-    const row = document.createElement("button");
-    row.className = "wl-row";
-    row.type = "button";
-    row.dataset.preview = project.image || "";
-    row.style.setProperty("--n", index);
-    row.innerHTML = `
-        <h3 class="wl-title">${project.title}</h3>
-        <span class="wl-tag">${project.tag}</span>
-        <span class="wl-arrow" aria-hidden="true">→</span>
-    `;
-    row.addEventListener("click", () => openModal(project));
-    viewList.appendChild(row);
-
-    // 3. liste + image à côté
-    const slide = document.createElement("div");
-    slide.className = "ws-slide";
-    slide.innerHTML = project.image ? imgTag(project, "decor") : "";
-    splitStage.appendChild(slide);
-
-    const item = document.createElement("button");
-    item.className = "ws-item";
-    item.type = "button";
-    item.style.setProperty("--n", index);
-    item.innerHTML = `
-        <h3 class="ws-title">${project.title}</h3>
-        <span class="ws-tag">${project.tag}</span>
-    `;
-    item.addEventListener("pointerenter", () => setActiveSplit(index));
-    item.addEventListener("focus", () => setActiveSplit(index));
-    item.addEventListener("click", () => openModal(project));
-    splitList.appendChild(item);
+mosaicRows.forEach(indexes => {
+    const row = document.createElement("div");
+    row.className = "wm-row";
+    row.style.setProperty("--row-ratio", indexes.reduce((sum, i) => sum + (mosaicRatios[i] || 1.2), 0));
+    indexes.forEach(i => {
+        const project = projects[i];
+        if (!project) return;
+        const tile = document.createElement("button");
+        tile.className = "wm-tile";
+        tile.type = "button";
+        tile.setAttribute("aria-label", project.title);
+        tile.style.setProperty("--ratio", mosaicRatios[i] || 1.2);
+        tile.style.setProperty("--tone", ["var(--c1)", "var(--c2)", "var(--c3)"][i % 3]);
+        tile.innerHTML = `
+            <span class="wm-media">
+                ${project.image
+                    ? `<img src="${encodeURI(project.image)}" alt="" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+                    : `<span class="wm-empty">Image bientôt disponible</span>`}
+            </span>
+            <span class="wm-caption">
+                <span class="wm-tag">${project.tag}</span>
+                <span class="wm-line"><h3 class="wm-title">${project.title}</h3></span>
+            </span>
+        `;
+        tile.addEventListener("click", () => openModal(project));
+        row.appendChild(tile);
+    });
+    mosaic.appendChild(row);
 });
 
-setActiveSplit(0);
-grid.append(viewGrid, viewList, viewSplit);
+grid.appendChild(mosaic);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {

@@ -60,55 +60,6 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Présentation de la section work (sélecteur temporaire pour comparer 3 propositions) ----------
-const workButtons = document.querySelectorAll("[data-work-style]");
-function setWork(n, persist) {
-    if (!["1", "2", "3"].includes(n)) n = "1";
-    document.documentElement.setAttribute("data-work", n);
-    workButtons.forEach(b => b.classList.toggle("is-active", b.dataset.workStyle === n));
-    if (persist) {
-        try { localStorage.setItem("wim-work", n); } catch (e) {}
-    }
-}
-workButtons.forEach(b => b.addEventListener("click", () => setWork(b.dataset.workStyle, true)));
-setWork(document.documentElement.getAttribute("data-work"), false);
-
-// Aperçu d'image qui suit la souris sur la version "liste"
-if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !prefersReducedMotion) {
-    const preview = document.getElementById("preview");
-    const previewImg = preview.querySelector("img");
-    let px = -999, py = -999, tx = -999, ty = -999, running = false;
-
-    const tick = () => {
-        px += (tx - px) * 0.16;
-        py += (ty - py) * 0.16;
-        preview.style.transform = `translate3d(${px}px, ${py}px, 0)`;
-        if (Math.abs(tx - px) > 0.3 || Math.abs(ty - py) > 0.3) requestAnimationFrame(tick);
-        else running = false;
-    };
-
-    window.addEventListener("pointermove", e => {
-        tx = e.clientX + 28;
-        ty = e.clientY - preview.offsetHeight / 2;
-        if (px === -999) { px = tx; py = ty; }
-        if (!running) { running = true; requestAnimationFrame(tick); }
-    }, { passive: true });
-
-    const list = document.querySelector(".work-view--list");
-    list.addEventListener("pointerover", e => {
-        const row = e.target.closest(".wl-row");
-        if (!row || !row.dataset.preview) return;
-        previewImg.src = encodeURI(row.dataset.preview);
-        preview.style.opacity = 1;
-    });
-    list.addEventListener("pointerout", e => {
-        const row = e.target.closest(".wl-row");
-        if (!row || row.contains(e.relatedTarget)) return;
-        preview.style.opacity = 0;
-    });
-    window.addEventListener("scroll", () => { preview.style.opacity = 0; }, { passive: true });
-}
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
@@ -124,6 +75,18 @@ if (animate) {
         gsap.from(head.children, {
             opacity: 0, y: 40, duration: 1.1, stagger: 0.1, ease: "power4.out",
             scrollTrigger: { trigger: head, start: "top 88%" }
+        });
+    });
+
+    // Mosaïque : les images se dévoilent de bas en haut, rang par rang
+    gsap.utils.toArray(".wm-row").forEach(row => {
+        gsap.from(row.querySelectorAll(".wm-tile"), {
+            clipPath: "inset(100% 0 0 0)",
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "expo.out",
+            clearProps: "clipPath",
+            scrollTrigger: { trigger: row, start: "top 90%" }
         });
     });
 
