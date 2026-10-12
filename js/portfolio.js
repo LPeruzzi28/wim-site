@@ -113,8 +113,15 @@ function closeModal() {
 // bande ouverte) et est seulement révélée ; le "verre" est une copie floutée pré-calculée de l'image, qu'on
 // fond avec l'image nette (opacité uniquement) : aucun filtre n'est recalculé pendant l'animation.
 const esc = value => String(value).replace(/"/g, "&quot;");
+// Le style propre à une image (ex. "transform: scale(1.6)") ne doit pas écraser le centrage de l'accordéon :
+// on garde object-position & co, et on convertit le zoom en variable CSS (--z), atténué (les bandes sont déjà très grandes), appliquée par la feuille de style.
+const accStyle = project => {
+    const raw = project.imageStyle || "";
+    const zoom = raw.match(/scale\(([\d.]+)\)/);
+    return raw.replace(/transform:[^;]*;?/g, "") + (zoom ? `--z:${(1 + (parseFloat(zoom[1]) - 1) * 0.35).toFixed(2)};` : "");
+};
 const imgOf = (project, cls, alt = "") => project.image
-    ? `<img class="${cls}" src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+    ? `<img class="${cls}" src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${accStyle(project)}">`
     : "";
 
 const acc = document.createElement("div");

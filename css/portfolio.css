@@ -37,11 +37,11 @@
     height: var(--fh);
     max-width: none;
     object-fit: cover;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(var(--z, 1));
 }
 
 /* Copie floutée (le "verre") : le flou est calculé une fois, puis seule l'opacité change */
-.wf-panel img.soft { filter: blur(14px) saturate(1.25); transform: translate(-50%, -50%) scale(1.18); transition: opacity 0.7s ease; }
+.wf-panel img.soft { filter: blur(14px) saturate(1.25); transform: translate(-50%, -50%) scale(calc(1.18 * var(--z, 1))); transition: opacity 0.7s ease; }
 .wf-panel img.sharp { opacity: 0; transition: opacity 0.7s ease; }
 .wf-panel.is-active img.sharp { opacity: 1; }
 .wf-panel.is-active img.soft { opacity: 0; }
