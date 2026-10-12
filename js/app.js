@@ -19,6 +19,22 @@ function setTheme(name, persist) {
 themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.setTheme, true)));
 setTheme(document.documentElement.getAttribute("data-theme"), false);
 
+// ---------- Vidéo du hero (arrêtée si l'utilisateur préfère moins d'animations) ----------
+const heroVideo = document.getElementById("hero-video");
+if (heroVideo && prefersReducedMotion) {
+    heroVideo.removeAttribute("autoplay");
+    heroVideo.pause();
+}
+
+// ---------- Barre du haut : claire tant qu'on est sur la vidéo ----------
+const topBar = document.querySelector(".bar");
+const heroEl = document.querySelector(".hero");
+function updateBar() {
+    topBar.classList.toggle("on-hero", heroEl.getBoundingClientRect().bottom > 50);
+}
+window.addEventListener("scroll", updateBar, { passive: true });
+updateBar();
+
 // ---------- Défilement fluide (Lenis) + ancres ----------
 let lenis = null;
 if (typeof Lenis !== "undefined" && !prefersReducedMotion) {
@@ -104,6 +120,7 @@ if (animate) {
     intro
         .from(".hero-title .line > span", { yPercent: 110, duration: 1.3, stagger: 0.12 }, 0.1)
         .from(".hero-intro", { opacity: 0, y: 12, duration: 0.9 }, 0.3)
+        .from(".hero-video", { scale: 1.18, duration: 2.4, ease: "expo.out" }, 0)
         .from(".bar", { opacity: 0, duration: 0.8, clearProps: "opacity" }, 0.5);
 
     gsap.utils.toArray(".head").forEach(head => {
