@@ -79,15 +79,11 @@ inspirations.forEach(item => {
     card.href = item.link;
     card.target = "_blank";
     card.rel = "noopener";
-    card.dataset.cursor = "Visiter";
     card.innerHTML = `
         <div class="inspo-card-media">
-            <div class="inspo-card-zoom">
-                ${item.image
-                    ? `<img src="${encodeURI(item.image)}" alt="${item.name}" loading="lazy">`
-                    : `<div class="placeholder">Image bientôt disponible</div>`}
-            </div>
-            <span class="inspo-card-badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
+            ${item.image
+                ? `<img src="${encodeURI(item.image)}" alt="${item.name}" loading="lazy">`
+                : `<div class="placeholder">image bientôt disponible</div>`}
         </div>
         <div class="inspo-card-body">
             <h3 class="inspo-card-name">${item.name}</h3>

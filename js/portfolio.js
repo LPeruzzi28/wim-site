@@ -105,27 +105,16 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-const plusIcon = `<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
-
 projects.forEach((project, index) => {
     const card = document.createElement("button");
     card.className = "portfolio-card";
     card.type = "button";
-    card.dataset.cursor = "Voir";
+    if (project.image) card.dataset.preview = project.image;
     card.innerHTML = `
-        <div class="portfolio-card-media">
-            <div class="portfolio-card-zoom">
-                ${project.image
-                    ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" style="${project.imageStyle || ""}">`
-                    : `<div class="portfolio-card-placeholder">Image bientôt disponible</div>`}
-            </div>
-        </div>
-        <div class="portfolio-card-meta">
-            <span class="portfolio-card-num">${String(index + 1).padStart(2, "0")}</span>
-            <span class="portfolio-card-tag">${project.tag}</span>
-        </div>
+        <span class="portfolio-card-num">${String(index + 1).padStart(2, "0")}</span>
         <h3 class="portfolio-card-title">${project.title}</h3>
-        <span class="portfolio-card-cta">Voir le projet ${plusIcon}</span>
+        <span class="portfolio-card-tag">${project.tag}</span>
+        <span class="portfolio-card-cta">voir +</span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

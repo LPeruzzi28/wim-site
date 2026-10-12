@@ -1,84 +1,68 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="alpin">
+<html lang="fr" data-theme="noir">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WIM! — Louis Peruzzi</title>
+    <title>wim! — louis peruzzi</title>
     <meta name="description" content="What Inspire Me ! Le portfolio de Louis Peruzzi : réalisations en design et développement, et les créateurs qui l'inspirent.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="preload" href="images/hero-montagne.jpg" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script>
         // Applique la palette choisie avant le premier rendu (évite le flash).
         try {
+            var ok = ["noir", "papier", "rouge-bleu"];
             var t = new URLSearchParams(location.search).get("theme") || localStorage.getItem("wim-theme");
-            if (t) document.documentElement.setAttribute("data-theme", t);
+            if (ok.indexOf(t) > -1) document.documentElement.setAttribute("data-theme", t);
         } catch (e) {}
     </script>
 </head>
 <body>
-    <div class="cursor" id="cursor" aria-hidden="true"><span id="cursor-label"></span></div>
-
-    <header class="site-header" id="site-header">
-        <nav class="site-nav" aria-label="Navigation principale">
-            <a href="#projets" data-view-link="projets">Réalisations</a>
-            <a href="#inspirations" data-view-link="inspirations">Inspirations</a>
+    <header class="bar">
+        <a class="bar-brand" href="#home">wim!</a>
+        <nav class="bar-nav" aria-label="Navigation principale">
+            <a href="#work" data-view-link="work">work <sup id="count-work">08</sup></a>
+            <a href="#inspo" data-view-link="inspo">inspo <sup id="count-inspo">11</sup></a>
         </nav>
-        <a class="brand" href="#home">WIM<span>!</span></a>
-        <div class="header-right">
-            <span class="clock" id="clock" aria-hidden="true">--:--</span>
-            <a class="header-cta" href="#projets">Voir mon travail</a>
-        </div>
+        <span class="bar-clock" id="clock" aria-hidden="true">--:--</span>
     </header>
 
     <main>
         <section class="hero" id="home" data-view="home">
-            <div class="hero-media" id="hero-media">
-                <img src="images/hero-montagne.jpg" alt="Les montagnes au coucher du soleil, photo de Louis Peruzzi" class="hero-img" fetchpriority="high">
-            </div>
-            <div class="hero-shade"></div>
-            <div class="hero-grain"></div>
+            <p class="hero-intro">
+                louis peruzzi — portfolio.<br>
+                mes réalisations en design et développement, et les créateurs qui m'inspirent.
+            </p>
 
-            <div class="hero-content">
-                <p class="hero-kicker"><span>Louis Peruzzi</span><span>Portfolio créatif</span></p>
-                <h1 class="hero-title" id="title" aria-label="What Inspire Me !">
-                    <span class="line"><span>What <em>Inspire</em></span></span>
-                    <span class="line"><span>Me&nbsp;!</span></span>
-                </h1>
-                <div class="hero-foot">
-                    <p class="hero-lead">Mes réalisations en design et développement, et les créateurs qui m'inspirent au quotidien.</p>
-                    <a class="hero-scroll" href="#projets">
-                        <span>Découvrir</span>
-                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-                    </a>
-                </div>
-            </div>
+            <figure class="reel" aria-label="Aperçu de mes réalisations">
+                <div class="reel-screen" id="reel-screen"></div>
+                <figcaption class="reel-meta">
+                    <span class="reel-rec"><i></i>rec</span>
+                    <span id="reel-count">01/08</span>
+                    <span id="reel-title">—</span>
+                </figcaption>
+            </figure>
+
+            <h1 class="hero-title" id="title" aria-label="What Inspire Me !">
+                <span class="line"><span>what inspire</span></span>
+                <span class="line"><span>me !</span></span>
+            </h1>
+
+            <a class="hero-scroll" href="#work">scroll ↓</a>
         </section>
 
-        <section class="statement" aria-label="Présentation">
-            <p class="statement-label"><span class="dot"></span>À propos</p>
-            <p class="statement-text" id="statement-text">Je suis Louis. Je conçois des identités, des sites et des images, avec un faible pour la montagne, la vidéo de ski et les détails qui donnent du caractère. Ce site rassemble ce que j'ai réalisé et ce qui nourrit mon regard.</p>
-            <dl class="statement-meta">
-                <div><dt id="count-projects">08</dt><dd>Réalisations</dd></div>
-                <div><dt id="count-inspo">11</dt><dd>Inspirations</dd></div>
-            </dl>
-        </section>
-
-        <section class="portfolio" id="projets" data-view="projets">
-            <header class="section-head">
-                <span class="section-index">01</span>
-                <h2 id="portfolio-title">Réalisations</h2>
-                <p class="section-note">Projets d'école et personnels. Clique sur un projet pour voir le détail.</p>
+        <section class="work" id="work" data-view="work">
+            <header class="head">
+                <h2>work</h2>
+                <p>projets d'école et personnels. clique sur une ligne pour voir le détail.</p>
             </header>
-            <div class="portfolio-grid" id="portfolio-grid"></div>
+
+            <div class="list" id="portfolio-grid"></div>
 
             <div class="portfolio-modal" id="portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
                 <div class="portfolio-modal-content">
-                    <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">
-                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                    </button>
+                    <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">fermer ×</button>
                     <div class="portfolio-modal-media" id="portfolio-modal-media"></div>
                     <div class="portfolio-modal-text">
                         <span class="portfolio-modal-tag" id="portfolio-modal-tag"></span>
@@ -90,48 +74,38 @@
             </div>
         </section>
 
-        <section class="names" aria-label="Les créateurs qui m'inspirent" id="names">
-            <p class="names-label">Ils m'inspirent</p>
-            <div class="names-row" id="names-row"></div>
-        </section>
-
-        <section class="inspo" id="inspirations" data-view="inspirations">
-            <header class="section-head">
-                <span class="section-index">02</span>
-                <h2 id="inspo-title">Inspirations</h2>
-                <p class="section-note">Les créateurs, chaînes et comptes qui nourrissent mon travail. Chaque carte ouvre leur page.</p>
+        <section class="inspo" id="inspo" data-view="inspo">
+            <header class="head">
+                <h2>inspo</h2>
+                <p>les créateurs, chaînes et comptes qui nourrissent mon travail. chaque case ouvre leur page.</p>
             </header>
             <div class="inspo-grid" id="inspo-grid"></div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-top">
-            <p class="footer-big">What <em>Inspire</em> Me&nbsp;!</p>
-            <nav class="footer-nav" aria-label="Pied de page">
-                <a href="#projets">Réalisations</a>
-                <a href="#inspirations">Inspirations</a>
-                <a href="https://www.youtube.com/@LPoezzi" target="_blank" rel="noopener">YouTube ↗</a>
-            </nav>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 Louis Peruzzi</span>
-            <a href="#home" id="to-top">Retour en haut ↑</a>
+    <footer class="foot">
+        <p class="foot-big">wim!</p>
+        <div class="foot-row">
+            <span>© 2026 louis peruzzi</span>
+            <a href="https://www.youtube.com/@LPoezzi" target="_blank" rel="noopener">youtube ↗</a>
+            <a href="#home" id="to-top">haut ↑</a>
         </div>
     </footer>
 
+    <div class="preview" id="preview" aria-hidden="true"><img alt=""></div>
+
     <div class="theme-switch" id="theme-switch" role="group" aria-label="Palette de couleurs (temporaire)">
-        <span>Palette</span>
-        <button type="button" data-set-theme="alpin" title="Alpin">A</button>
-        <button type="button" data-set-theme="nuit" title="Nuit">B</button>
+        <span>palette</span>
+        <button type="button" data-set-theme="noir" title="Noir">A</button>
+        <button type="button" data-set-theme="papier" title="Papier">B</button>
         <button type="button" data-set-theme="rouge-bleu" title="Rouge &amp; bleu">C</button>
     </div>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>
         <button class="player-toggle" id="player-toggle" aria-label="Lecture">
-            <svg class="icon-play" viewBox="0 0 24 24" width="14" height="14"><path d="M6 4l15 8-15 8V4z" fill="currentColor"/></svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" width="14" height="14"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/></svg>
+            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12"><path d="M6 4l15 8-15 8V4z" fill="currentColor"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/></svg>
         </button>
         <div class="player-body">
             <p class="player-title" id="player-title">—</p>
@@ -140,7 +114,7 @@
             </div>
         </div>
         <button class="player-next" id="player-next" aria-label="Titre suivant">
-            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 4l12 8-12 8V4zm13 0h2v16h-2V4z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" width="12" height="12"><path d="M6 4l12 8-12 8V4zm13 0h2v16h-2V4z" fill="currentColor"/></svg>
         </button>
     </div>
 

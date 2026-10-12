@@ -1,11 +1,14 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const hasGsap = typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined";
 const animate = hasGsap && !prefersReducedMotion;
+const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 // ---------- Palette (sélecteur temporaire pour comparer les 3 propositions) ----------
+const themes = ["noir", "papier", "rouge-bleu"];
 const themeButtons = document.querySelectorAll("[data-set-theme]");
 
 function setTheme(name, persist) {
+    if (!themes.includes(name)) name = "noir";
     document.documentElement.setAttribute("data-theme", name);
     themeButtons.forEach(b => b.classList.toggle("is-active", b.dataset.setTheme === name));
     if (persist) {
@@ -16,7 +19,7 @@ function setTheme(name, persist) {
 themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.setTheme, true)));
 setTheme(document.documentElement.getAttribute("data-theme"), false);
 
-// ---------- Horloge dans l'en-tête ----------
+// ---------- Horloge ----------
 const clockEl = document.getElementById("clock");
 function updateClock() {
     clockEl.textContent = new Date().toLocaleTimeString("fr-CH", { hour: "2-digit", minute: "2-digit" });
@@ -26,15 +29,35 @@ setInterval(updateClock, 15000);
 
 // ---------- Compteurs, dérivés des vrais tableaux (js/portfolio.js et js/inspirations.js) ----------
 const pad = n => String(n).padStart(2, "0");
-document.getElementById("count-projects").textContent = pad(projects.length);
+document.getElementById("count-work").textContent = pad(projects.length);
 document.getElementById("count-inspo").textContent = pad(inspirations.length);
 
-// ---------- Bandeau des noms : uniquement les créateurs qui m'inspirent ----------
-const namesRow = document.getElementById("names-row");
-const namesHtml = inspirations
-    .map(i => `<a href="${i.link}" target="_blank" rel="noopener">${i.name}</a>`)
-    .join("");
-namesRow.innerHTML = namesHtml + namesHtml;
+// ---------- "Reel" du hero : défile les images de mes vraies réalisations, coupes franches ----------
+const reelScreen = document.getElementById("reel-screen");
+const reelCount = document.getElementById("reel-count");
+const reelTitle = document.getElementById("reel-title");
+const reelProjects = projects.filter(p => p.image);
+let reelIndex = 0;
+
+reelProjects.forEach(p => {
+    const img = document.createElement("img");
+    img.src = encodeURI(p.image);
+    img.alt = "";
+    if (p.imageStyle) img.style.cssText = p.imageStyle;
+    reelScreen.appendChild(img);
+});
+
+function showReel(i) {
+    reelIndex = (i + reelProjects.length) % reelProjects.length;
+    reelScreen.querySelectorAll("img").forEach((img, n) => img.classList.toggle("on", n === reelIndex));
+    reelCount.textContent = `${pad(reelIndex + 1)}/${pad(reelProjects.length)}`;
+    reelTitle.textContent = reelProjects[reelIndex].title.toLowerCase();
+}
+showReel(0);
+
+if (!prefersReducedMotion) {
+    setInterval(() => { if (!document.hidden) showReel(reelIndex + 1); }, 1300);
+}
 
 // ---------- Défilement fluide (Lenis) + ancres ----------
 let lenis = null;
@@ -56,24 +79,10 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         const target = document.querySelector(link.getAttribute("href"));
         if (!target) return;
         e.preventDefault();
-        if (lenis) lenis.scrollTo(target, { duration: 1.4 });
+        if (lenis) lenis.scrollTo(target, { duration: 1.3 });
         else target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
     });
 });
-
-// ---------- En-tête : plein au-delà du hero, se cache en descendant ----------
-const header = document.getElementById("site-header");
-let lastY = window.scrollY;
-
-function updateHeader() {
-    const y = window.scrollY;
-    header.classList.toggle("is-solid", y > window.innerHeight - 90);
-    if (y > lastY && y > 300) header.classList.add("is-hidden");
-    else if (y < lastY) header.classList.remove("is-hidden");
-    lastY = y;
-}
-window.addEventListener("scroll", updateHeader, { passive: true });
-updateHeader();
 
 // ---------- Lien actif dans la nav ----------
 const sections = document.querySelectorAll("[data-view]");
@@ -91,115 +100,76 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Curseur à étiquette ("Voir" sur un projet, "Visiter" sur une inspiration) ----------
-const cursor = document.getElementById("cursor");
-const cursorLabel = document.getElementById("cursor-label");
-const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+// ---------- Aperçu de l'image qui suit le curseur sur la liste des projets ----------
+const preview = document.getElementById("preview");
+const previewImg = preview.querySelector("img");
 
-if (animate && canHover && cursor) {
-    gsap.set(cursor, { scale: 0 });
-    const moveX = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3.out" });
-    const moveY = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3.out" });
-    window.addEventListener("pointermove", e => { moveX(e.clientX); moveY(e.clientY); });
+if (canHover) {
+    let px = -999, py = -999, tx = -999, ty = -999, running = false;
 
-    document.addEventListener("pointerover", e => {
-        const t = e.target.closest("[data-cursor]");
-        if (!t) return;
-        cursorLabel.textContent = t.dataset.cursor;
-        gsap.to(cursor, { scale: 1, duration: 0.45, ease: "power3.out", overwrite: "auto" });
+    const tick = () => {
+        px += (tx - px) * 0.16;
+        py += (ty - py) * 0.16;
+        preview.style.transform = `translate3d(${px}px, ${py}px, 0) rotate(${(tx - px) * 0.04}deg)`;
+        if (Math.abs(tx - px) > 0.3 || Math.abs(ty - py) > 0.3) requestAnimationFrame(tick);
+        else running = false;
+    };
+
+    window.addEventListener("pointermove", e => {
+        tx = e.clientX + 28;
+        ty = e.clientY - preview.offsetHeight / 2;
+        if (px === -999) { px = tx; py = ty; }
+        if (!running) { running = true; requestAnimationFrame(tick); }
     });
-    document.addEventListener("pointerout", e => {
-        const t = e.target.closest("[data-cursor]");
-        if (!t || t.contains(e.relatedTarget)) return;
-        gsap.to(cursor, { scale: 0, duration: 0.3, ease: "power3.out", overwrite: "auto" });
+
+    document.getElementById("portfolio-grid").addEventListener("pointerover", e => {
+        const card = e.target.closest(".portfolio-card");
+        if (!card || !card.dataset.preview) return;
+        previewImg.src = encodeURI(card.dataset.preview);
+        preview.style.opacity = 1;
     });
+    document.getElementById("portfolio-grid").addEventListener("pointerout", e => {
+        const card = e.target.closest(".portfolio-card");
+        if (!card || card.contains(e.relatedTarget)) return;
+        preview.style.opacity = 0;
+    });
+    window.addEventListener("scroll", () => { preview.style.opacity = 0; }, { passive: true });
 }
 
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Entrée du hero
     const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
     intro
-        .from(".hero-img", { scale: 1.22, duration: 2.4, ease: "expo.out" }, 0)
-        .from(".hero-title .line > span", { yPercent: 115, duration: 1.4, stagger: 0.14 }, 0.15)
-        .from(".hero-kicker", { opacity: 0, y: 14, duration: 1 }, 0.5)
-        .from(".hero-foot", { opacity: 0, y: 20, duration: 1.1 }, 0.8)
-        .from(".site-header", { opacity: 0, duration: 1, clearProps: "opacity" }, 0.9);
+        .from(".hero-title .line > span", { yPercent: 110, duration: 1.3, stagger: 0.12 }, 0.1)
+        .from(".hero-intro", { opacity: 0, y: 12, duration: 0.9 }, 0.3)
+        .from(".reel", { opacity: 0, duration: 0.6, ease: "steps(4)" }, 0.2)
+        .from(".bar", { opacity: 0, duration: 0.8, clearProps: "opacity" }, 0.5);
 
-    // Parallaxe de l'image du hero + le texte s'efface en défilant
-    gsap.to(".hero-media", {
-        yPercent: 10,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-    });
-    gsap.to(".hero-content", {
-        y: -60,
-        opacity: 0.1,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "20% top", end: "bottom top", scrub: true }
-    });
-
-    // Phrase d'intro : les mots s'allument au scroll
-    const statement = document.getElementById("statement-text");
-    const words = statement.textContent.trim().split(/\s+/);
-    statement.innerHTML = words.map(w => `<span class="w">${w} </span>`).join("");
-    gsap.fromTo(statement.querySelectorAll(".w"), { opacity: 0.16 }, {
-        opacity: 1,
-        ease: "none",
-        stagger: 0.12,
-        scrollTrigger: { trigger: statement, start: "top 82%", end: "bottom 50%", scrub: true }
-    });
-    gsap.from(".statement-meta > div", {
-        opacity: 0, y: 30, duration: 1, stagger: 0.12, ease: "power3.out",
-        scrollTrigger: { trigger: ".statement-meta", start: "top 92%" }
-    });
-
-    // En-têtes de section
-    gsap.utils.toArray(".section-head").forEach(head => {
+    gsap.utils.toArray(".head").forEach(head => {
         gsap.from(head.children, {
-            opacity: 0, y: 50, duration: 1.2, stagger: 0.1, ease: "power4.out",
+            opacity: 0, y: 40, duration: 1.1, stagger: 0.1, ease: "power4.out",
             scrollTrigger: { trigger: head, start: "top 88%" }
         });
     });
 
-    // Cartes de réalisations : l'image se dévoile, puis le texte suit
-    gsap.utils.toArray(".portfolio-card").forEach(card => {
-        const tl = gsap.timeline({
-            defaults: { ease: "expo.out" },
-            scrollTrigger: { trigger: card, start: "top 86%" }
-        });
-        tl.from(card.querySelector(".portfolio-card-media"), { clipPath: "inset(0 0 100% 0)", duration: 1.4 })
-          .from(card.querySelector(".portfolio-card-zoom"), { scale: 1.3, duration: 1.8, clearProps: "transform" }, 0)
-          .from(card.querySelectorAll(".portfolio-card-meta, .portfolio-card-title, .portfolio-card-cta"), {
-              opacity: 0, y: 26, duration: 1, stagger: 0.09, ease: "power3.out", clearProps: "transform,opacity"
-          }, 0.35);
-    });
-
-    // Cartes d'inspirations : apparition par vagues
-    ScrollTrigger.batch(".inspo-card", {
-        start: "top 90%",
+    ScrollTrigger.batch(".portfolio-card", {
+        start: "top 94%",
         onEnter: batch => gsap.from(batch, {
-            opacity: 0, y: 50, duration: 1, stagger: 0.09, ease: "power3.out", clearProps: "transform,opacity"
+            opacity: 0, y: 24, duration: 0.8, stagger: 0.07, ease: "power3.out", clearProps: "transform,opacity"
         })
     });
 
-    // Bandeau : accélère légèrement selon la vitesse de scroll
-    ScrollTrigger.create({
-        trigger: ".names",
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: self => {
-            const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 800, 4);
-            gsap.to(namesRow.getAnimations()[0] || {}, { playbackRate: boost, duration: 0.2, overwrite: true });
-            gsap.to(namesRow.getAnimations()[0] || {}, { playbackRate: 1, duration: 0.8, delay: 0.2 });
-        }
+    ScrollTrigger.batch(".inspo-card", {
+        start: "top 94%",
+        onEnter: batch => gsap.from(batch, {
+            opacity: 0, duration: 0.5, stagger: 0.05, ease: "steps(3)", clearProps: "opacity"
+        })
     });
 
-    // Footer
-    gsap.from(".footer-big", {
-        yPercent: 30, opacity: 0, duration: 1.4, ease: "power4.out",
-        scrollTrigger: { trigger: ".site-footer", start: "top 80%" }
+    gsap.from(".foot-big", {
+        yPercent: 35, duration: 1.4, ease: "power4.out",
+        scrollTrigger: { trigger: ".foot", start: "top 85%" }
     });
 }

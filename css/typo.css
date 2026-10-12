@@ -1,48 +1,20 @@
-@font-face {
-    font-family: Sora;
-    src: url("../fonts/Sora-VariableFont_wght.ttf") format("truetype");
-    font-weight: 100 800;
-    font-display: swap;
-}
-
 html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
 }
 
 body {
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.55;
 }
 
 h1, h2, h3 {
-    font-family: var(--serif);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
     margin: 0;
-}
-
-em {
-    font-style: italic;
-}
-
-/* Petit texte d'interface : majuscules espacées */
-.eyebrow,
-.site-nav a,
-.header-cta,
-.hero-kicker,
-.hero-scroll,
-.statement-label,
-.names-label,
-.section-index,
-.theme-switch,
-.footer-bottom {
     font-family: var(--sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-stretch: 125%;
+    font-weight: 800;
+    text-transform: lowercase;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
 }

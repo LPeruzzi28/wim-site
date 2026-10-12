@@ -1,51 +1,39 @@
-/* Trois palettes, choisies via <html data-theme="...">.
-   --bg / --ink   : fond et texte principaux
-   --alt / --alt-ink : sections sombres (footer, modal, médias)
-   --accent / --accent-2 : couleurs d'accent (liens, détails) */
+/* Trois palettes, choisies via <html data-theme="...">. */
 
 :root,
-:root[data-theme="alpin"] {
-    --bg: #F2EEE6;
-    --bg-soft: #E8E2D6;
-    --ink: #16231E;
-    --ink-soft: #5B665F;
-    --line: rgba(22, 35, 30, 0.16);
-    --alt: #16231E;
-    --alt-ink: #F2EEE6;
-    --accent: #B5472A;
-    --accent-2: #2F5D8C;
-    --on-accent: #F2EEE6;
+:root[data-theme="noir"] {
+    --bg: #000000;
+    --ink: #ECEAE4;
+    --mute: #8A8984;
+    --line: rgba(236, 234, 228, 0.2);
+    --accent: #FF3B1F;
+    --accent-2: #3A5BFF;
+    --on-accent: #000000;
 }
 
-:root[data-theme="nuit"] {
-    --bg: #0E1412;
-    --bg-soft: #17201D;
-    --ink: #EDE8DC;
-    --ink-soft: #98A29B;
-    --line: rgba(237, 232, 220, 0.16);
-    --alt: #17201D;
-    --alt-ink: #EDE8DC;
-    --accent: #D9A441;
-    --accent-2: #7FA6C9;
-    --on-accent: #0E1412;
+:root[data-theme="papier"] {
+    --bg: #E9E7E1;
+    --ink: #0B0B0B;
+    --mute: #6C6B66;
+    --line: rgba(11, 11, 11, 0.22);
+    --accent: #1D2CFF;
+    --accent-2: #FF3B1F;
+    --on-accent: #E9E7E1;
 }
 
 :root[data-theme="rouge-bleu"] {
-    --bg: #ECE5D8;
-    --bg-soft: #E0D7C6;
-    --ink: #14213D;
-    --ink-soft: #55607A;
-    --line: rgba(20, 33, 61, 0.18);
-    --alt: #14213D;
-    --alt-ink: #ECE5D8;
-    --accent: #C8321E;
-    --accent-2: #2F5FA8;
-    --on-accent: #ECE5D8;
+    --bg: #0A1030;
+    --ink: #F1EEE6;
+    --mute: #8D94B3;
+    --line: rgba(241, 238, 230, 0.22);
+    --accent: #FF3A2D;
+    --accent-2: #4D6BFF;
+    --on-accent: #F1EEE6;
 }
 
 :root {
-    --serif: "Instrument Serif", "Times New Roman", serif;
-    --sans: Sora, system-ui, sans-serif;
-    --gutter: clamp(1.25rem, 3.2vw, 3rem);
+    --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --gutter: clamp(1rem, 2.4vw, 2.25rem);
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
