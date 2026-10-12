@@ -101,9 +101,8 @@
 .portfolio-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: var(--c3-ink); }
 
 /* Au repos : l'image seule (coins légèrement arrondis).
-   Survol commun : la carte se soulève, l'image zoome, le titre se souligne, le point s'étire.
-   Puis un effet propre à la variante choisie (html[data-hover]) :
-   1 = vagues (l'image ondule), 2 = une feuille de couleur monte, 3 = l'image défile comme une page. */
+   Survol : la carte se soulève, l'image zoome, une feuille de couleur monte avec "Voir le projet",
+   le titre se souligne et le point de couleur s'étire en pastille. */
 .portfolio-card-media {
     display: block;
     transition: transform 0.7s var(--ease);
@@ -133,13 +132,13 @@
 
 .portfolio-card:hover .portfolio-card-inner { transform: scale(1.08); }
 
-/* variante 2 : feuille de couleur */
+/* Feuille de couleur qui monte au survol */
 .portfolio-card-sheet {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    display: none;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.15rem;
@@ -152,16 +151,8 @@
     transition: transform 0.6s var(--ease);
 }
 
-html[data-hover="2"] .portfolio-card-sheet { display: flex; }
-html[data-hover="2"] .portfolio-card:hover .portfolio-card-sheet,
-html[data-hover="2"] .portfolio-card:focus-visible .portfolio-card-sheet { transform: translateY(0); }
-
-/* variante 3 : l'image défile du haut vers le bas, comme une page web */
-html[data-hover="3"] .portfolio-card-inner img { transition: object-position 3.2s ease-in-out; }
-html[data-hover="3"] .portfolio-card:hover .portfolio-card-inner img { object-position: 50% 100% !important; }
-
-/* variante 1 : vagues (le filtre SVG est piloté par js/app.js) */
-.is-rippling { filter: url(#ripple); }
+.portfolio-card:hover .portfolio-card-sheet,
+.portfolio-card:focus-visible .portfolio-card-sheet { transform: translateY(0); }
 
 .portfolio-card-inner img {
     width: 100%;

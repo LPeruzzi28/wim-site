@@ -65,7 +65,7 @@
     transition: filter 0.4s ease, transform 1.2s var(--ease);
 }
 
-/* variante 2 : feuille de couleur */
+/* Feuille de couleur qui monte au survol */
 .inspo-card { --tone-ink: var(--c1-ink); }
 .inspo-card:nth-child(3n+2) { --tone-ink: var(--c2-ink); }
 .inspo-card:nth-child(3n)   { --tone-ink: var(--c3-ink); }
@@ -75,7 +75,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display: none;
+    display: flex;
     justify-content: space-between;
     padding: 0.7rem 0.85rem;
     background: var(--tone);
@@ -85,12 +85,8 @@
     transition: transform 0.6s var(--ease);
 }
 
-html[data-hover="2"] .inspo-card-sheet { display: flex; }
-html[data-hover="2"] .inspo-card:hover .inspo-card-sheet,
-html[data-hover="2"] .inspo-card:focus-visible .inspo-card-sheet { transform: translateY(0); }
-
-/* variante 1 : vagues */
-.inspo-card-media.is-rippling { filter: url(#ripple); }
+.inspo-card:hover .inspo-card-sheet,
+.inspo-card:focus-visible .inspo-card-sheet { transform: translateY(0); }
 
 .inspo-card .placeholder {
     display: grid;

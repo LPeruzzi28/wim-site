@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-color="sunset" data-hover="2">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        try {
-            var c = new URLSearchParams(location.search).get("color") || localStorage.getItem("wim-color");
-            if (["sunset", "nowhere"].indexOf(c) > -1) document.documentElement.setAttribute("data-color", c);
-            var h = new URLSearchParams(location.search).get("hover") || localStorage.getItem("wim-hover");
-            if (["1", "2", "3"].indexOf(h) > -1) document.documentElement.setAttribute("data-hover", h);
-        } catch (e) {}
-    </script>
 </head>
 <body>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-        <filter id="ripple" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="4" result="noise">
-                <animate attributeName="baseFrequency" dur="5s" values="0.012 0.022;0.02 0.03;0.012 0.022" repeatCount="indefinite"/>
-            </feTurbulence>
-            <feDisplacementMap id="ripple-map" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>
-        </filter>
-    </svg>
     <header class="bar">
         <a class="bar-brand" href="#home">wim<span>!</span></a>
         <nav class="bar-nav" aria-label="Navigation principale">
@@ -107,15 +91,6 @@
             <a href="#home" id="to-top">Haut ↑</a>
         </div>
     </footer>
-
-    <div class="swatches" id="swatches" role="group" aria-label="Version (temporaire)">
-        <button type="button" data-color="sunset" title="Version 1 : coucher de soleil"><i style="--c:#EF6A25"></i><i style="--c:#FFC93B"></i><i style="--c:#3445D1"></i><span>1</span></button>
-        <button type="button" data-color="nowhere" title="Version 2 : Nowhere"><i style="--c:#D8D6C5"></i><i style="--c:#587A2E"></i><i style="--c:#14170F"></i><span>2</span></button>
-        <span class="sep">survol</span>
-        <button type="button" class="hover-btn" data-hover="1" title="Vagues">1</button>
-        <button type="button" class="hover-btn" data-hover="2" title="Feuille qui monte">2</button>
-        <button type="button" class="hover-btn" data-hover="3" title="Défilement de la page">3</button>
-    </div>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>

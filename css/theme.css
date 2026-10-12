@@ -1,12 +1,11 @@
-/* Deux versions, d'après deux images de référence : <html data-color="sunset|nowhere">
+/* Palette : fond jaune (coucher de soleil), détails bleu cobalt, orange et bleu ciel.
 
    --c1 / --c2 / --c3 : couleurs de détails (points, flèches, soulignements, feuilles de survol)
    --c1-ink / --c2-ink / --c3-ink : couleur de texte lisible posé sur chacune d'elles
-   --floor / --floor-blend / --knock-blend / --knock-ink pilotent l'effet de l'accueil :
-   - fond clair : lettres plus sombres que le fond (floor "darken", knock "lighten", encre noire) */
+   --floor / --floor-blend / --knock-blend / --knock-ink pilotent l'effet de l'accueil
+   (la vidéo n'est visible qu'à travers les lettres, et très discrètement dans le fond). */
 
-:root,
-:root[data-color="sunset"] {
+:root {
     /* Coucher de soleil : fond jaune, détails bleu cobalt, orange et bleu ciel */
     --bg: #F4C03C;
     --floor: #A9501F;
@@ -26,31 +25,7 @@
     --c3-ink: #1B2260;
     --accent: var(--c1);
     --on-accent: #FFF4DC;
-}
 
-:root[data-color="nowhere"] {
-    /* Nowhere : gris-beige du ciel, vert mousse de l'herbe, noir de l'encre */
-    --bg: #D9D7C7;
-    --floor: #7E8A60;
-    --floor-blend: darken;
-    --knock-blend: lighten;
-    --knock-ink: #000000;
-    --video-tone: sepia(0.35) saturate(0.8);
-    --ink: #14170F;
-    --mute: #5A5F4A;
-    --line: rgba(20, 23, 15, 0.25);
-    --c1: #55772C;
-    --c2: #14170F;
-    --c3: #9AA878;
-    --on-c: #F1EFE2;
-    --c1-ink: #F1EFE2;
-    --c2-ink: #F1EFE2;
-    --c3-ink: #14170F;
-    --accent: var(--c1);
-    --on-accent: #F1EFE2;
-}
-
-:root {
     --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
     --gutter: clamp(1rem, 2.4vw, 2.25rem);
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
