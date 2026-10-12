@@ -44,20 +44,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
 });
 
-// ---------- Barre du haut : change de couleur quand elle passe sur la zone bleue ----------
-const topBar = document.querySelector(".bar");
-const altZones = [document.querySelector(".inspo"), document.querySelector(".foot")];
-function updateBar() {
-    const y = 28;
-    const onAlt = altZones.some(z => {
-        const r = z.getBoundingClientRect();
-        return r.top <= y && r.bottom >= y;
-    });
-    topBar.classList.toggle("on-alt", onAlt);
-}
-window.addEventListener("scroll", updateBar, { passive: true });
-updateBar();
-
 // ---------- Lien actif dans la nav ----------
 const sections = document.querySelectorAll("[data-view]");
 const navLinks = document.querySelectorAll("[data-view-link]");

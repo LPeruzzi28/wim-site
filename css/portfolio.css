@@ -46,7 +46,7 @@
 .work-progress span {
     display: block;
     height: 100%;
-    background: var(--ink);
+    background: var(--c1);
     transform: scaleX(0.1);
     transform-origin: left;
 }
@@ -56,10 +56,10 @@
     height: 3.4rem;
     display: grid;
     place-items: center;
-    border: 2px solid var(--ink);
+    border: 3px solid var(--c1);
     border-radius: 50%;
     background: transparent;
-    color: var(--ink);
+    color: var(--c1);
     font: inherit;
     font-size: 1.5rem;
     font-weight: 600;
@@ -69,8 +69,8 @@
 }
 
 .work-arrow:hover {
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--c1);
+    color: var(--on-c);
 }
 
 .work-arrow:active { transform: scale(0.92); }
@@ -94,13 +94,12 @@
 .portfolio-card-media {
     display: block;
     padding: 0.75rem;
-    background: #B8552E url("../images/plan-de-travail-1.jpg") 0 0 / 300% auto;
+    background: var(--c1);
     transition: transform 0.7s var(--ease);
 }
 
-.portfolio-card:nth-child(4n+2) .portfolio-card-media { background-position: 40% 30%; }
-.portfolio-card:nth-child(4n+3) .portfolio-card-media { background-position: 80% 60%; }
-.portfolio-card:nth-child(4n) .portfolio-card-media { background-position: 20% 90%; }
+.portfolio-card:nth-child(3n+2) .portfolio-card-media { background: var(--c2); }
+.portfolio-card:nth-child(3n) .portfolio-card-media { background: var(--c3); }
 
 .portfolio-card:hover .portfolio-card-media,
 .portfolio-card:focus-visible .portfolio-card-media { transform: rotate(-1.6deg) scale(1.02); }
@@ -145,7 +144,7 @@
     transition: transform 0.6s var(--ease), color 0.3s ease;
 }
 
-.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); color: var(--accent); }
+.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); color: var(--c1); }
 
 .portfolio-card-tag {
     display: block;
@@ -184,7 +183,7 @@
     max-height: 90vh;
     background: var(--bg);
     color: var(--ink);
-    border: 1px solid var(--line);
+    border: 3px solid var(--c1);
     overflow: hidden;
     animation: rise-in 0.5s var(--ease) both;
 }
@@ -230,12 +229,12 @@
 }
 
 .portfolio-modal-close:hover {
-    background: var(--accent);
-    color: var(--on-accent);
+    background: var(--c1);
+    color: var(--on-c);
 }
 
 .portfolio-modal-tag {
-    color: var(--accent);
+    color: var(--c1);
     margin-bottom: 1rem;
     font-size: 1.05rem;
     font-weight: 700;
@@ -263,7 +262,9 @@
 
 .portfolio-modal-links a {
     padding: 0.7rem 1.1rem;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--c1);
+    background: var(--c1);
+    color: var(--on-c);
     font-weight: 700;
     transition: background 0.2s ease, color 0.2s ease;
 }
@@ -271,8 +272,9 @@
 .portfolio-modal-links a::after { content: " ↗"; }
 
 .portfolio-modal-links a:hover {
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--c2);
+    border-color: var(--c2);
+    color: #2B1109;
 }
 
 @keyframes fade-in { from { opacity: 0; } }

@@ -1,28 +1,27 @@
 /* Deux versions, d'après deux images de référence : <html data-color="sunset|nowhere">
 
+   --c1 / --c2 / --c3 : couleurs de détails (cadres des cartes, flèches, soulignements, survols)
    --floor / --floor-blend / --knock-blend / --knock-ink pilotent l'effet de l'accueil :
-   - fond moyen ou sombre : lettres plus claires que le fond (floor "lighten", knock "darken", encre blanche)
    - fond clair : lettres plus sombres que le fond (floor "darken", knock "lighten", encre noire) */
 
 :root,
 :root[data-color="sunset"] {
-    /* Coucher de soleil : orange, jaune, brun, bleu de la vague */
-    --bg: #EE6A26;
-    --floor: #FFC83A;
-    --floor-blend: lighten;
-    --knock-blend: darken;
-    --knock-ink: #FFFFFF;
+    /* Coucher de soleil : fond jaune, détails bleu cobalt, orange et bleu ciel */
+    --bg: #F4C03C;
+    --floor: #A9501F;
+    --floor-blend: darken;
+    --knock-blend: lighten;
+    --knock-ink: #000000;
     --video-tone: sepia(0.6) hue-rotate(-14deg);
     --ink: #2B1109;
-    --mute: #6E2812;
-    --line: rgba(43, 17, 9, 0.3);
-    --accent: #3243CF;
-    --on-accent: #FBEFD9;
-    /* Zone secondaire (inspo + footer) : le bleu de la vague */
-    --alt-bg: #2F3FC6;
-    --alt-ink: #FFF1D6;
-    --alt-mute: #C9D0FF;
-    --alt-line: rgba(255, 241, 214, 0.35);
+    --mute: #6B3A12;
+    --line: rgba(43, 17, 9, 0.28);
+    --c1: #3243CF;
+    --c2: #EE6A26;
+    --c3: #86A4F0;
+    --on-c: #FFF4DC;
+    --accent: var(--c1);
+    --on-accent: #FFF4DC;
 }
 
 :root[data-color="nowhere"] {
@@ -36,13 +35,12 @@
     --ink: #14170F;
     --mute: #5A5F4A;
     --line: rgba(20, 23, 15, 0.25);
-    --accent: #55772C;
+    --c1: #55772C;
+    --c2: #14170F;
+    --c3: #9AA878;
+    --on-c: #F1EFE2;
+    --accent: var(--c1);
     --on-accent: #F1EFE2;
-    /* Zone secondaire (inspo + footer) : le vert de l'herbe */
-    --alt-bg: #4F7129;
-    --alt-ink: #F1EFE2;
-    --alt-mute: #D3DDB8;
-    --alt-line: rgba(241, 239, 226, 0.35);
 }
 
 :root {
