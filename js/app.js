@@ -84,15 +84,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
 });
 
-// ---------- Barre du haut : noire tant qu'on est sur le mur de briques ----------
-const topBar = document.querySelector(".bar");
-const heroEl = document.querySelector(".hero");
-function updateBar() {
-    topBar.classList.toggle("on-hero", heroEl.getBoundingClientRect().bottom > 50);
-}
-window.addEventListener("scroll", updateBar, { passive: true });
-updateBar();
-
 // ---------- Lien actif dans la nav ----------
 const sections = document.querySelectorAll("[data-view]");
 const navLinks = document.querySelectorAll("[data-view-link]");

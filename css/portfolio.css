@@ -27,7 +27,7 @@
     content: "";
     position: absolute;
     inset: 0 calc(var(--gutter) * -1);
-    background: var(--ink);
+    background: #B8552E url("../images/plan-de-travail-1.jpg") center / cover;
     transform: scaleY(0);
     transform-origin: bottom;
     transition: transform 0.45s var(--ease);
@@ -38,7 +38,7 @@
 
 .portfolio-card:hover,
 .portfolio-card:focus-visible {
-    color: var(--bg);
+    color: #0B0B0B;
     outline: 0;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .portfolio-card-num { color: var(--mute); transition: color 0.25s ease; }
-.portfolio-card:hover .portfolio-card-num { color: var(--bg); }
+.portfolio-card:hover .portfolio-card-num { color: #0B0B0B; }
 
 .portfolio-card-title {
     font-size: clamp(1.8rem, 5.4vw, 5.2rem);
@@ -62,7 +62,7 @@
 }
 
 .portfolio-card-tag { text-transform: lowercase; color: var(--mute); transition: color 0.25s ease; }
-.portfolio-card:hover .portfolio-card-tag { color: var(--bg); }
+.portfolio-card:hover .portfolio-card-tag { color: #0B0B0B; }
 
 .portfolio-card-cta {
     justify-self: end;
