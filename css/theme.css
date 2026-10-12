@@ -1,10 +1,10 @@
-/* Palette : bleu nuit, crème, rouge */
+/* Palette : bleu denim, crème, rouge brique */
 
 :root {
-    --bg: #0A1030;
+    --bg: #3B6190;
     --ink: #F1EEE6;
-    --mute: #8D94B3;
-    --line: rgba(241, 238, 230, 0.22);
+    --mute: #C5D3E6;
+    --line: rgba(241, 238, 230, 0.3);
     --accent: #FF3A2D;
     --accent-2: #4D6BFF;
     --on-accent: #F1EEE6;

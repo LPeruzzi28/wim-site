@@ -63,9 +63,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 /* ---------- Hero ----------
-   La vidéo (V) est en fond. Par-dessus, un calque bleu ".knock" est mélangé en "darken" :
+   La vidéo (V) est en fond, relevée par un plancher bleu (.hero-floor, "lighten") : les lettres ne
+   sont jamais plus sombres qu'un bleu clair, donc toujours lisibles. Par-dessus, le calque ".knock" est mélangé en "darken" :
    - dans les lettres (blanches) on voit la vidéo en couleur,
-   - ailleurs on voit une 2e copie de la vidéo, assombrie et teintée de bleu (.knock-bg). */
+   - ailleurs on voit une 2e copie de la vidéo, très assombrie et teintée de bleu (.knock-bg). */
 
 .hero {
     position: relative;
@@ -90,6 +91,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 #hero-video { filter: saturate(1.35) brightness(1.12) contrast(1.05); }
 
+.hero-floor {
+    position: absolute;
+    inset: 0;
+    background: #6A8DBA;
+    mix-blend-mode: lighten;
+}
+
 .knock {
     position: absolute;
     inset: 0;
@@ -113,7 +121,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     position: absolute;
     inset: 0;
     background: var(--bg);
-    opacity: 0.74;
+    opacity: 0.92;
 }
 
 .knock-text {
