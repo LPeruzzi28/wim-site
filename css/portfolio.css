@@ -99,16 +99,19 @@
 .portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
 .portfolio-card:nth-child(3n)   { --tone: var(--c3); }
 
-/* Au repos : l'image seule. Au survol : une ombre pleine de la couleur de la carte. */
+/* Au repos : l'image seule, bords droits.
+   Au survol : le haut de l'image s'arrondit en arche, l'image zoome, le titre se souligne
+   de la couleur de la carte et le point de couleur s'étire en pastille. */
 .portfolio-card-media {
     display: block;
-    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+    clip-path: inset(0 round 0 0 0 0 / 0 0 0 0);
+    transition: clip-path 0.8s var(--ease), transform 0.8s var(--ease);
 }
 
 .portfolio-card:hover .portfolio-card-media,
 .portfolio-card:focus-visible .portfolio-card-media {
-    transform: translate(-0.35rem, -0.35rem);
-    box-shadow: 0.7rem 0.7rem 0 var(--tone);
+    clip-path: inset(0 round 50% 50% 0 0 / 42% 42% 0 0);
+    transform: translateY(-0.4rem);
 }
 
 .portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
@@ -148,19 +151,27 @@
     flex: none;
     width: 0.55rem;
     height: 0.55rem;
-    border-radius: 50%;
+    border-radius: 999px;
     background: var(--tone);
+    transition: width 0.7s var(--ease);
 }
+
+.portfolio-card:hover .portfolio-card-tag::before { width: 2rem; }
 
 .portfolio-card-title {
     margin-top: 1rem;
     font-size: clamp(1.9rem, 3.2vw, 3.4rem);
     line-height: 0.95;
-    padding-bottom: 0.05em;
-    transition: transform 0.6s var(--ease), color 0.3s ease;
+    padding-bottom: 0.12em;
+    width: fit-content;
+    background: linear-gradient(var(--tone), var(--tone)) 0 100% / 0% 0.1em no-repeat;
+    transition: transform 0.6s var(--ease), background-size 0.7s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); }
+.portfolio-card:hover .portfolio-card-title {
+    transform: translateX(0.5rem);
+    background-size: 100% 0.1em;
+}
 
 .portfolio-card-tag {
     display: flex;
