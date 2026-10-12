@@ -21,7 +21,7 @@ const projects = [
         ]
     },
     {
-        title: "InfraDon — Lampadaires",
+        title: "InfraDon lampadaires",
         tag: "Base de données",
         desc: "Projet de création et gestion de base de données : on nous a fourni des tableaux Excel remplis de données et nous avons dû créer la base de données pour en sortir certaines informations qui nous étaient demandées.",
         image: "projet-ecole/InfraDon-lampadaire/base-donnees-carres-flottants_78370-6689.avif",
@@ -67,7 +67,7 @@ const projects = [
         links: []
     },
     {
-        title: "Auditcom — Club de foot",
+        title: "Auditcom club de foot",
         tag: "Projet de groupe · Communication",
         desc: "Projet en groupe de deux : un club de foot suisse nous a été assigné et nous avons dû réaliser un audit de leur communication, puis un site web mettant en avant tous les rapports réalisés par les différentes équipes de la classe.",
         image: "projet-ecole/auditcom-clubfoot/auditcom-screenshot.png",

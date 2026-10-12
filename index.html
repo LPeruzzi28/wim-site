@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="papier">
+<html lang="fr" data-theme="papier" data-hero="2">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wim! — louis peruzzi</title>
+    <title>wim! · louis peruzzi</title>
     <meta name="description" content="What Inspire Me ! Le portfolio de Louis Peruzzi : réalisations en design et développement, et les créateurs qui l'inspirent.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +15,8 @@
             var ok = ["noir", "papier", "rouge-bleu"];
             var t = new URLSearchParams(location.search).get("theme") || localStorage.getItem("wim-theme");
             if (ok.indexOf(t) > -1) document.documentElement.setAttribute("data-theme", t);
+            var h = new URLSearchParams(location.search).get("hero") || localStorage.getItem("wim-hero");
+            if (["1", "2", "3"].indexOf(h) > -1) document.documentElement.setAttribute("data-hero", h);
         } catch (e) {}
     </script>
 </head>
@@ -28,24 +30,55 @@
     </header>
 
     <main>
-        <section class="hero" id="home" data-view="home">
-            <div class="hero-frame">
-                <video class="hero-video" id="hero-video" src="video/ski-loop.mp4" poster="video/ski-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
-                <div class="hero-shade"></div>
-                <div class="hero-grain"></div>
-
-                <p class="hero-intro">
-                    louis peruzzi — portfolio.<br>
+        <div id="home" data-view="home" class="hero-wrap">
+            <!-- Variante 1 : carte arrondie plein cadre -->
+            <section class="hero hero--card" data-hero="1">
+                <div class="hero-frame">
+                    <video class="hero-video" data-src="video/ski-loop.mp4" poster="video/ski-poster.jpg" muted loop playsinline preload="none"></video>
+                    <div class="hero-shade"></div>
+                    <div class="hero-grain"></div>
+                    <p class="hero-intro">
+                    louis peruzzi.<br>
                     mes réalisations en design et développement, et les créateurs qui m'inspirent.
                 </p>
-
-                <h1 class="hero-title" id="title" aria-label="What Inspire Me !">
+                    <h1 class="hero-title" aria-label="What Inspire Me !">
                     <span class="line"><span>what</span></span>
                     <span class="line"><span>inspire</span></span>
                     <span class="line"><span>me !</span></span>
                 </h1>
-            </div>
-        </section>
+                </div>
+            </section>
+
+            <!-- Variante 2 : la vidéo vue à travers les lettres -->
+            <section class="hero hero--knock" data-hero="2">
+                <video class="hero-video" data-src="video/ski-loop.mp4" poster="video/ski-poster.jpg" muted loop playsinline preload="none"></video>
+                <div class="knock">
+                    <div class="knock-text"><h1 class="hero-title" aria-label="What Inspire Me !">
+                    <span class="line"><span>what</span></span>
+                    <span class="line"><span>inspire</span></span>
+                    <span class="line"><span>me !</span></span>
+                </h1></div>
+                </div>
+                <p class="hero-intro">
+                    louis peruzzi.<br>
+                    mes réalisations en design et développement, et les créateurs qui m'inspirent.
+                </p>
+            </section>
+
+            <!-- Variante 3 : arche organique, titre par-dessus -->
+            <section class="hero hero--arch" data-hero="3">
+                <div class="arch"><video class="hero-video" data-src="video/ski-loop.mp4" poster="video/ski-poster.jpg" muted loop playsinline preload="none"></video></div>
+                <p class="hero-intro">
+                    louis peruzzi.<br>
+                    mes réalisations en design et développement, et les créateurs qui m'inspirent.
+                </p>
+                <h1 class="hero-title" aria-label="What Inspire Me !">
+                    <span class="line"><span>what</span></span>
+                    <span class="line"><span>inspire</span></span>
+                    <span class="line"><span>me !</span></span>
+                </h1>
+            </section>
+        </div>
 
         <section class="work" id="work" data-view="work">
             <header class="head">
@@ -94,6 +127,10 @@
         <button type="button" data-set-theme="noir" title="Noir">A</button>
         <button type="button" data-set-theme="papier" title="Papier">B</button>
         <button type="button" data-set-theme="rouge-bleu" title="Rouge &amp; bleu">C</button>
+        <span class="sep">accueil</span>
+        <button type="button" data-set-hero="1" title="Carte arrondie">1</button>
+        <button type="button" data-set-hero="2" title="Vidéo dans les lettres">2</button>
+        <button type="button" data-set-hero="3" title="Arche">3</button>
     </div>
 
     <div class="player" id="player">
@@ -103,7 +140,7 @@
             <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/></svg>
         </button>
         <div class="player-body">
-            <p class="player-title" id="player-title">—</p>
+            <p class="player-title" id="player-title">...</p>
             <div class="player-bar" id="player-bar">
                 <div class="player-bar-fill" id="player-bar-fill"></div>
             </div>

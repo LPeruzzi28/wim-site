@@ -19,21 +19,42 @@ function setTheme(name, persist) {
 themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.setTheme, true)));
 setTheme(document.documentElement.getAttribute("data-theme"), false);
 
-// ---------- Vidéo du hero (arrêtée si l'utilisateur préfère moins d'animations) ----------
-const heroVideo = document.getElementById("hero-video");
-if (heroVideo && prefersReducedMotion) {
-    heroVideo.removeAttribute("autoplay");
-    heroVideo.pause();
+// ---------- Variantes d'accueil (sélecteur temporaire) ----------
+const heroButtons = document.querySelectorAll("[data-set-hero]");
+const topBar = document.querySelector(".bar");
+const heroWrap = document.getElementById("home");
+
+function setHero(n, persist) {
+    if (!["1", "2", "3"].includes(n)) n = "2";
+    document.documentElement.setAttribute("data-hero", n);
+    heroButtons.forEach(b => b.classList.toggle("is-active", b.dataset.setHero === n));
+    if (persist) {
+        try { localStorage.setItem("wim-hero", n); } catch (e) {}
+    }
+    // Seule la vidéo de la variante affichée est chargée et lue.
+    document.querySelectorAll(".hero").forEach(section => {
+        const video = section.querySelector("video");
+        if (!video) return;
+        const active = section.dataset.hero === n;
+        if (active && !prefersReducedMotion) {
+            if (!video.src) video.src = video.dataset.src;
+            video.play().catch(() => {});
+        } else {
+            video.pause();
+        }
+    });
+    updateBar();
 }
 
-// ---------- Barre du haut : claire tant qu'on est sur la vidéo ----------
-const topBar = document.querySelector(".bar");
-const heroEl = document.querySelector(".hero");
+// Barre du haut : claire uniquement sur la variante 1 (vidéo sombre derrière)
 function updateBar() {
-    topBar.classList.toggle("on-hero", heroEl.getBoundingClientRect().bottom > 50);
+    const onVideo = document.documentElement.dataset.hero === "1" && heroWrap.getBoundingClientRect().bottom > 50;
+    topBar.classList.toggle("on-hero", onVideo);
 }
 window.addEventListener("scroll", updateBar, { passive: true });
-updateBar();
+
+heroButtons.forEach(b => b.addEventListener("click", () => setHero(b.dataset.setHero, true)));
+setHero(document.documentElement.getAttribute("data-hero"), false);
 
 // ---------- Défilement fluide (Lenis) + ancres ----------
 let lenis = null;

@@ -9,6 +9,8 @@
     --accent: #FF3B1F;
     --accent-2: #3A5BFF;
     --on-accent: #000000;
+    --knock-mode: darken;
+    --knock-ink: #FFFFFF;
 }
 
 :root[data-theme="papier"] {
@@ -19,6 +21,8 @@
     --accent: #E0381A;
     --accent-2: #1D2CFF;
     --on-accent: #E9E7E1;
+    --knock-mode: lighten;
+    --knock-ink: #000000;
 }
 
 :root[data-theme="rouge-bleu"] {
@@ -29,6 +33,8 @@
     --accent: #FF3A2D;
     --accent-2: #4D6BFF;
     --on-accent: #F1EEE6;
+    --knock-mode: darken;
+    --knock-ink: #FFFFFF;
 }
 
 :root {
