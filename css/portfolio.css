@@ -1,132 +1,239 @@
-/* ---------- Projets : une pile de grands panneaux ----------
-   Chaque projet est un panneau "sticky" : en défilant normalement, le suivant vient recouvrir le
-   précédent (qui rétrécit légèrement). Le défilement de la page n'est jamais détourné. */
+/* ---------- Section work : 3 présentations (html[data-work]) ----------
+   1 = grille, 2 = liste de titres avec image au survol, 3 = liste + grande image à côté. */
 
 .work { position: relative; }
 
-.work-stack {
+.work-view { display: none; }
+html[data-work="1"] .work-view--grid { display: grid; }
+html[data-work="2"] .work-view--list { display: block; }
+html[data-work="3"] .work-view--split { display: grid; }
+
+/* ===== 1 : grille ===== */
+
+.work-view--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 3vw, 3rem);
     padding: 1rem var(--gutter) 3rem;
 }
 
-.portfolio-card {
+.wg-card {
     --tone: var(--c1);
-    position: sticky;
-    top: calc(4.75rem + var(--i, 0) * 0.8rem);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    height: min(74vh, 680px);
-    margin: 0 0 clamp(1.5rem, 4vh, 3rem);
     padding: 0;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 1.2rem;
-    background: var(--panel);
+    border: 0;
+    background: none;
     color: inherit;
     font: inherit;
     text-align: left;
     cursor: pointer;
-    transform-origin: 50% 0;
 }
 
-.portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
-.portfolio-card:nth-child(3n)   { --tone: var(--c3); }
+.wg-card:nth-child(3n+2) { --tone: var(--c2); }
+.wg-card:nth-child(3n)   { --tone: var(--c3); }
+.wg-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
-.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-
-/* Une carte sur deux a l'image à gauche */
-.portfolio-card:nth-child(even) .portfolio-card-zoom { order: -1; }
-
-.portfolio-card-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 2rem;
-    min-width: 0;
-    padding: clamp(1.5rem, 3vw, 3rem);
-}
-
-.portfolio-card-tag {
-    font-size: 1.15rem;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--mute);
-}
-
-.portfolio-card-title {
-    font-size: clamp(2.4rem, 4.8vw, 5.6rem);
-    line-height: 0.92;
-    overflow-wrap: anywhere;
-}
-
-.portfolio-card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.9rem;
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.portfolio-card-cta i {
-    display: grid;
-    place-items: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    font-style: normal;
-    transition: background 0.4s ease, border-color 0.4s ease, transform 0.6s var(--ease);
-}
-
-.portfolio-card:hover .portfolio-card-cta i {
-    background: var(--tone);
-    border-color: var(--tone);
-    color: #fff;
-    transform: translateX(0.35rem);
-}
-
-.portfolio-card-zoom {
-    position: relative;
+.wg-zoom {
     display: block;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
+    border-radius: 0.4rem;
     background: #111;
 }
 
-.portfolio-card-inner {
+.wg-inner {
     display: block;
     width: 100%;
     height: 100%;
     transition: transform 1.6s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-inner { transform: scale(1.05); }
+.wg-card:hover .wg-inner { transform: scale(1.05); }
 
-.portfolio-card-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.wg-inner img { width: 100%; height: 100%; object-fit: cover; }
+
+.wg-empty { display: grid; place-items: center; height: 100%; color: var(--mute); }
+
+.wg-meta {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-top: 0.9rem;
+    padding-top: 0.85rem;
 }
 
-.portfolio-card-placeholder {
+.wg-meta::before,
+.wg-meta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--ink);
+}
+
+.wg-meta::after {
+    top: -1px;
+    height: 3px;
+    background: var(--tone);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease);
+}
+
+.wg-card:hover .wg-meta::after,
+.wg-card:focus-visible .wg-meta::after { transform: scaleX(1); }
+
+.wg-title { font-size: clamp(1.9rem, 2.8vw, 3rem); line-height: 0.95; }
+
+.wg-tag {
+    flex: none;
+    max-width: 45%;
+    text-align: right;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--mute);
+}
+
+/* ===== 2 : liste de titres ===== */
+
+.work-view--list { padding: 0 var(--gutter) 3rem; }
+
+.wl-row {
     display: grid;
-    place-items: center;
+    grid-template-columns: minmax(0, 1fr) auto 3rem;
+    align-items: baseline;
+    gap: var(--gutter);
     width: 100%;
-    height: 100%;
+    padding: clamp(0.9rem, 1.8vw, 1.5rem) 0;
+    border: 0;
+    border-top: 1px solid var(--ink);
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+}
+
+.wl-row:last-child { border-bottom: 1px solid var(--ink); }
+
+.work-view--list:hover .wl-row:not(:hover):not(:focus-visible) { opacity: 0.35; }
+
+.wl-row:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+.wl-title {
+    font-size: clamp(2.2rem, 6vw, 6.5rem);
+    line-height: 0.95;
+    transition: transform 0.6s var(--ease);
+}
+
+.wl-row:hover .wl-title { transform: translateX(1rem); }
+
+.wl-tag { font-size: 1.1rem; font-weight: 600; color: var(--mute); text-align: right; }
+
+.wl-arrow {
+    justify-self: end;
+    font-size: 1.8rem;
+    font-weight: 600;
+    transition: transform 0.6s var(--ease);
+}
+
+.wl-row:hover .wl-arrow { transform: translateX(0.4rem); }
+
+/* Aperçu qui suit la souris (version liste) */
+.preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 80;
+    width: clamp(240px, 24vw, 380px);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    background: #111;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-999px, -999px, 0);
+    transition: opacity 0.25s ease;
+}
+
+.preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== 3 : liste + grande image ===== */
+
+.work-view--split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+    padding: 0 var(--gutter) 3rem;
+}
+
+.ws-stage {
+    position: sticky;
+    top: 6rem;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    background: #111;
+}
+
+.ws-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.ws-slide.is-active { opacity: 1; }
+.ws-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+.ws-list { display: flex; flex-direction: column; }
+
+.ws-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem;
+    width: 100%;
+    padding: clamp(0.9rem, 1.6vw, 1.4rem) 0;
+    border: 0;
+    border-top: 1px solid var(--ink);
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+}
+
+.ws-item:last-child { border-bottom: 1px solid var(--ink); }
+.ws-item.is-active { opacity: 1; }
+.ws-item:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+.ws-title { font-size: clamp(1.8rem, 3.4vw, 3.6rem); line-height: 0.95; }
+
+.ws-tag {
+    flex: none;
+    max-width: 40%;
+    text-align: right;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.25;
     color: var(--mute);
 }
 
 @media (max-width: 800px) {
-    .portfolio-card {
-        position: relative;
-        top: auto;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        height: auto;
-    }
-    .portfolio-card-zoom,
-    .portfolio-card:nth-child(even) .portfolio-card-zoom { order: -1; aspect-ratio: 4 / 3; }
-    .portfolio-card-info { gap: 1.25rem; }
+    .work-view--grid { grid-template-columns: 1fr; }
+    .work-view--split { grid-template-columns: 1fr; }
+    .ws-stage { display: none; }
+    .ws-item { opacity: 1; }
+    .wl-tag, .wl-arrow { display: none; }
+    .wl-row { grid-template-columns: 1fr; }
+    .preview { display: none; }
 }
 
 /* ---------- Modal ---------- */
