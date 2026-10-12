@@ -60,12 +60,12 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Couleur de fond (sélecteur temporaire pour comparer les propositions) ----------
-const colors = ["olive", "moutarde", "sapin", "bordeaux"];
+// ---------- Version (sélecteur temporaire pour comparer les deux propositions) ----------
+const colors = ["sunset", "nowhere"];
 const swatchButtons = document.querySelectorAll("[data-color]");
 
 function setColor(name, persist) {
-    if (!colors.includes(name)) name = "olive";
+    if (!colors.includes(name)) name = "sunset";
     document.documentElement.setAttribute("data-color", name);
     swatchButtons.forEach(b => b.classList.toggle("is-active", b.dataset.color === name));
     if (persist) {
@@ -74,6 +74,66 @@ function setColor(name, persist) {
 }
 swatchButtons.forEach(b => b.addEventListener("click", () => setColor(b.dataset.color, true)));
 setColor(document.documentElement.getAttribute("data-color"), false);
+
+// ---------- Carrousel "work" : défilement horizontal propre, la page garde son scroll ----------
+const workViewport = document.querySelector(".work-viewport");
+const workProgress = document.querySelector(".work-progress span");
+const workCards = [...document.querySelectorAll(".portfolio-card")];
+
+function updateWorkProgress() {
+    const max = workViewport.scrollWidth - workViewport.clientWidth;
+    const ratio = max > 0 ? workViewport.scrollLeft / max : 0;
+    const visible = workViewport.clientWidth / workViewport.scrollWidth;
+    workProgress.style.transform = `scaleX(${Math.max(visible, 0.08) + ratio * (1 - Math.max(visible, 0.08))})`;
+}
+
+let lastScrollLeft = 0;
+let skewReset;
+workViewport.addEventListener("scroll", () => {
+    updateWorkProgress();
+    if (animate) {
+        const delta = workViewport.scrollLeft - lastScrollLeft;
+        gsap.to(workCards, { skewX: gsap.utils.clamp(-6, 6, delta * -0.25), duration: 0.3, overwrite: "auto" });
+        clearTimeout(skewReset);
+        skewReset = setTimeout(() => gsap.to(workCards, { skewX: 0, duration: 0.6, ease: "power3.out" }), 120);
+    }
+    lastScrollLeft = workViewport.scrollLeft;
+}, { passive: true });
+window.addEventListener("resize", updateWorkProgress);
+updateWorkProgress();
+
+// Glisser à la souris
+let drag = null;
+workViewport.addEventListener("pointerdown", e => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    drag = { x: e.clientX, left: workViewport.scrollLeft, moved: false };
+});
+window.addEventListener("pointermove", e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) > 5) {
+        drag.moved = true;
+        workViewport.classList.add("is-dragging");
+    }
+    if (drag.moved) workViewport.scrollLeft = drag.left - dx;
+});
+window.addEventListener("pointerup", () => {
+    if (!drag) return;
+    const moved = drag.moved;
+    drag = null;
+    workViewport.classList.remove("is-dragging");
+    if (moved) {
+        // empêche le clic qui suit un glissé d'ouvrir un projet
+        const block = e => { e.stopPropagation(); e.preventDefault(); };
+        workViewport.addEventListener("click", block, { capture: true, once: true });
+        setTimeout(() => workViewport.removeEventListener("click", block, { capture: true }), 0);
+    }
+});
+
+// Flèches
+const stepSize = () => (workCards[0] ? workCards[0].getBoundingClientRect().width : 400) + 40;
+document.getElementById("work-prev").addEventListener("click", () => workViewport.scrollBy({ left: -stepSize(), behavior: "smooth" }));
+document.getElementById("work-next").addEventListener("click", () => workViewport.scrollBy({ left: stepSize(), behavior: "smooth" }));
 
 // ---------- Animations (GSAP) ----------
 if (animate) {
@@ -91,42 +151,6 @@ if (animate) {
             opacity: 0, y: 40, duration: 1.1, stagger: 0.1, ease: "power4.out",
             scrollTrigger: { trigger: head, start: "top 88%" }
         });
-    });
-
-    // Carrousel "work" : la section est épinglée, le scroll vertical fait défiler les cartes
-    // horizontalement. Les cartes se penchent légèrement selon la vitesse.
-    const work = document.querySelector(".work");
-    const workTrack = document.getElementById("portfolio-grid");
-    const workViewport = document.querySelector(".work-viewport");
-    const progress = document.querySelector(".work-progress span");
-    const workCards = gsap.utils.toArray(".portfolio-card");
-
-    work.classList.add("is-pinned");
-    workViewport.scrollLeft = 0;
-
-    let skewReset;
-    const distance = () => Math.max(0, workTrack.scrollWidth - window.innerWidth + parseFloat(getComputedStyle(workViewport).paddingLeft) * 2);
-
-    gsap.to(workTrack, {
-        x: () => -distance(),
-        ease: "none",
-        scrollTrigger: {
-            trigger: work,
-            start: "top top",
-            end: () => "+=" + distance(),
-            pin: true,
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-            onUpdate: self => {
-                progress.style.transform = `scaleX(${self.progress})`;
-                const skew = gsap.utils.clamp(-6, 6, self.getVelocity() / -350);
-                gsap.to(workCards, { skewX: skew, duration: 0.4, overwrite: "auto", ease: "power3.out" });
-                clearTimeout(skewReset);
-                skewReset = setTimeout(() => gsap.to(workCards, { skewX: 0, duration: 0.7, ease: "power3.out" }), 140);
-            },
-            onLeave: () => gsap.to(workCards, { skewX: 0, duration: 0.4 }),
-            onLeaveBack: () => gsap.to(workCards, { skewX: 0, duration: 0.4 })
-        }
     });
 
     // Rangées d'inspirations : accélèrent quand on scrolle

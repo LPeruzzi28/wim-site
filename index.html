@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-color="olive">
+<html lang="fr" data-color="sunset">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
     <script>
         try {
             var c = new URLSearchParams(location.search).get("color") || localStorage.getItem("wim-color");
-            if (["olive", "moutarde", "sapin", "bordeaux"].indexOf(c) > -1) document.documentElement.setAttribute("data-color", c);
+            if (["sunset", "nowhere"].indexOf(c) > -1) document.documentElement.setAttribute("data-color", c);
         } catch (e) {}
     </script>
 </head>
@@ -54,13 +54,17 @@
         <section class="work" id="work" data-view="work">
             <header class="head">
                 <h2>work</h2>
-                <p>projets d'école et personnels. fais défiler, clique sur un projet pour voir le détail.</p>
+                <p>projets d'école et personnels. glisse ou utilise les flèches, clique sur un projet pour voir le détail.</p>
             </header>
 
             <div class="work-viewport">
                 <div class="work-track" id="portfolio-grid"></div>
             </div>
-            <div class="work-progress" aria-hidden="true"><span></span></div>
+            <div class="work-controls">
+                <div class="work-progress" aria-hidden="true"><span></span></div>
+                <button type="button" class="work-arrow" id="work-prev" aria-label="Projet précédent">←</button>
+                <button type="button" class="work-arrow" id="work-next" aria-label="Projet suivant">→</button>
+            </div>
         </section>
 
         <section class="inspo" id="inspo" data-view="inspo">
@@ -94,11 +98,9 @@
         </div>
     </footer>
 
-    <div class="swatches" id="swatches" role="group" aria-label="Couleur de fond (temporaire)">
-        <button type="button" data-color="olive" style="--c:#66723F" title="Olive"></button>
-        <button type="button" data-color="moutarde" style="--c:#D9A52B" title="Moutarde"></button>
-        <button type="button" data-color="sapin" style="--c:#2C4A3E" title="Vert sapin"></button>
-        <button type="button" data-color="bordeaux" style="--c:#6E2430" title="Bordeaux"></button>
+    <div class="swatches" id="swatches" role="group" aria-label="Version (temporaire)">
+        <button type="button" data-color="sunset" title="Version 1 : coucher de soleil"><i style="--c:#EF6A25"></i><i style="--c:#FFC93B"></i><i style="--c:#3445D1"></i><span>1</span></button>
+        <button type="button" data-color="nowhere" title="Version 2 : Nowhere"><i style="--c:#D8D6C5"></i><i style="--c:#587A2E"></i><i style="--c:#14170F"></i><span>2</span></button>
     </div>
 
     <div class="player" id="player">

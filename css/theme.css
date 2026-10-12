@@ -1,44 +1,38 @@
-/* Couleur de fond : 4 propositions, choisies via <html data-color="..."> */
+/* Deux versions, d'après deux images de référence : <html data-color="sunset|nowhere">
+
+   --floor / --floor-blend / --knock-blend / --knock-ink pilotent l'effet de l'accueil :
+   - fond moyen ou sombre : lettres plus claires que le fond (floor "lighten", knock "darken", encre blanche)
+   - fond clair : lettres plus sombres que le fond (floor "darken", knock "lighten", encre noire) */
 
 :root,
-:root[data-color="olive"] {
-    --bg: #66723F;
-    --floor: #8E9C62;
-    --ink: #F3EEDF;
-    --mute: #D6DDBE;
-    --line: rgba(243, 238, 223, 0.32);
-    --accent: #E2552B;
-    --on-accent: #F3EEDF;
+:root[data-color="sunset"] {
+    /* Coucher de soleil : orange, jaune, brun, bleu de la vague */
+    --bg: #EE6A26;
+    --floor: #FFC83A;
+    --floor-blend: lighten;
+    --knock-blend: darken;
+    --knock-ink: #FFFFFF;
+    --video-tone: sepia(0.6) hue-rotate(-14deg);
+    --ink: #2B1109;
+    --mute: #6E2812;
+    --line: rgba(43, 17, 9, 0.3);
+    --accent: #3243CF;
+    --on-accent: #FBEFD9;
 }
 
-:root[data-color="moutarde"] {
-    --bg: #D9A52B;
-    --floor: #EDC668;
-    --ink: #1B1409;
-    --mute: #5C4410;
-    --line: rgba(27, 20, 9, 0.28);
-    --accent: #B8381F;
-    --on-accent: #F3EEDF;
-}
-
-:root[data-color="sapin"] {
-    --bg: #2C4A3E;
-    --floor: #5E8473;
-    --ink: #F1EEE2;
-    --mute: #B9CCC1;
-    --line: rgba(241, 238, 226, 0.3);
-    --accent: #E2552B;
-    --on-accent: #F1EEE2;
-}
-
-:root[data-color="bordeaux"] {
-    --bg: #6E2430;
-    --floor: #A55868;
-    --ink: #F4ECE0;
-    --mute: #DDBFC3;
-    --line: rgba(244, 236, 224, 0.3);
-    --accent: #E8A33A;
-    --on-accent: #1B0F0A;
+:root[data-color="nowhere"] {
+    /* Nowhere : gris-beige du ciel, vert mousse de l'herbe, noir de l'encre */
+    --bg: #D9D7C7;
+    --floor: #7E8A60;
+    --floor-blend: darken;
+    --knock-blend: lighten;
+    --knock-ink: #000000;
+    --video-tone: sepia(0.35) saturate(0.8);
+    --ink: #14170F;
+    --mute: #5A5F4A;
+    --line: rgba(20, 23, 15, 0.25);
+    --accent: #55772C;
+    --on-accent: #F1EFE2;
 }
 
 :root {

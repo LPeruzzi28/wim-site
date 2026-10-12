@@ -89,13 +89,13 @@ ul { list-style: none; margin: 0; padding: 0; }
     transform: scale(1.04);
 }
 
-#hero-video { filter: saturate(1.35) brightness(1.12) contrast(1.05); }
+#hero-video { filter: var(--video-tone) saturate(1.3) brightness(1.1); }
 
 .hero-floor {
     position: absolute;
     inset: 0;
     background: var(--floor);
-    mix-blend-mode: lighten;
+    mix-blend-mode: var(--floor-blend);
 }
 
 .knock {
@@ -106,7 +106,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     align-items: flex-end;
     padding: 0 var(--gutter) clamp(1rem, 2vw, 2rem);
     background: var(--bg);
-    mix-blend-mode: darken;
+    mix-blend-mode: var(--knock-blend);
 }
 
 .knock-bg {
@@ -115,7 +115,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     overflow: hidden;
 }
 
-.knock-bg .hero-video { filter: saturate(0.7) brightness(0.85); }
+.knock-bg .hero-video { filter: var(--video-tone) saturate(0.7) brightness(0.9); }
 
 .knock-tint {
     position: absolute;
@@ -127,7 +127,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .knock-text {
     position: relative;
     width: 100%;
-    color: #FFFFFF;
+    color: var(--knock-ink);
 }
 
 .hero-title {
@@ -220,7 +220,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .foot-row a:hover { color: var(--ink); }
 
-/* ---------- Sélecteur de couleur (temporaire) ---------- */
+/* ---------- Sélecteur de version (temporaire) ---------- */
 
 .swatches {
     position: fixed;
@@ -236,15 +236,28 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 .swatches button {
-    width: 1.7rem;
-    height: 1.7rem;
-    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0.25rem 0.7rem 0.25rem 0.3rem;
     border: 2px solid transparent;
-    background: var(--c);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
 
+.swatches button i {
+    width: 1rem;
+    height: 1.4rem;
+    background: var(--c);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.swatches button i:first-child { border-radius: 999px 0 0 999px; }
+.swatches button span { margin-left: 0.5rem; }
 .swatches button.is-active { border-color: var(--ink); }
 
 /* ---------- Responsive ---------- */

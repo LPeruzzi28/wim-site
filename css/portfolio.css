@@ -1,53 +1,45 @@
 /* ---------- Carrousel des projets ----------
-   Sans JS (ou animations réduites) : défilement horizontal natif.
-   Avec GSAP : la section est épinglée et le scroll vertical fait avancer les cartes. */
+   Défilement horizontal propre au carrousel (glisser, flèches, trackpad, tactile).
+   La page, elle, continue de défiler normalement. */
 
 .work { position: relative; }
 
 .work-viewport {
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
-    padding: 1rem var(--gutter) 3rem;
+    padding: 1rem var(--gutter) 2.5rem;
+    cursor: grab;
 }
 
 .work-viewport::-webkit-scrollbar { display: none; }
+
+.work-viewport.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+}
 
 .work-track {
     display: flex;
     align-items: flex-start;
     gap: clamp(1.5rem, 3vw, 3rem);
     width: max-content;
+    padding-bottom: clamp(2rem, 9vh, 6rem);
 }
 
-.work-progress { display: none; }
-
-.work.is-pinned {
-    height: 100vh;
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.work.is-pinned .head { padding-top: 5.5rem; padding-bottom: 0.5rem; }
-.work.is-pinned .head h2 { font-size: clamp(3rem, min(10vw, 17vh), 10rem); }
-
-.work.is-pinned .work-viewport {
-    flex: 1;
+.work-controls {
     display: flex;
     align-items: center;
-    overflow: visible;
-    padding-bottom: 3.5rem;
+    gap: 0.75rem;
+    padding: 0 var(--gutter);
 }
 
-.work.is-pinned .work-progress {
-    display: block;
-    position: absolute;
-    left: var(--gutter);
-    right: var(--gutter);
-    bottom: 1.4rem;
+.work-progress {
+    flex: 1;
     height: 3px;
+    margin-right: 1rem;
     background: var(--line);
 }
 
@@ -55,14 +47,37 @@
     display: block;
     height: 100%;
     background: var(--ink);
-    transform: scaleX(0);
+    transform: scaleX(0.1);
     transform-origin: left;
 }
 
+.work-arrow {
+    width: 3.4rem;
+    height: 3.4rem;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.4s var(--ease);
+}
+
+.work-arrow:hover {
+    background: var(--ink);
+    color: var(--bg);
+}
+
+.work-arrow:active { transform: scale(0.92); }
+
 .portfolio-card {
     flex: none;
-    width: min(32vw, 52vh);
-    min-width: 270px;
+    width: clamp(270px, 32vw, 520px);
     padding: 0;
     border: 0;
     background: none;
@@ -71,7 +86,6 @@
     text-align: left;
     cursor: pointer;
     scroll-snap-align: start;
-    will-change: transform;
 }
 
 /* Décalage vertical alterné : plus vivant qu'une rangée droite */
