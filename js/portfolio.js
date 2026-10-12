@@ -124,16 +124,24 @@ wf.className = "wf";
 wf.innerHTML = `
     <div class="wf-bg"></div>
     <div class="wf-shade"></div>
+    <div class="wf-acc"></div>
+    <div class="wf-big" aria-hidden="true"><span class="wf-big-tag"></span><span class="wf-big-title"></span></div>
+    <div class="wf-thumbs"></div>
     <div class="wf-list"></div>
 `;
 const wfBg = wf.querySelector(".wf-bg");
 const wfList = wf.querySelector(".wf-list");
-let wfIndex = 0;
+const wfAcc = wf.querySelector(".wf-acc");
+const wfThumbs = wf.querySelector(".wf-thumbs");
+const wfBigTag = wf.querySelector(".wf-big-tag");
+const wfBigTitle = wf.querySelector(".wf-big-title");
 
 function setWf(index) {
-    wfIndex = index;
-    wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
-    wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
+    [[wfBg, ".wf-slide"], [wfList, ".wf-item"], [wfAcc, ".wf-panel"], [wfThumbs, ".wf-thumb"]].forEach(([parent, sel]) => {
+        parent.querySelectorAll(sel).forEach((el, i) => el.classList.toggle("is-active", i === index));
+    });
+    wfBigTag.textContent = projects[index].tag;
+    wfBigTitle.textContent = projects[index].title;
 }
 
 projects.forEach((project, index) => {
@@ -147,13 +155,33 @@ projects.forEach((project, index) => {
     const item = document.createElement("button");
     item.className = "wf-item";
     item.type = "button";
-    item.innerHTML = `
-        <span class="wf-row"><h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span></span>
-    `;
+    item.innerHTML = `<span class="wf-row"><h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span></span>`;
     item.addEventListener("pointerenter", () => setWf(index));
     item.addEventListener("focus", () => setWf(index));
     item.addEventListener("click", () => openModal(project));
     wfList.appendChild(item);
+
+    // variante accordéon : une bande par projet
+    const panel = document.createElement("button");
+    panel.className = "wf-panel";
+    panel.type = "button";
+    panel.setAttribute("aria-label", project.title);
+    panel.innerHTML = `${imgOf(project)}<span class="wf-panel-glass"></span><span class="wf-panel-v">${project.title}</span><span class="wf-panel-h"><span class="wf-panel-tag">${project.tag}</span><span class="wf-panel-title">${project.title}</span></span>`;
+    panel.addEventListener("pointerenter", () => setWf(index));
+    panel.addEventListener("focus", () => setWf(index));
+    panel.addEventListener("click", () => openModal(project));
+    wfAcc.appendChild(panel);
+
+    // variante vignettes rondes
+    const thumb = document.createElement("button");
+    thumb.className = "wf-thumb";
+    thumb.type = "button";
+    thumb.setAttribute("aria-label", project.title);
+    thumb.innerHTML = imgOf(project);
+    thumb.addEventListener("pointerenter", () => setWf(index));
+    thumb.addEventListener("focus", () => setWf(index));
+    thumb.addEventListener("click", () => openModal(project));
+    wfThumbs.appendChild(thumb);
 });
 
 setWf(0);
