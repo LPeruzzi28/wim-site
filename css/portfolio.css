@@ -1,39 +1,52 @@
-/* ---------- Section work : accordéon de bandes en verre ---------- */
+/* ---------- Section work : 5 formats d'accordéon en verre (html[data-wf-mode]) ----------
+   1 = bandes verticales (fluides)      2 = rangées horizontales
+   3 = grille 4x2 dont la case survolée s'agrandit      4 = capsules verticales
+   5 = cartes en éventail (on choisit en cliquant)
+
+   Pour la fluidité : les colonnes / lignes de la grille s'animent (--cols, --rows...), les images ont une
+   taille fixe et sont seulement révélées, et le verre n'anime que son opacité. */
 
 .work { position: relative; }
 
 .wf-acc {
-    display: flex;
-    gap: 0.4rem;
+    --gap: 0.4rem;
+    display: grid;
+    gap: var(--gap);
     height: min(84vh, 780px);
     margin: 1rem var(--gutter) 3rem;
-    padding: 0;
 }
 
 .wf-panel {
     position: relative;
-    flex: 1 1 0;
     min-width: 0;
+    min-height: 0;
     overflow: hidden;
+    contain: paint;
     padding: 0;
     border: 0;
     border-radius: 0.55rem;
-    background: #111;
+    background: #1a0c06;
     color: #FFF4DC;
     font: inherit;
     text-align: left;
     cursor: pointer;
-    transition: flex-grow 0.9s var(--ease);
 }
 
-.wf-panel.is-active { flex-grow: 8; }
-
-.wf-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.wf-panel img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--fw);
+    height: var(--fh);
+    max-width: none;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+}
 
 .wf-panel-glass {
     position: absolute;
     inset: 0;
-    background: rgba(255, 244, 220, 0.2);
+    background: rgba(255, 244, 220, 0.22);
     -webkit-backdrop-filter: blur(16px) saturate(1.2);
     backdrop-filter: blur(16px) saturate(1.2);
     transition: opacity 0.7s ease;
@@ -69,10 +82,10 @@
     gap: 0.4rem;
     opacity: 0;
     transform: translateY(0.8rem);
-    transition: opacity 0.5s ease, transform 0.7s var(--ease);
+    transition: opacity 0.4s ease, transform 0.6s var(--ease);
 }
 
-.wf-panel.is-active .wf-panel-h { opacity: 1; transform: none; transition-delay: 0.25s; }
+.wf-panel.is-active .wf-panel-h { opacity: 1; transform: none; transition: opacity 0.6s ease 0.3s, transform 0.8s var(--ease) 0.3s; }
 
 .wf-panel-tag { font-size: 1rem; font-weight: 600; opacity: 0.9; }
 
@@ -87,17 +100,94 @@
     text-shadow: 0 2px 30px rgba(20, 6, 0, 0.5);
 }
 
+/* ===== 1 : bandes verticales ===== */
+html[data-wf-mode="1"] .wf-acc {
+    grid-template-columns: var(--cols);
+    transition: grid-template-columns 0.85s var(--ease);
+}
+
+/* ===== 2 : rangées horizontales ===== */
+html[data-wf-mode="2"] .wf-acc {
+    grid-template-rows: var(--rows);
+    transition: grid-template-rows 0.85s var(--ease);
+}
+
+html[data-wf-mode="2"] .wf-panel-v {
+    left: clamp(1rem, 2vw, 2rem);
+    bottom: 50%;
+    transform: translateY(50%);
+    writing-mode: horizontal-tb;
+    font-size: clamp(1.1rem, 1.8vw, 1.9rem);
+}
+
+/* ===== 3 : grille 4x2 qui s'agrandit ===== */
+html[data-wf-mode="3"] .wf-acc {
+    grid-template-columns: var(--cols4);
+    grid-template-rows: var(--rows2);
+    transition: grid-template-columns 0.85s var(--ease), grid-template-rows 0.85s var(--ease);
+}
+
+html[data-wf-mode="3"] .wf-panel { grid-column: var(--gc); grid-row: var(--gr); }
+
+html[data-wf-mode="3"] .wf-panel-v {
+    left: 1rem;
+    bottom: 1rem;
+    transform: none;
+    writing-mode: horizontal-tb;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+}
+
+html[data-wf-mode="3"] .wf-panel-title { font-size: clamp(1.6rem, 3.2vw, 3.4rem); }
+
+/* ===== 4 : capsules verticales ===== */
+html[data-wf-mode="4"] .wf-acc {
+    --gap: 0.6rem;
+    grid-template-columns: var(--cols);
+    transition: grid-template-columns 0.85s var(--ease);
+}
+
+html[data-wf-mode="4"] .wf-panel {
+    border-radius: 999px;
+    transition: border-radius 0.85s var(--ease);
+}
+
+html[data-wf-mode="4"] .wf-panel.is-active { border-radius: 2.2rem; }
+html[data-wf-mode="4"] .wf-panel-v { bottom: 1.8rem; }
+
+/* ===== 5 : cartes en éventail ===== */
+html[data-wf-mode="5"] .wf-acc {
+    display: block;
+    position: relative;
+    perspective: 1500px;
+    overflow: hidden;
+}
+
+html[data-wf-mode="5"] .wf-panel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 46%;
+    height: 100%;
+    margin-left: -23%;
+    border-radius: 0.8rem;
+    contain: none;
+    transform: translateX(calc(var(--d) * 56%)) translateZ(calc(var(--ad) * -140px)) rotateY(calc(var(--d) * -14deg));
+    opacity: max(0, calc(1 - var(--ad) * 0.28));
+    z-index: calc(20 - var(--ad));
+    transition: transform 0.9s var(--ease), opacity 0.7s ease;
+    pointer-events: auto;
+    will-change: transform;
+}
+
+html[data-wf-mode="5"] .wf-panel[style*="--ad: 4"],
+html[data-wf-mode="5"] .wf-panel[style*="--ad: 5"],
+html[data-wf-mode="5"] .wf-panel[style*="--ad: 6"],
+html[data-wf-mode="5"] .wf-panel[style*="--ad: 7"] { pointer-events: none; }
+
+html[data-wf-mode="5"] .wf-panel-v { display: none; }
+
 @media (max-width: 800px) {
-    .wf-acc { flex-direction: column; height: 34rem; }
-    .wf-panel { flex: 1 1 0; }
-    .wf-panel.is-active { flex-grow: 6; }
-    .wf-panel-v {
-        left: 1rem;
-        bottom: 50%;
-        transform: translateY(50%);
-        writing-mode: horizontal-tb;
-    }
-    .wf-panel-title { font-size: 2rem; }
+    .wf-acc { height: 34rem; }
 }
 
 /* ---------- Modal ---------- */
