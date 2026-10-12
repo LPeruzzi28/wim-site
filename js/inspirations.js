@@ -91,7 +91,7 @@ function buildInspoCard(item, hidden) {
         </div>
         <span class="inspo-card-stamp" aria-hidden="true">↗</span>
         <div class="inspo-card-body">
-            <h3 class="inspo-card-name">${item.name}</h3>
+            <h3 class="inspo-card-name"><span>${item.name}</span></h3>
         </div>
     `;
     return card;

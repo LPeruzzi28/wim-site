@@ -60,6 +60,74 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
+// ---------- Carrousel "work" : défilement horizontal propre (glisser à la souris, trackpad, tactile) ----------
+const workViewport = document.querySelector(".work-viewport");
+const workProgress = document.querySelector(".work-progress span");
+const workCards = [...document.querySelectorAll(".portfolio-card")];
+
+function updateWorkProgress() {
+    const max = workViewport.scrollWidth - workViewport.clientWidth;
+    const ratio = max > 0 ? workViewport.scrollLeft / max : 0;
+    const visible = Math.max(workViewport.clientWidth / workViewport.scrollWidth, 0.08);
+    workProgress.style.transform = `scaleX(${visible + ratio * (1 - visible)})`;
+}
+
+let lastScrollLeft = 0;
+let skewReset;
+workViewport.addEventListener("scroll", () => {
+    updateWorkProgress();
+    if (animate) {
+        const delta = workViewport.scrollLeft - lastScrollLeft;
+        gsap.to(workCards, { skewX: gsap.utils.clamp(-6, 6, delta * -0.25), duration: 0.3, overwrite: "auto" });
+        clearTimeout(skewReset);
+        skewReset = setTimeout(() => gsap.to(workCards, { skewX: 0, duration: 0.6, ease: "power3.out" }), 120);
+    }
+    lastScrollLeft = workViewport.scrollLeft;
+}, { passive: true });
+window.addEventListener("resize", updateWorkProgress);
+updateWorkProgress();
+
+let drag = null;
+workViewport.addEventListener("pointerdown", e => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    drag = { x: e.clientX, left: workViewport.scrollLeft, moved: false };
+});
+window.addEventListener("pointermove", e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) > 5) {
+        drag.moved = true;
+        workViewport.classList.add("is-dragging");
+    }
+    if (drag.moved) workViewport.scrollLeft = drag.left - dx;
+});
+window.addEventListener("pointerup", () => {
+    if (!drag) return;
+    const moved = drag.moved;
+    drag = null;
+    workViewport.classList.remove("is-dragging");
+    if (moved) {
+        // empêche le clic qui suit un glissé d'ouvrir un projet
+        const block = e => { e.stopPropagation(); e.preventDefault(); };
+        workViewport.addEventListener("click", block, { capture: true, once: true });
+        setTimeout(() => workViewport.removeEventListener("click", block, { capture: true }), 0);
+    }
+});
+
+// ---------- Style des cartes (sélecteur temporaire pour comparer 3 propositions) ----------
+const cardButtons = document.querySelectorAll("[data-card-style]");
+function setCardStyle(n, persist) {
+    if (!["1", "2", "3"].includes(n)) n = "1";
+    document.documentElement.setAttribute("data-card", n);
+    cardButtons.forEach(b => b.classList.toggle("is-active", b.dataset.cardStyle === n));
+    if (persist) {
+        try { localStorage.setItem("wim-card", n); } catch (e) {}
+    }
+    updateWorkProgress();
+}
+cardButtons.forEach(b => b.addEventListener("click", () => setCardStyle(b.dataset.cardStyle, true)));
+setCardStyle(document.documentElement.getAttribute("data-card"), false);
+
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);

@@ -123,7 +123,7 @@ projects.forEach(project => {
             </span>
             <span class="portfolio-card-tag"><span>${project.tag}</span><span class="arrow" aria-hidden="true">→</span></span>
         </span>
-        <h3 class="portfolio-card-title">${project.title}</h3>
+        <h3 class="portfolio-card-title"><span>${project.title}</span></h3>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

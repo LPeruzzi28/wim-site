@@ -239,6 +239,39 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .foot-row a:hover { color: var(--c1); }
 
+/* ---------- Sélecteur de style de cartes (temporaire) ---------- */
+
+.card-switch {
+    position: fixed;
+    left: var(--gutter);
+    bottom: 1rem;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.45rem 0.35rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.card-switch span { margin-right: 0.4rem; color: var(--mute); }
+
+.card-switch button {
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    cursor: pointer;
+}
+
+.card-switch button:hover { border-color: var(--line); }
+.card-switch button.is-active { background: var(--c1); border-color: var(--c1); color: var(--on-c); }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
