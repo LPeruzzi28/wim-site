@@ -1,6 +1,7 @@
 /* Deux versions, d'après deux images de référence : <html data-color="sunset|nowhere">
 
-   --c1 / --c2 / --c3 : couleurs de détails (cadres des cartes, flèches, soulignements, survols)
+   --c1 / --c2 / --c3 : couleurs de détails (points, flèches, soulignements, feuilles de survol)
+   --c1-ink / --c2-ink / --c3-ink : couleur de texte lisible posé sur chacune d'elles
    --floor / --floor-blend / --knock-blend / --knock-ink pilotent l'effet de l'accueil :
    - fond clair : lettres plus sombres que le fond (floor "darken", knock "lighten", encre noire) */
 
@@ -20,6 +21,9 @@
     --c2: #EE6A26;
     --c3: #86A4F0;
     --on-c: #FFF4DC;
+    --c1-ink: #FFF4DC;
+    --c2-ink: #2B1109;
+    --c3-ink: #1B2260;
     --accent: var(--c1);
     --on-accent: #FFF4DC;
 }
@@ -39,6 +43,9 @@
     --c2: #14170F;
     --c3: #9AA878;
     --on-c: #F1EFE2;
+    --c1-ink: #F1EFE2;
+    --c2-ink: #F1EFE2;
+    --c3-ink: #14170F;
     --accent: var(--c1);
     --on-accent: #F1EFE2;
 }

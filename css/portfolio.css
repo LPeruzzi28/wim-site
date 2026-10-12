@@ -96,9 +96,9 @@
     --tone: var(--c1);
 }
 
-.portfolio-card { --tone-ink: var(--on-c); }
-.portfolio-card:nth-child(3n+2) { --tone: var(--c2); --tone-ink: #2B1109; }
-.portfolio-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: #1B2260; }
+.portfolio-card { --tone-ink: var(--c1-ink); }
+.portfolio-card:nth-child(3n+2) { --tone: var(--c2); --tone-ink: var(--c2-ink); }
+.portfolio-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: var(--c3-ink); }
 
 /* Au repos : l'image seule (coins légèrement arrondis).
    Survol commun : la carte se soulève, l'image zoome, le titre se souligne, le point s'étire.

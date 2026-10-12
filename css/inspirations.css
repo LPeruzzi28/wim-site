@@ -66,9 +66,9 @@
 }
 
 /* variante 2 : feuille de couleur */
-.inspo-card { --tone-ink: var(--on-c); }
-.inspo-card:nth-child(3n+2) { --tone-ink: #2B1109; }
-.inspo-card:nth-child(3n)   { --tone-ink: #1B2260; }
+.inspo-card { --tone-ink: var(--c1-ink); }
+.inspo-card:nth-child(3n+2) { --tone-ink: var(--c2-ink); }
+.inspo-card:nth-child(3n)   { --tone-ink: var(--c3-ink); }
 
 .inspo-card-sheet {
     position: absolute;
