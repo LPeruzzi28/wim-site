@@ -148,14 +148,14 @@ ul { list-style: none; margin: 0; padding: 0; }
     gap: 1.25rem;
     margin-top: 0.6rem;
     padding: 0.45rem 0.7rem;
-    background: #ECE9E1;
-    color: #55544f;
+    background: var(--bg);
+    color: var(--mute);
     font-variant-numeric: tabular-nums;
 }
 
 .reel-meta span:last-child {
     margin-left: auto;
-    color: #0B0B0B;
+    color: var(--ink);
 }
 
 .reel-rec {

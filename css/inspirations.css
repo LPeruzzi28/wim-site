@@ -59,7 +59,8 @@
     gap: 0.15rem;
     margin-top: 0.5rem;
     padding: 0.55rem 0.6rem 0.6rem;
-    background: #ECE9E1;
+    background: var(--bg);
+    color: var(--ink);
 }
 
 .inspo-card-name {
@@ -77,7 +78,7 @@
     opacity: 0.5;
 }
 
-.inspo-card-tag { color: #6a6963; text-transform: lowercase; }
+.inspo-card-tag { color: var(--mute); text-transform: lowercase; }
 
 @media (max-width: 1200px) { .inspo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 800px)  { .inspo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
