@@ -118,9 +118,9 @@ projects.forEach(project => {
                 <span class="portfolio-card-inner">
                     ${project.image
                         ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
-                        : `<span class="portfolio-card-placeholder">image bientôt disponible</span>`}
+                        : `<span class="portfolio-card-placeholder">Image bientôt disponible</span>`}
                 </span>
-                <span class="portfolio-card-sheet"><span>voir le projet</span><span>→</span></span>
+                <span class="portfolio-card-sheet"><span>Voir le projet</span><span>→</span></span>
             </span>
         </span>
         <h3 class="portfolio-card-title">${project.title}</h3>
