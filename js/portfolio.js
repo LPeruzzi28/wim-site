@@ -124,29 +124,17 @@ wf.className = "wf";
 wf.innerHTML = `
     <div class="wf-bg"></div>
     <div class="wf-shade"></div>
-    <button type="button" class="wf-card" aria-label="Ouvrir le projet affiché">
-        <span class="wf-card-tag"></span>
-        <span class="wf-card-title"></span>
-        <span class="wf-card-desc"></span>
-        <span class="wf-card-cta">Voir le projet <i aria-hidden="true">→</i></span>
-    </button>
     <div class="wf-list"></div>
 `;
 const wfBg = wf.querySelector(".wf-bg");
 const wfList = wf.querySelector(".wf-list");
-const wfCard = wf.querySelector(".wf-card");
 let wfIndex = 0;
 
 function setWf(index) {
     wfIndex = index;
     wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
     wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
-    wfCard.querySelector(".wf-card-tag").textContent = projects[index].tag;
-    wfCard.querySelector(".wf-card-title").textContent = projects[index].title;
-    wfCard.querySelector(".wf-card-desc").textContent = firstSentence(projects[index].desc);
 }
-
-wfCard.addEventListener("click", () => openModal(projects[wfIndex]));
 
 projects.forEach((project, index) => {
     const slide = document.createElement("div");
@@ -161,10 +149,6 @@ projects.forEach((project, index) => {
     item.type = "button";
     item.innerHTML = `
         <span class="wf-row"><h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span></span>
-        <span class="wf-more"><span class="wf-more-inner">
-            <span class="wf-desc">${firstSentence(project.desc)}</span>
-            <span class="wf-cta">Voir le projet <i aria-hidden="true">→</i></span>
-        </span></span>
     `;
     item.addEventListener("pointerenter", () => setWf(index));
     item.addEventListener("focus", () => setWf(index));

@@ -89,163 +89,70 @@
     opacity: 0.85;
 }
 
-/* Le projet actif se déplie (ouverture douce via grid-template-rows) */
-.wf-more {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.6s var(--ease);
+/* ---------- 5 retouches du panneau de verre (html[data-wf]) ----------
+   1 = panneau flottant à gauche (référence)
+   2 = panneau pleine hauteur collé au bord, titres plus grands
+   3 = verre teinté jaune, le projet actif est une pastille crème
+   4 = verre sombre, catégorie sous chaque titre
+   5 = panneau compact centré verticalement, trait de couleur sur le projet actif */
+
+/* 2 : pleine hauteur */
+html[data-wf="2"] .wf-list {
+    width: min(27rem, 42%);
+    height: 100%;
+    margin: 0;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    border-width: 0 1px 0 0;
+    border-radius: 0;
 }
+html[data-wf="2"] .wf-title { font-size: clamp(1.9rem, 3.1vw, 3.3rem); }
+html[data-wf="2"] .wf-tag { display: none; }
 
-/* dépliage du projet actif : uniquement variante 2 (voir plus bas) */
-
-.wf-more-inner { overflow: hidden; }
-
-.wf-desc {
-    display: block;
-    margin-top: 0.7rem;
-    max-width: 30rem;
-    font-size: 1rem;
-    line-height: 1.45;
-    opacity: 0.9;
+/* 3 : verre jaune + pastille */
+html[data-wf="3"] .wf-list {
+    background: rgba(244, 192, 60, 0.3);
+    border-color: rgba(255, 232, 170, 0.5);
 }
-
-.wf-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    margin: 0.9rem 0 0.2rem;
-    font-size: 1.05rem;
-    font-weight: 700;
-}
-
-.wf-cta i {
-    display: grid;
-    place-items: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    border: 1.5px solid #FFF4DC;
-    border-radius: 50%;
-    font-style: normal;
-    transition: background 0.4s ease, color 0.4s ease, transform 0.6s var(--ease);
-}
-
-.wf-item:hover .wf-cta i {
-    background: #FFF4DC;
-    color: #2B1109;
-    transform: translateX(0.3rem);
-}
-
-/* ---------- 5 variantes du panneau de verre (html[data-wf]) ----------
-   1 = panneau à gauche, simple
-   2 = panneau à gauche, projet actif déplié (extrait + lien)
-   3 = panneau à droite, simple
-   4 = barre de verre en bas avec les titres en ligne + grand titre du projet actif
-   5 = liste fine à gauche + carte de verre d'information en bas à droite */
-
-.wf-card { display: none; }
-.wf-more { display: none; }
-
-/* 2 */
-html[data-wf="2"] .wf-more { display: grid; }
-html[data-wf="2"] .wf-item.is-active .wf-more { grid-template-rows: 1fr; }
-
-/* 3 : panneau à droite */
-html[data-wf="3"] .wf { display: flex; justify-content: flex-end; }
-html[data-wf="3"] .wf-shade { background: linear-gradient(to left, rgba(32, 12, 4, 0.4), rgba(32, 12, 4, 0) 70%); }
-
-/* 4 : barre en bas + grand titre */
-html[data-wf="4"] .wf-shade { background: linear-gradient(to top, rgba(32, 12, 4, 0.7) 0%, rgba(32, 12, 4, 0.1) 55%); }
-html[data-wf="4"] .wf-card {
-    position: absolute;
-    left: clamp(1.25rem, 3vw, 3rem);
-    right: clamp(1.25rem, 3vw, 3rem);
-    bottom: 6.8rem;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0;
+html[data-wf="3"] .wf-item {
+    margin: 0 -0.9rem;
+    padding: 0.4rem 0.9rem;
     border: 0;
-    background: none;
-    color: #FFF4DC;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
+    border-radius: 999px;
+    transition: opacity 0.4s ease, background 0.4s ease, color 0.4s ease;
 }
-html[data-wf="4"] .wf-card-tag { font-size: 1.1rem; font-weight: 600; opacity: 0.9; }
-html[data-wf="4"] .wf-card-title {
-    font-family: var(--sans);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(3rem, 8.5vw, 9.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
-    text-transform: lowercase;
-}
-html[data-wf="4"] .wf-card-desc, html[data-wf="4"] .wf-card-cta { display: none; }
+html[data-wf="3"] .wf-item.is-active { background: #FFF4DC; color: #2B1109; }
+html[data-wf="3"] .wf-title { font-size: clamp(1.5rem, 2.3vw, 2.3rem); }
+
+/* 4 : verre sombre, catégorie sous le titre */
 html[data-wf="4"] .wf-list {
+    background: rgba(24, 9, 3, 0.5);
+    border-color: rgba(255, 244, 220, 0.2);
+}
+html[data-wf="4"] .wf-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+html[data-wf="4"] .wf-tag { max-width: none; text-align: left; font-size: 0.85rem; }
+html[data-wf="4"] .wf-item { padding: 0.8rem 0; }
+html[data-wf="4"] .wf-title { font-size: clamp(1.4rem, 2.1vw, 2.1rem); }
+
+/* 5 : compact, centré verticalement, trait de couleur sur l'actif */
+html[data-wf="5"] .wf-list {
     position: absolute;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    width: auto;
+    top: 50%;
+    left: 1.5rem;
+    width: min(29rem, 44%);
     height: auto;
     margin: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.2rem 1.5rem;
-    padding: 1rem 1.4rem;
+    transform: translateY(-50%);
+    -webkit-backdrop-filter: blur(30px) saturate(1.3);
+    backdrop-filter: blur(30px) saturate(1.3);
 }
-html[data-wf="4"] .wf-item { width: auto; padding: 0.15rem 0; border: 0; }
-html[data-wf="4"] .wf-title { font-size: 1.25rem; letter-spacing: -0.01em; }
-html[data-wf="4"] .wf-tag { display: none; }
-
-/* 5 : liste fine + carte d'information */
-html[data-wf="5"] .wf-list { width: min(24rem, 38%); }
-html[data-wf="5"] .wf-title { font-size: clamp(1.3rem, 1.9vw, 1.9rem); }
-html[data-wf="5"] .wf-tag { display: none; }
-html[data-wf="5"] .wf-card {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    width: min(27rem, 42%);
-    padding: clamp(1.1rem, 1.8vw, 1.8rem);
-    border: 1px solid rgba(255, 244, 220, 0.3);
-    border-radius: 0.8rem;
-    background: rgba(255, 244, 220, 0.14);
-    -webkit-backdrop-filter: blur(22px) saturate(1.25);
-    backdrop-filter: blur(22px) saturate(1.25);
-    color: #FFF4DC;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
+html[data-wf="5"] .wf-item {
+    padding: 0.45rem 0 0.45rem 1rem;
+    border-bottom: 0;
+    border-left: 3px solid transparent;
+    transition: opacity 0.4s ease, border-color 0.4s ease;
 }
-html[data-wf="5"] .wf-card-tag { font-size: 0.95rem; font-weight: 600; opacity: 0.85; }
-html[data-wf="5"] .wf-card-title {
-    font-family: var(--sans);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(1.8rem, 2.8vw, 3rem);
-    line-height: 0.98;
-    letter-spacing: -0.03em;
-    text-transform: lowercase;
-}
-html[data-wf="5"] .wf-card-desc { font-size: 1rem; line-height: 1.45; opacity: 0.92; }
-html[data-wf="5"] .wf-card-cta { display: inline-flex; align-items: center; gap: 0.7rem; font-weight: 700; }
-html[data-wf="5"] .wf-card-cta i {
-    display: grid;
-    place-items: center;
-    width: 2.3rem;
-    height: 2.3rem;
-    border: 1.5px solid #FFF4DC;
-    border-radius: 50%;
-    font-style: normal;
-}
+html[data-wf="5"] .wf-item.is-active { border-left-color: var(--c2); }
+html[data-wf="5"] .wf-title { font-size: clamp(1.5rem, 2.3vw, 2.3rem); }
 
 @media (max-width: 800px) {
     .wf { height: auto; min-height: 34rem; }
