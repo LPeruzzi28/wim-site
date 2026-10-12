@@ -1,5 +1,16 @@
 /* ---------- Inspirations : deux rangées qui défilent en sens inverse ---------- */
 
+/* La section prend la couleur secondaire (bleu de la vague / vert de l'herbe) */
+.inspo {
+    --ink: var(--alt-ink);
+    --mute: var(--alt-mute);
+    --line: var(--alt-line);
+    background: var(--alt-bg);
+    color: var(--alt-ink);
+    margin-top: clamp(1rem, 3vw, 3rem);
+    padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+
 .inspo-rows {
     display: flex;
     flex-direction: column;
@@ -77,8 +88,8 @@
 .inspo-card-body {
     margin-top: 0.5rem;
     padding: 0.7rem 0.75rem 0.75rem;
-    background: var(--bg);
-    color: var(--ink);
+    background: var(--alt-bg);
+    color: var(--alt-ink);
 }
 
 .inspo-card-name {

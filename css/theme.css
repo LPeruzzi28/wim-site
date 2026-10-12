@@ -18,6 +18,11 @@
     --line: rgba(43, 17, 9, 0.3);
     --accent: #3243CF;
     --on-accent: #FBEFD9;
+    /* Zone secondaire (inspo + footer) : le bleu de la vague */
+    --alt-bg: #2F3FC6;
+    --alt-ink: #FFF1D6;
+    --alt-mute: #C9D0FF;
+    --alt-line: rgba(255, 241, 214, 0.35);
 }
 
 :root[data-color="nowhere"] {
@@ -33,6 +38,11 @@
     --line: rgba(20, 23, 15, 0.25);
     --accent: #55772C;
     --on-accent: #F1EFE2;
+    /* Zone secondaire (inspo + footer) : le vert de l'herbe */
+    --alt-bg: #4F7129;
+    --alt-ink: #F1EFE2;
+    --alt-mute: #D3DDB8;
+    --alt-line: rgba(241, 239, 226, 0.35);
 }
 
 :root {

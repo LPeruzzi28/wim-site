@@ -35,6 +35,8 @@ ul { list-style: none; margin: 0; padding: 0; }
     transition: color 0.3s ease;
 }
 
+.bar.on-alt { color: var(--alt-ink); }
+
 
 
 .bar > * { pointer-events: auto; }
@@ -183,9 +185,9 @@ ul { list-style: none; margin: 0; padding: 0; }
 /* ---------- Footer ---------- */
 
 .foot {
-    margin-top: clamp(5rem, 10vw, 9rem);
-    padding: 0 var(--gutter) 5rem;
-    border-top: 1px solid var(--line);
+    padding: clamp(2rem, 5vw, 4rem) var(--gutter) 5rem;
+    background: var(--alt-bg);
+    color: var(--alt-ink);
     overflow: hidden;
 }
 
@@ -213,12 +215,12 @@ ul { list-style: none; margin: 0; padding: 0; }
     gap: 1rem;
     margin-top: 2.5rem;
     padding-top: 0.9rem;
-    border-top: 1px solid var(--line);
-    color: var(--mute);
+    border-top: 1px solid var(--alt-line);
+    color: var(--alt-mute);
     font-size: 1.05rem;
 }
 
-.foot-row a:hover { color: var(--ink); }
+.foot-row a:hover { color: var(--alt-ink); }
 
 /* ---------- Sélecteur de version (temporaire) ---------- */
 
