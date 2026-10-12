@@ -1,95 +1,95 @@
-/* ---------- Carrousel des projets ----------
-   Défilement horizontal propre au carrousel (glisser, flèches, trackpad, tactile).
-   La page, elle, continue de défiler normalement. */
+/* ---------- Projets : une pile de grands panneaux ----------
+   Chaque projet est un panneau "sticky" : en défilant normalement, le suivant vient recouvrir le
+   précédent (qui rétrécit légèrement). Le défilement de la page n'est jamais détourné. */
 
 .work { position: relative; }
 
-.work-viewport {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-    padding: 1rem var(--gutter) 2.5rem;
-    cursor: grab;
+.work-stack {
+    padding: 1rem var(--gutter) 3rem;
 }
-
-.work-viewport::-webkit-scrollbar { display: none; }
-
-.work-viewport.is-dragging {
-    cursor: grabbing;
-    scroll-snap-type: none;
-    user-select: none;
-}
-
-.work-track {
-    display: flex;
-    align-items: flex-start;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    width: max-content;
-    padding-bottom: clamp(2rem, 9vh, 6rem);
-}
-
-.work-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0 var(--gutter);
-}
-
-.work-progress {
-    flex: 1;
-    height: 2px;
-    margin-right: 1rem;
-    background: var(--line);
-}
-
-.work-progress span {
-    display: block;
-    height: 100%;
-    background: var(--c1);
-    transform: scaleX(0.1);
-    transform-origin: left;
-}
-
-/* ---------- Cartes des projets : mise en page éditoriale, sans décor ----------
-   Les images ont des formats différents (portrait, paysage, carré) mais sont alignées sur la même ligne
-   de base : les titres forment une ligne droite, sous un filet fin. Au survol, le filet se colore,
-   l'image zoome lentement et les autres cartes s'estompent. */
-
-.work-track { align-items: flex-end; }
 
 .portfolio-card {
     --tone: var(--c1);
-    --w: clamp(300px, 31vw, 520px);
-    --ratio: 4 / 3;
-    flex: none;
-    width: var(--w);
+    position: sticky;
+    top: calc(4.75rem + var(--i, 0) * 0.8rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: min(74vh, 680px);
+    margin: 0 0 clamp(1.5rem, 4vh, 3rem);
     padding: 0;
-    border: 0;
-    background: none;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 1.2rem;
+    background: var(--panel);
     color: inherit;
     font: inherit;
     text-align: left;
     cursor: pointer;
-    scroll-snap-align: start;
-    transition: opacity 0.5s ease;
+    transform-origin: 50% 0;
 }
 
-.portfolio-card:nth-child(4n+2) { --w: clamp(240px, 23vw, 390px); --ratio: 4 / 5; --tone: var(--c2); }
-.portfolio-card:nth-child(4n+3) { --w: clamp(270px, 27vw, 440px); --ratio: 1 / 1; --tone: var(--c3); }
-.portfolio-card:nth-child(4n)   { --w: clamp(240px, 23vw, 390px); --ratio: 4 / 5; --tone: var(--c1); }
+.portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
+.portfolio-card:nth-child(3n)   { --tone: var(--c3); }
 
-.work-track:hover .portfolio-card:not(:hover):not(:focus-visible) { opacity: 0.45; }
+.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
-.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+/* Une carte sur deux a l'image à gauche */
+.portfolio-card:nth-child(even) .portfolio-card-zoom { order: -1; }
+
+.portfolio-card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    min-width: 0;
+    padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.portfolio-card-tag {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--mute);
+}
+
+.portfolio-card-title {
+    font-size: clamp(2.4rem, 4.8vw, 5.6rem);
+    line-height: 0.92;
+    overflow-wrap: anywhere;
+}
+
+.portfolio-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.portfolio-card-cta i {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    font-style: normal;
+    transition: background 0.4s ease, border-color 0.4s ease, transform 0.6s var(--ease);
+}
+
+.portfolio-card:hover .portfolio-card-cta i {
+    background: var(--tone);
+    border-color: var(--tone);
+    color: #fff;
+    transform: translateX(0.35rem);
+}
 
 .portfolio-card-zoom {
     position: relative;
     display: block;
-    aspect-ratio: var(--ratio);
     overflow: hidden;
-    border-radius: 0.4rem;
     background: #111;
 }
 
@@ -100,7 +100,7 @@
     transition: transform 1.6s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-inner { transform: scale(1.06); }
+.portfolio-card:hover .portfolio-card-inner { transform: scale(1.05); }
 
 .portfolio-card-inner img {
     width: 100%;
@@ -116,60 +116,18 @@
     color: var(--mute);
 }
 
-.portfolio-card-meta {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1.25rem;
-    margin-top: 0.9rem;
-    padding-top: 0.8rem;
+@media (max-width: 800px) {
+    .portfolio-card {
+        position: relative;
+        top: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        height: auto;
+    }
+    .portfolio-card-zoom,
+    .portfolio-card:nth-child(even) .portfolio-card-zoom { order: -1; aspect-ratio: 4 / 3; }
+    .portfolio-card-info { gap: 1.25rem; }
 }
-
-/* Filet fin ; au survol, un trait de la couleur de la carte le parcourt */
-.portfolio-card-meta::before,
-.portfolio-card-meta::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--ink);
-}
-
-.portfolio-card-meta::after {
-    height: 3px;
-    top: -1px;
-    background: var(--tone);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.7s var(--ease);
-}
-
-.portfolio-card:hover .portfolio-card-meta::after,
-.portfolio-card:focus-visible .portfolio-card-meta::after { transform: scaleX(1); }
-
-.portfolio-card-title {
-    font-size: clamp(1.7rem, 2.3vw, 2.5rem);
-    line-height: 0.95;
-    transition: transform 0.6s var(--ease);
-}
-
-.portfolio-card:hover .portfolio-card-title { transform: translateX(0.3rem); }
-
-.portfolio-card-tag {
-    flex: none;
-    max-width: 45%;
-    text-align: right;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--mute);
-    transition: color 0.4s ease;
-}
-
-.portfolio-card:hover .portfolio-card-tag { color: var(--ink); }
 
 /* ---------- Modal ---------- */
 

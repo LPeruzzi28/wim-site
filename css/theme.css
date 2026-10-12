@@ -8,6 +8,7 @@
 :root {
     /* Coucher de soleil : fond jaune, détails bleu cobalt, orange et bleu ciel */
     --bg: #F4C03C;
+    --panel: #F9D56F;
     --floor: #A9501F;
     --floor-blend: darken;
     --knock-blend: lighten;

@@ -60,60 +60,6 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Carrousel "work" : défilement horizontal propre (glisser à la souris, trackpad, tactile) ----------
-const workViewport = document.querySelector(".work-viewport");
-const workProgress = document.querySelector(".work-progress span");
-const workCards = [...document.querySelectorAll(".portfolio-card")];
-
-function updateWorkProgress() {
-    const max = workViewport.scrollWidth - workViewport.clientWidth;
-    const ratio = max > 0 ? workViewport.scrollLeft / max : 0;
-    const visible = Math.max(workViewport.clientWidth / workViewport.scrollWidth, 0.08);
-    workProgress.style.transform = `scaleX(${visible + ratio * (1 - visible)})`;
-}
-
-let lastScrollLeft = 0;
-let skewReset;
-workViewport.addEventListener("scroll", () => {
-    updateWorkProgress();
-    if (animate) {
-        const delta = workViewport.scrollLeft - lastScrollLeft;
-        gsap.to(workCards, { skewX: gsap.utils.clamp(-6, 6, delta * -0.25), duration: 0.3, overwrite: "auto" });
-        clearTimeout(skewReset);
-        skewReset = setTimeout(() => gsap.to(workCards, { skewX: 0, duration: 0.6, ease: "power3.out" }), 120);
-    }
-    lastScrollLeft = workViewport.scrollLeft;
-}, { passive: true });
-window.addEventListener("resize", updateWorkProgress);
-updateWorkProgress();
-
-let drag = null;
-workViewport.addEventListener("pointerdown", e => {
-    if (e.pointerType !== "mouse" || e.button !== 0) return;
-    drag = { x: e.clientX, left: workViewport.scrollLeft, moved: false };
-});
-window.addEventListener("pointermove", e => {
-    if (!drag) return;
-    const dx = e.clientX - drag.x;
-    if (!drag.moved && Math.abs(dx) > 5) {
-        drag.moved = true;
-        workViewport.classList.add("is-dragging");
-    }
-    if (drag.moved) workViewport.scrollLeft = drag.left - dx;
-});
-window.addEventListener("pointerup", () => {
-    if (!drag) return;
-    const moved = drag.moved;
-    drag = null;
-    workViewport.classList.remove("is-dragging");
-    if (moved) {
-        // empêche le clic qui suit un glissé d'ouvrir un projet
-        const block = e => { e.stopPropagation(); e.preventDefault(); };
-        workViewport.addEventListener("click", block, { capture: true, once: true });
-        setTimeout(() => workViewport.removeEventListener("click", block, { capture: true }), 0);
-    }
-});
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
@@ -131,6 +77,20 @@ if (animate) {
             scrollTrigger: { trigger: head, start: "top 88%" }
         });
     });
+
+    // Pile de projets : chaque panneau rétrécit légèrement quand le suivant le recouvre
+    const stack = gsap.utils.toArray(".portfolio-card");
+    if (window.matchMedia("(min-width: 801px)").matches) {
+        stack.forEach((card, i) => {
+            const next = stack[i + 1];
+            if (!next) return;
+            gsap.to(card, {
+                scale: 0.94,
+                ease: "none",
+                scrollTrigger: { trigger: next, start: "top 88%", end: "top 22%", scrub: true }
+            });
+        });
+    }
 
     // Rangées d'inspirations : accélèrent quand on scrolle
     const inspoAnimations = () => [...document.querySelectorAll(".inspo-track")].flatMap(t => t.getAnimations());
