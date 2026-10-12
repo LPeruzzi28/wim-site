@@ -108,16 +108,15 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-projects.forEach((project, index) => {
+projects.forEach(project => {
     const card = document.createElement("button");
     card.className = "portfolio-card";
     card.type = "button";
     if (project.image) card.dataset.preview = project.image;
     card.innerHTML = `
-        <span class="portfolio-card-num">${String(index + 1).padStart(2, "0")}</span>
         <h3 class="portfolio-card-title">${project.title}</h3>
         <span class="portfolio-card-tag">${project.tag}</span>
-        <span class="portfolio-card-cta">voir +</span>
+        <span class="portfolio-card-cta" aria-hidden="true">→</span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

@@ -38,7 +38,8 @@
 
 .player-title {
     margin: 0 0 0.3rem;
-    font-size: 11px;
+    font-size: 0.8rem;
+    font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

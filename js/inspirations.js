@@ -87,7 +87,6 @@ inspirations.forEach(item => {
         </div>
         <div class="inspo-card-body">
             <h3 class="inspo-card-name">${item.name}</h3>
-            <span class="inspo-card-tag">${item.tag}</span>
         </div>
     `;
     inspoGrid.appendChild(card);

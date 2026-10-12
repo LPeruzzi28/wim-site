@@ -56,29 +56,25 @@
 .inspo-card-body {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
     margin-top: 0.5rem;
-    padding: 0.55rem 0.6rem 0.6rem;
+    padding: 0.7rem 0.75rem 0.75rem;
     background: var(--bg);
     color: var(--ink);
 }
 
 .inspo-card-name {
-    font-family: var(--mono);
-    font-stretch: 100%;
-    font-weight: 500;
-    font-size: 12.5px;
-    letter-spacing: 0;
-    line-height: 1.3;
+    font-size: 1.1rem;
+    font-stretch: 112%;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
     text-transform: none;
 }
 
 .inspo-card-name::after {
     content: " ↗";
-    opacity: 0.5;
+    font-weight: 600;
 }
-
-.inspo-card-tag { color: var(--mute); text-transform: lowercase; }
 
 @media (max-width: 1200px) { .inspo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 800px)  { .inspo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

@@ -19,41 +19,6 @@ function setTheme(name, persist) {
 themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.setTheme, true)));
 setTheme(document.documentElement.getAttribute("data-theme"), false);
 
-// ---------- Horloge ----------
-const clockEl = document.getElementById("clock");
-function updateClock() {
-    clockEl.textContent = new Date().toLocaleTimeString("fr-CH", { hour: "2-digit", minute: "2-digit" });
-}
-updateClock();
-setInterval(updateClock, 15000);
-
-// ---------- Compteurs, dérivés des vrais tableaux (js/portfolio.js et js/inspirations.js) ----------
-const pad = n => String(n).padStart(2, "0");
-document.getElementById("count-work").textContent = pad(projects.length);
-document.getElementById("count-inspo").textContent = pad(inspirations.length);
-
-// ---------- "Reel" du hero : extrait de mes vidéos de ski, avec compteur de timecode ----------
-const reelVideo = document.getElementById("reel-video");
-const reelCount = document.getElementById("reel-count");
-
-if (reelVideo) {
-    if (prefersReducedMotion) {
-        reelVideo.removeAttribute("autoplay");
-        reelVideo.pause();
-    } else {
-        reelVideo.play().catch(() => {});
-    }
-    const timecode = t => {
-        const m = Math.floor(t / 60), s = Math.floor(t % 60), f = Math.floor((t % 1) * 24);
-        return `${pad(m)}:${pad(s)}:${pad(f)}`;
-    };
-    const tickTimecode = () => {
-        reelCount.textContent = timecode(reelVideo.currentTime);
-        requestAnimationFrame(tickTimecode);
-    };
-    if (!prefersReducedMotion) requestAnimationFrame(tickTimecode);
-}
-
 // ---------- Défilement fluide (Lenis) + ancres ----------
 let lenis = null;
 if (typeof Lenis !== "undefined" && !prefersReducedMotion) {
@@ -139,7 +104,6 @@ if (animate) {
     intro
         .from(".hero-title .line > span", { yPercent: 110, duration: 1.3, stagger: 0.12 }, 0.1)
         .from(".hero-intro", { opacity: 0, y: 12, duration: 0.9 }, 0.3)
-        .from(".reel", { opacity: 0, duration: 0.6, ease: "steps(4)" }, 0.2)
         .from(".bar", { opacity: 0, duration: 0.8, clearProps: "opacity" }, 0.5);
 
     gsap.utils.toArray(".head").forEach(head => {
