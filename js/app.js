@@ -8,7 +8,7 @@ const themes = ["noir", "papier", "rouge-bleu"];
 const themeButtons = document.querySelectorAll("[data-set-theme]");
 
 function setTheme(name, persist) {
-    if (!themes.includes(name)) name = "noir";
+    if (!themes.includes(name)) name = "papier";
     document.documentElement.setAttribute("data-theme", name);
     themeButtons.forEach(b => b.classList.toggle("is-active", b.dataset.setTheme === name));
     if (persist) {
