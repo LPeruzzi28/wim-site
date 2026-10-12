@@ -60,6 +60,53 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
+// ---------- Cartes : inclinaison 3D, reflet et étiquette qui suivent la souris ----------
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+if (finePointer && !prefersReducedMotion) {
+    const label = document.getElementById("cursor-label");
+    let lx = 0, ly = 0, tx = 0, ty = 0, raf = null;
+
+    const moveLabel = () => {
+        lx += (tx - lx) * 0.2;
+        ly += (ty - ly) * 0.2;
+        label.style.transform = `translate3d(${lx}px, ${ly}px, 0)`;
+        raf = Math.abs(tx - lx) + Math.abs(ty - ly) > 0.4 ? requestAnimationFrame(moveLabel) : null;
+    };
+
+    const cardSelector = ".portfolio-card, .inspo-card";
+    const mediaOf = card => card.querySelector(".portfolio-card-media, .inspo-card-media");
+
+    document.addEventListener("pointermove", e => {
+        const card = e.target.closest(cardSelector);
+        tx = e.clientX + 16;
+        ty = e.clientY + 16;
+        if (!card) { label.classList.remove("is-visible"); }
+        else {
+            label.textContent = card.classList.contains("inspo-card") ? "ouvrir ↗" : "voir";
+            label.classList.add("is-visible");
+            const media = mediaOf(card);
+            const r = media.getBoundingClientRect();
+            const x = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
+            const y = Math.min(Math.max((e.clientY - r.top) / r.height, 0), 1);
+            media.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
+            media.style.setProperty("--rx", `${(0.5 - y) * 9}deg`);
+            media.style.setProperty("--px", `${(0.5 - x) * 14}px`);
+            media.style.setProperty("--py", `${(0.5 - y) * 10}px`);
+            media.style.setProperty("--gx", `${x * 100}%`);
+            media.style.setProperty("--gy", `${y * 100}%`);
+        }
+        if (!raf) raf = requestAnimationFrame(moveLabel);
+    }, { passive: true });
+
+    document.addEventListener("pointerout", e => {
+        const card = e.target.closest(cardSelector);
+        if (!card || card.contains(e.relatedTarget)) return;
+        const media = mediaOf(card);
+        ["--rx", "--ry", "--px", "--py"].forEach(v => media.style.removeProperty(v));
+        label.classList.remove("is-visible");
+    });
+}
+
 // ---------- Version (sélecteur temporaire pour comparer les deux propositions) ----------
 const colors = ["sunset", "nowhere"];
 const swatchButtons = document.querySelectorAll("[data-color]");

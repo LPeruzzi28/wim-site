@@ -125,7 +125,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     position: absolute;
     inset: 0;
     background: var(--bg);
-    opacity: 0.92;
+    opacity: 0.94;
 }
 
 .knock-text {
@@ -153,13 +153,53 @@ ul { list-style: none; margin: 0; padding: 0; }
     position: absolute;
     right: var(--gutter);
     bottom: 4.5rem;
-    z-index: 2;
+    z-index: 4;
     margin: 0;
     max-width: 21rem;
     font-size: clamp(1.15rem, 1.7vw, 1.6rem);
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.01em;
+}
+
+/* Fondu en bas du hero : la zone teintée par la vidéo se fond dans le fond de la page */
+.hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: clamp(8rem, 28vh, 16rem);
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+}
+
+/* ---------- Étiquette qui accompagne la souris sur les cartes ---------- */
+
+.cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 400;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    will-change: transform;
+}
+
+.cursor-label.is-visible { opacity: 1; }
+
+@media (hover: none), (pointer: coarse) {
+    .cursor-label { display: none; }
 }
 
 /* ---------- Titres de section ---------- */

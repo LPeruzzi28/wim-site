@@ -49,27 +49,25 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #111;
-    transition: transform 0.8s var(--ease);
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0));
+    transition: transform 0.5s var(--ease);
 }
 
-/* Au survol : la carte se soulève et un voile de la couleur de la carte monte depuis le bas */
+.inspo-card:hover .inspo-card-media,
+.inspo-card:focus-visible .inspo-card-media { --lift: -0.3rem; }
+
+/* Reflet qui suit la souris */
 .inspo-card-media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--tone);
-    mix-blend-mode: multiply;
-    opacity: 0.45;
-    clip-path: inset(100% 0 0 0);
-    transition: clip-path 0.8s var(--ease);
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.42), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
     pointer-events: none;
 }
 
-.inspo-card:hover .inspo-card-media,
-.inspo-card:focus-visible .inspo-card-media { transform: translateY(-0.4rem); }
-
-.inspo-card:hover .inspo-card-media::after,
-.inspo-card:focus-visible .inspo-card-media::after { clip-path: inset(0 0 0 0); }
+.inspo-card:hover .inspo-card-media::after { opacity: 1; }
 
 .inspo-card-media img,
 .inspo-card-media .placeholder {
@@ -77,7 +75,8 @@
     height: 100%;
     object-fit: cover;
     filter: grayscale(1) contrast(1.15);
-    transition: filter 0.4s ease, transform 0.8s var(--ease);
+    transform: translate(var(--px, 0px), var(--py, 0px)) scale(var(--zoom, 1));
+    transition: filter 0.4s ease, transform 0.5s var(--ease);
 }
 
 .inspo-card .placeholder {
@@ -88,7 +87,8 @@
     text-align: center;
 }
 
-.inspo-card:hover img { filter: none; transform: scale(1.06); }
+.inspo-card:hover .inspo-card-media { --zoom: 1.12; }
+.inspo-card:hover img { filter: none; }
 
 .inspo-card-body {
     display: flex;
