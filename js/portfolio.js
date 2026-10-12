@@ -108,8 +108,9 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Section work : accordéon de bandes verticales. Chaque projet est une bande en verre flouté avec son titre à
-// la verticale ; la bande survolée s'ouvre en grand et montre son image et son titre.
+// Section work : grille de 8 cases de verre (4 colonnes x 2 rangées sur ordinateur, 2 x 4 sur mobile).
+// La case survolée s'agrandit en largeur et en hauteur, les autres se resserrent ; on voit alors son image
+// et son titre. Les images ont une taille fixe et sont seulement révélées : l'animation reste fluide.
 const esc = value => String(value).replace(/"/g, "&quot;");
 const imgOf = (project, alt = "") => project.image
     ? `<img src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
@@ -119,36 +120,23 @@ const acc = document.createElement("div");
 acc.className = "wf-acc";
 const touchOnly = window.matchMedia("(hover: none)");
 const panels = [];
-let wfIndex = 0;
 
-// Tout est piloté par des variables CSS : les colonnes / lignes de la grille (pour une transition fluide)
-// et la distance de chaque carte à la carte active (pour la variante "éventail").
 function setWf(index) {
-    wfIndex = index;
-    panels.forEach((el, i) => {
-        el.classList.toggle("is-active", i === index);
-        el.style.setProperty("--d", i - index);
-        el.style.setProperty("--ad", Math.abs(i - index));
-    });
-    const track = (n, on, off) => Array.from({ length: n }, (_, i) => (i === index ? on : off)).join(" ");
-    acc.style.setProperty("--cols", track(projects.length, "9fr", "1fr"));
-    acc.style.setProperty("--rows", track(projects.length, "9fr", "1fr"));
-    const col = index % 4, row = Math.floor(index / 4);
-    acc.style.setProperty("--cols4", [0, 1, 2, 3].map(c => (c === col ? "2.3fr" : "1fr")).join(" "));
-    acc.style.setProperty("--rows2", [0, 1].map(r => (r === row ? "1.7fr" : "1fr")).join(" "));
+    panels.forEach((el, i) => el.classList.toggle("is-active", i === index));
+    const pick = (n, on, off, current) => Array.from({ length: n }, (_, i) => (i === current ? on : off)).join(" ");
+    // ordinateur : 4 colonnes x 2 rangées
+    acc.style.setProperty("--cols", pick(4, "2.3fr", "1fr", index % 4));
+    acc.style.setProperty("--rows", pick(2, "1.7fr", "1fr", Math.floor(index / 4)));
+    // mobile : 2 colonnes x 4 rangées
+    acc.style.setProperty("--cols-m", pick(2, "1.6fr", "1fr", index % 2));
+    acc.style.setProperty("--rows-m", pick(4, "1.6fr", "1fr", Math.floor(index / 2)));
 }
 
-// Les images gardent une taille fixe (celle de l'état ouvert) et sont seulement "révélées" par la bande :
-// elles ne sont jamais recalculées pendant l'animation, ce qui la rend fluide.
 function updateSizes() {
     const w = acc.clientWidth, h = acc.clientHeight;
-    const mode = document.documentElement.dataset.wfMode;
-    let fw = w * 0.58, fh = h;
-    if (mode === "2") { fw = w; fh = h * 0.62; }
-    if (mode === "3") { fw = w * 0.45; fh = h * 0.64; }
-    if (mode === "5") { fw = w * 0.46; fh = h; }
-    acc.style.setProperty("--fw", `${Math.round(fw)}px`);
-    acc.style.setProperty("--fh", `${Math.round(fh)}px`);
+    const mobile = window.innerWidth <= 800;
+    acc.style.setProperty("--fw", `${Math.round(mobile ? w * 0.64 : w * 0.45)}px`);
+    acc.style.setProperty("--fh", `${Math.round(mobile ? h * 0.38 : h * 0.64)}px`);
 }
 
 projects.forEach((project, index) => {
@@ -157,6 +145,8 @@ projects.forEach((project, index) => {
     panel.type = "button";
     panel.style.setProperty("--gc", (index % 4) + 1);
     panel.style.setProperty("--gr", Math.floor(index / 4) + 1);
+    panel.style.setProperty("--gc-m", (index % 2) + 1);
+    panel.style.setProperty("--gr-m", Math.floor(index / 2) + 1);
     panel.setAttribute("aria-label", project.title);
     panel.innerHTML = `
         ${imgOf(project)}
@@ -169,26 +159,22 @@ projects.forEach((project, index) => {
     `;
     // le premier visuel est chargé tout de suite (c'est celui qu'on voit en premier)
     if (index === 0) panel.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
-    panel.addEventListener("pointerenter", e => {
-        // variante éventail : on choisit en cliquant (sinon la carte bouge sous le curseur)
-        if (e.pointerType === "mouse" && document.documentElement.dataset.wfMode !== "5") setWf(index);
-    });
+    panel.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setWf(index); });
     panel.addEventListener("focus", () => setWf(index));
     panel.addEventListener("click", () => {
-        const needsSelect = !panel.classList.contains("is-active")
-            && (touchOnly.matches || document.documentElement.dataset.wfMode === "5");
-        if (needsSelect) { setWf(index); return; }
+        // écran tactile : un premier toucher ouvre la case, le second ouvre le projet
+        if (touchOnly.matches && !panel.classList.contains("is-active")) { setWf(index); return; }
         openModal(project);
     });
     panels.push(panel);
     acc.appendChild(panel);
 });
 
-window.addEventListener("resize", updateSizes);
-window.addEventListener("wf-mode", updateSizes);
 setWf(0);
-updateSizes();
 grid.appendChild(acc);
+// les tailles dépendent de la taille réelle du bloc : on les recalcule dès qu'il change
+updateSizes();
+new ResizeObserver(updateSizes).observe(acc);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-wf="1" data-wf-mode="1">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        try {
-            var k = new URLSearchParams(location.search).get("wf") || localStorage.getItem("wim-wf");
-            if (["1", "2", "3", "4", "5"].indexOf(k) > -1) document.documentElement.setAttribute("data-wf", k);
-            // sur mobile, on force la version "rangées" (la plus lisible en hauteur)
-            document.documentElement.setAttribute("data-wf-mode", innerWidth <= 800 ? "2" : document.documentElement.getAttribute("data-wf"));
-        } catch (e) {}
-    </script>
 </head>
 <body>
     <header class="bar">
@@ -92,15 +84,6 @@
             <a href="#home" id="to-top">Haut ↑</a>
         </div>
     </footer>
-
-    <div class="work-switch" id="work-switch" role="group" aria-label="Format de la section work (temporaire)">
-        <span>Work</span>
-        <button type="button" data-wf-style="1" title="Bandes verticales">1</button>
-        <button type="button" data-wf-style="2" title="Rangées horizontales">2</button>
-        <button type="button" data-wf-style="3" title="Grille qui s'agrandit">3</button>
-        <button type="button" data-wf-style="4" title="Capsules">4</button>
-        <button type="button" data-wf-style="5" title="Cartes en éventail">5</button>
-    </div>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>

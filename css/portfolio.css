@@ -1,22 +1,23 @@
-/* ---------- Section work : 5 formats d'accordéon en verre (html[data-wf-mode]) ----------
-   1 = bandes verticales (fluides)      2 = rangées horizontales
-   3 = grille 4x2 dont la case survolée s'agrandit      4 = capsules verticales
-   5 = cartes en éventail (on choisit en cliquant)
-
-   Pour la fluidité : les colonnes / lignes de la grille s'animent (--cols, --rows...), les images ont une
-   taille fixe et sont seulement révélées, et le verre n'anime que son opacité. */
+/* ---------- Section work : grille de verre qui s'agrandit ----------
+   8 cases (4 x 2 sur ordinateur, 2 x 4 sur mobile). La case survolée s'agrandit en largeur et en hauteur ;
+   les colonnes / rangées de la grille s'animent (--cols, --rows) et les images ont une taille fixe,
+   seulement révélée par la case : l'animation reste fluide. */
 
 .work { position: relative; }
 
 .wf-acc {
-    --gap: 0.4rem;
     display: grid;
-    gap: var(--gap);
+    grid-template-columns: var(--cols);
+    grid-template-rows: var(--rows);
+    gap: 0.4rem;
     height: min(84vh, 780px);
     margin: 1rem var(--gutter) 3rem;
+    transition: grid-template-columns 0.85s var(--ease), grid-template-rows 0.85s var(--ease);
 }
 
 .wf-panel {
+    grid-column: var(--gc);
+    grid-row: var(--gr);
     position: relative;
     min-width: 0;
     min-height: 0;
@@ -32,6 +33,8 @@
     cursor: pointer;
 }
 
+.wf-panel:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
 .wf-panel img {
     position: absolute;
     top: 50%;
@@ -43,6 +46,7 @@
     transform: translate(-50%, -50%);
 }
 
+/* Le verre n'anime que son opacité (peu coûteux) */
 .wf-panel-glass {
     position: absolute;
     inset: 0;
@@ -54,24 +58,25 @@
 
 .wf-panel.is-active .wf-panel-glass { opacity: 0; }
 
+/* Titre de la case fermée */
 .wf-panel-v {
     position: absolute;
-    left: 50%;
-    bottom: 1.2rem;
-    transform: translateX(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
+    left: 1rem;
+    bottom: 1rem;
+    right: 1rem;
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
-    font-size: clamp(1.1rem, 1.7vw, 1.8rem);
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
     letter-spacing: -0.02em;
+    line-height: 1.05;
     text-transform: lowercase;
-    white-space: nowrap;
     transition: opacity 0.4s ease;
 }
 
 .wf-panel.is-active .wf-panel-v { opacity: 0; }
 
+/* Titre de la case ouverte */
 .wf-panel-h {
     position: absolute;
     left: clamp(1rem, 2vw, 2rem);
@@ -93,101 +98,22 @@
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
-    font-size: clamp(2rem, 4.4vw, 4.8rem);
+    font-size: clamp(1.6rem, 3.2vw, 3.4rem);
     line-height: 0.95;
     letter-spacing: -0.035em;
     text-transform: lowercase;
     text-shadow: 0 2px 30px rgba(20, 6, 0, 0.5);
 }
 
-/* ===== 1 : bandes verticales ===== */
-html[data-wf-mode="1"] .wf-acc {
-    grid-template-columns: var(--cols);
-    transition: grid-template-columns 0.85s var(--ease);
-}
-
-/* ===== 2 : rangées horizontales ===== */
-html[data-wf-mode="2"] .wf-acc {
-    grid-template-rows: var(--rows);
-    transition: grid-template-rows 0.85s var(--ease);
-}
-
-html[data-wf-mode="2"] .wf-panel-v {
-    left: clamp(1rem, 2vw, 2rem);
-    bottom: 50%;
-    transform: translateY(50%);
-    writing-mode: horizontal-tb;
-    font-size: clamp(1.1rem, 1.8vw, 1.9rem);
-}
-
-/* ===== 3 : grille 4x2 qui s'agrandit ===== */
-html[data-wf-mode="3"] .wf-acc {
-    grid-template-columns: var(--cols4);
-    grid-template-rows: var(--rows2);
-    transition: grid-template-columns 0.85s var(--ease), grid-template-rows 0.85s var(--ease);
-}
-
-html[data-wf-mode="3"] .wf-panel { grid-column: var(--gc); grid-row: var(--gr); }
-
-html[data-wf-mode="3"] .wf-panel-v {
-    left: 1rem;
-    bottom: 1rem;
-    transform: none;
-    writing-mode: horizontal-tb;
-    font-size: clamp(1rem, 1.5vw, 1.5rem);
-}
-
-html[data-wf-mode="3"] .wf-panel-title { font-size: clamp(1.6rem, 3.2vw, 3.4rem); }
-
-/* ===== 4 : capsules verticales ===== */
-html[data-wf-mode="4"] .wf-acc {
-    --gap: 0.6rem;
-    grid-template-columns: var(--cols);
-    transition: grid-template-columns 0.85s var(--ease);
-}
-
-html[data-wf-mode="4"] .wf-panel {
-    border-radius: 999px;
-    transition: border-radius 0.85s var(--ease);
-}
-
-html[data-wf-mode="4"] .wf-panel.is-active { border-radius: 2.2rem; }
-html[data-wf-mode="4"] .wf-panel-v { bottom: 1.8rem; }
-
-/* ===== 5 : cartes en éventail ===== */
-html[data-wf-mode="5"] .wf-acc {
-    display: block;
-    position: relative;
-    perspective: 1500px;
-    overflow: hidden;
-}
-
-html[data-wf-mode="5"] .wf-panel {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 46%;
-    height: 100%;
-    margin-left: -23%;
-    border-radius: 0.8rem;
-    contain: none;
-    transform: translateX(calc(var(--d) * 56%)) translateZ(calc(var(--ad) * -140px)) rotateY(calc(var(--d) * -14deg));
-    opacity: max(0, calc(1 - var(--ad) * 0.28));
-    z-index: calc(20 - var(--ad));
-    transition: transform 0.9s var(--ease), opacity 0.7s ease;
-    pointer-events: auto;
-    will-change: transform;
-}
-
-html[data-wf-mode="5"] .wf-panel[style*="--ad: 4"],
-html[data-wf-mode="5"] .wf-panel[style*="--ad: 5"],
-html[data-wf-mode="5"] .wf-panel[style*="--ad: 6"],
-html[data-wf-mode="5"] .wf-panel[style*="--ad: 7"] { pointer-events: none; }
-
-html[data-wf-mode="5"] .wf-panel-v { display: none; }
-
 @media (max-width: 800px) {
-    .wf-acc { height: 34rem; }
+    .wf-acc {
+        grid-template-columns: var(--cols-m);
+        grid-template-rows: var(--rows-m);
+        height: 40rem;
+    }
+    .wf-panel { grid-column: var(--gc-m); grid-row: var(--gr-m); }
+    .wf-panel-title { font-size: 1.7rem; }
+    .wf-panel-v { font-size: 1rem; }
 }
 
 /* ---------- Modal ---------- */
