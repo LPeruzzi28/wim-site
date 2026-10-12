@@ -1,5 +1,5 @@
 /* ---------- Section work : accordéon de capsules ----------
-   Chaque projet est une capsule verticale ; celle qu'on survole s'ouvre en grand rectangle arrondi. */
+   Chaque projet est une bande aux coins arrondis ; celle qu'on survole s'ouvre en grand rectangle. */
 
 .work { position: relative; }
 
@@ -125,12 +125,12 @@
 }
 
 .wf-panel {
-    border-radius: 999px;
+    border-radius: 1.6rem;
     transition: border-radius 0.8s var(--ease), box-shadow 0.8s var(--ease);
 }
 
 .wf-panel.is-active {
-    border-radius: 2.4rem;
+    border-radius: 1rem;
     box-shadow: 0 34px 50px -30px rgba(20, 6, 0, 0.6);
 }
 
@@ -144,7 +144,7 @@
         grid-template-rows: var(--rows);
         transition: grid-template-rows 0.8s var(--ease);
     }
-    .wf-panel.is-active { border-radius: 1.8rem; }
+    .wf-panel.is-active { border-radius: 1rem; }
     .wf-panel-v {
         left: clamp(1rem, 4vw, 1.6rem);
         bottom: 50%;
