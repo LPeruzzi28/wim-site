@@ -99,29 +99,43 @@
 .portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
 .portfolio-card:nth-child(3n)   { --tone: var(--c3); }
 
-/* Au repos : l'image seule, bords droits.
-   Au survol : le haut de l'image s'arrondit en arche, l'image zoome, le titre se souligne
-   de la couleur de la carte et le point de couleur s'étire en pastille. */
+/* Au repos : l'image seule.
+   Au survol : la carte se soulève, un voile de la couleur de la carte monte depuis le bas de
+   l'image, l'image zoome, le titre se souligne et le point de couleur s'étire en pastille. */
 .portfolio-card-media {
     display: block;
-    clip-path: inset(0 round 0 0 0 0 / 0 0 0 0);
-    transition: clip-path 0.8s var(--ease), transform 0.8s var(--ease);
+    transition: transform 0.8s var(--ease);
 }
 
 .portfolio-card:hover .portfolio-card-media,
 .portfolio-card:focus-visible .portfolio-card-media {
-    clip-path: inset(0 round 50% 50% 0 0 / 42% 42% 0 0);
     transform: translateY(-0.4rem);
 }
 
 .portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
 .portfolio-card-zoom {
+    position: relative;
     display: block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: #111;
 }
+
+.portfolio-card-zoom::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--tone);
+    mix-blend-mode: multiply;
+    opacity: 0.45;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.8s var(--ease);
+    pointer-events: none;
+}
+
+.portfolio-card:hover .portfolio-card-zoom::after,
+.portfolio-card:focus-visible .portfolio-card-zoom::after { clip-path: inset(0 0 0 0); }
 
 .portfolio-card-inner {
     display: block;

@@ -45,19 +45,31 @@
 .inspo-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
 .inspo-card-media {
+    position: relative;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #111;
-    clip-path: inset(0 round 0);
-    transition: clip-path 0.8s var(--ease), transform 0.8s var(--ease);
+    transition: transform 0.8s var(--ease);
 }
 
-/* Au survol : le carré devient un rond et passe en couleur */
-.inspo-card:hover .inspo-card-media,
-.inspo-card:focus-visible .inspo-card-media {
-    clip-path: inset(0 round 50%);
-    transform: translateY(-0.4rem) rotate(-3deg);
+/* Au survol : la carte se soulève et un voile de la couleur de la carte monte depuis le bas */
+.inspo-card-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--tone);
+    mix-blend-mode: multiply;
+    opacity: 0.45;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.8s var(--ease);
+    pointer-events: none;
 }
+
+.inspo-card:hover .inspo-card-media,
+.inspo-card:focus-visible .inspo-card-media { transform: translateY(-0.4rem); }
+
+.inspo-card:hover .inspo-card-media::after,
+.inspo-card:focus-visible .inspo-card-media::after { clip-path: inset(0 0 0 0); }
 
 .inspo-card-media img,
 .inspo-card-media .placeholder {
