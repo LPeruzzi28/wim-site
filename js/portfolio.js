@@ -108,25 +108,40 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Section work : une grande image de fond (celle du projet survolé) et, par-dessus, l'index des projets.
+// Section work : une grande image (celle du projet actif) et, par-dessus, un panneau de verre avec l'index.
 const esc = value => String(value).replace(/"/g, "&quot;");
 const imgOf = (project, alt = "") => project.image
     ? `<img src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
     : "";
+const firstSentence = text => {
+    const cut = text.search(/[.!?](\s|$)/);
+    const sentence = cut > 0 ? text.slice(0, cut + 1) : text;
+    return sentence.length > 150 ? sentence.slice(0, 147).trimEnd() + "…" : sentence;
+};
 
 const wf = document.createElement("div");
 wf.className = "wf";
-wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-big" aria-hidden="true"><span class="wf-big-tag"></span><span class="wf-big-title"></span></div><div class="wf-list"></div>`;
-const wfBigTag = wf.querySelector(".wf-big-tag");
-const wfBigTitle = wf.querySelector(".wf-big-title");
+wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-list"></div>`;
 const wfBg = wf.querySelector(".wf-bg");
 const wfList = wf.querySelector(".wf-list");
+let wfIndex = 0;
+let wfTimer = null;
 
 function setWf(index) {
+    wfIndex = index;
     wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
     wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
-    wfBigTag.textContent = projects[index].tag;
-    wfBigTitle.textContent = projects[index].title;
+}
+
+// Défilement automatique doux : s'arrête dès qu'on survole le bloc ou qu'un projet est ouvert
+function startWf() {
+    clearInterval(wfTimer);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    wfTimer = setInterval(() => {
+        const visible = wf.getBoundingClientRect().bottom > 0 && wf.getBoundingClientRect().top < window.innerHeight;
+        if (document.hidden || !visible || modal.classList.contains("open")) return;
+        setWf((wfIndex + 1) % projects.length);
+    }, 4500);
 }
 
 projects.forEach((project, index) => {
@@ -140,14 +155,23 @@ projects.forEach((project, index) => {
     const item = document.createElement("button");
     item.className = "wf-item";
     item.type = "button";
-    item.innerHTML = `<h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span>`;
+    item.innerHTML = `
+        <span class="wf-row"><h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span></span>
+        <span class="wf-more"><span class="wf-more-inner">
+            <span class="wf-desc">${firstSentence(project.desc)}</span>
+            <span class="wf-cta">Voir le projet <i aria-hidden="true">→</i></span>
+        </span></span>
+    `;
     item.addEventListener("pointerenter", () => setWf(index));
     item.addEventListener("focus", () => setWf(index));
     item.addEventListener("click", () => openModal(project));
     wfList.appendChild(item);
 });
 
+wf.addEventListener("pointerenter", () => clearInterval(wfTimer));
+wf.addEventListener("pointerleave", startWf);
 setWf(0);
+startWf();
 grid.appendChild(wf);
 
 modalClose.addEventListener("click", closeModal);

@@ -60,20 +60,6 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Variante de la section work (sélecteur temporaire pour comparer 5 propositions) ----------
-const wfButtons = document.querySelectorAll("[data-wf-style]");
-function setWfStyle(n, persist) {
-    if (!["1", "2", "3", "4", "5"].includes(n)) n = "1";
-    document.documentElement.setAttribute("data-wf", n);
-    wfButtons.forEach(b => b.classList.toggle("is-active", b.dataset.wfStyle === n));
-    if (persist) {
-        try { localStorage.setItem("wim-wf", n); } catch (e) {}
-    }
-    if (typeof ScrollTrigger !== "undefined") setTimeout(() => ScrollTrigger.refresh(), 50);
-}
-wfButtons.forEach(b => b.addEventListener("click", () => setWfStyle(b.dataset.wfStyle, true)));
-setWfStyle(document.documentElement.getAttribute("data-wf"), false);
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
