@@ -121,28 +121,32 @@ const firstSentence = text => {
 
 const wf = document.createElement("div");
 wf.className = "wf";
-wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-list"></div>`;
+wf.innerHTML = `
+    <div class="wf-bg"></div>
+    <div class="wf-shade"></div>
+    <button type="button" class="wf-card" aria-label="Ouvrir le projet affiché">
+        <span class="wf-card-tag"></span>
+        <span class="wf-card-title"></span>
+        <span class="wf-card-desc"></span>
+        <span class="wf-card-cta">Voir le projet <i aria-hidden="true">→</i></span>
+    </button>
+    <div class="wf-list"></div>
+`;
 const wfBg = wf.querySelector(".wf-bg");
 const wfList = wf.querySelector(".wf-list");
+const wfCard = wf.querySelector(".wf-card");
 let wfIndex = 0;
-let wfTimer = null;
 
 function setWf(index) {
     wfIndex = index;
     wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
     wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
+    wfCard.querySelector(".wf-card-tag").textContent = projects[index].tag;
+    wfCard.querySelector(".wf-card-title").textContent = projects[index].title;
+    wfCard.querySelector(".wf-card-desc").textContent = firstSentence(projects[index].desc);
 }
 
-// Défilement automatique doux : s'arrête dès qu'on survole le bloc ou qu'un projet est ouvert
-function startWf() {
-    clearInterval(wfTimer);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    wfTimer = setInterval(() => {
-        const visible = wf.getBoundingClientRect().bottom > 0 && wf.getBoundingClientRect().top < window.innerHeight;
-        if (document.hidden || !visible || modal.classList.contains("open")) return;
-        setWf((wfIndex + 1) % projects.length);
-    }, 4500);
-}
+wfCard.addEventListener("click", () => openModal(projects[wfIndex]));
 
 projects.forEach((project, index) => {
     const slide = document.createElement("div");
@@ -168,10 +172,7 @@ projects.forEach((project, index) => {
     wfList.appendChild(item);
 });
 
-wf.addEventListener("pointerenter", () => clearInterval(wfTimer));
-wf.addEventListener("pointerleave", startWf);
 setWf(0);
-startWf();
 grid.appendChild(wf);
 
 modalClose.addEventListener("click", closeModal);
