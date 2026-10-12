@@ -111,7 +111,8 @@
     min-height: 320px;
 }
 
-.portfolio-modal-media img {
+.portfolio-modal-media img,
+.portfolio-modal-media video {
     position: absolute;
     inset: 0;
     width: 100%;

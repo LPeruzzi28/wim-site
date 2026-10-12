@@ -35,6 +35,7 @@ const projects = [
         tag: "Perso · Vidéo",
         desc: "Chaîne YouTube lancée cet hiver pour documenter et garder des souvenirs de mes journées de ski.",
         image: "projet-ecole/ytb/ytb-thumbnail.png",
+        video: "video/ski-loop.mp4",
         links: [
             { label: "Voir la chaîne", href: "https://www.youtube.com/@LPoezzi" }
         ]
@@ -85,7 +86,9 @@ const modalLinks = document.getElementById("portfolio-modal-links");
 const modalClose = document.getElementById("portfolio-modal-close");
 
 function openModal(project) {
-    modalMedia.innerHTML = project.image
+    modalMedia.innerHTML = project.video
+        ? `<video src="${encodeURI(project.video)}" poster="${encodeURI(project.image || "")}" autoplay muted loop playsinline></video>`
+        : project.image
         ? `<img src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}">`
         : "";
     modalTag.textContent = project.tag;

@@ -32,31 +32,26 @@ const pad = n => String(n).padStart(2, "0");
 document.getElementById("count-work").textContent = pad(projects.length);
 document.getElementById("count-inspo").textContent = pad(inspirations.length);
 
-// ---------- "Reel" du hero : défile les images de mes vraies réalisations, coupes franches ----------
-const reelScreen = document.getElementById("reel-screen");
+// ---------- "Reel" du hero : extrait de mes vidéos de ski, avec compteur de timecode ----------
+const reelVideo = document.getElementById("reel-video");
 const reelCount = document.getElementById("reel-count");
-const reelTitle = document.getElementById("reel-title");
-const reelProjects = projects.filter(p => p.image);
-let reelIndex = 0;
 
-reelProjects.forEach(p => {
-    const img = document.createElement("img");
-    img.src = encodeURI(p.image);
-    img.alt = "";
-    if (p.imageStyle) img.style.cssText = p.imageStyle;
-    reelScreen.appendChild(img);
-});
-
-function showReel(i) {
-    reelIndex = (i + reelProjects.length) % reelProjects.length;
-    reelScreen.querySelectorAll("img").forEach((img, n) => img.classList.toggle("on", n === reelIndex));
-    reelCount.textContent = `${pad(reelIndex + 1)}/${pad(reelProjects.length)}`;
-    reelTitle.textContent = reelProjects[reelIndex].title.toLowerCase();
-}
-showReel(0);
-
-if (!prefersReducedMotion) {
-    setInterval(() => { if (!document.hidden) showReel(reelIndex + 1); }, 1300);
+if (reelVideo) {
+    if (prefersReducedMotion) {
+        reelVideo.removeAttribute("autoplay");
+        reelVideo.pause();
+    } else {
+        reelVideo.play().catch(() => {});
+    }
+    const timecode = t => {
+        const m = Math.floor(t / 60), s = Math.floor(t % 60), f = Math.floor((t % 1) * 24);
+        return `${pad(m)}:${pad(s)}:${pad(f)}`;
+    };
+    const tickTimecode = () => {
+        reelCount.textContent = timecode(reelVideo.currentTime);
+        requestAnimationFrame(tickTimecode);
+    };
+    if (!prefersReducedMotion) requestAnimationFrame(tickTimecode);
 }
 
 // ---------- Défilement fluide (Lenis) + ancres ----------
