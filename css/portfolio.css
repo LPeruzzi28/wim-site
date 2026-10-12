@@ -77,11 +77,15 @@
 .work-arrow:active { transform: scale(0.92); }
 
 .portfolio-card {
+    --tone: var(--c1);
+    --tone-ink: var(--c1-ink);
+    position: relative;
     flex: none;
     width: clamp(270px, 32vw, 520px);
     padding: 0;
     border: 0;
-    background: none;
+    /* fond identique à la page : le titre s'inverse par rapport à ce fond et à l'image */
+    background: var(--bg);
     color: inherit;
     font: inherit;
     text-align: left;
@@ -89,29 +93,24 @@
     scroll-snap-align: start;
 }
 
-/* Décalage vertical alterné : plus vivant qu'une rangée droite */
-.portfolio-card:nth-child(even) { margin-top: clamp(2rem, 9vh, 6rem); }
-
-.portfolio-card {
-    --tone: var(--c1);
-}
-
-.portfolio-card { --tone-ink: var(--c1-ink); }
 .portfolio-card:nth-child(3n+2) { --tone: var(--c2); --tone-ink: var(--c2-ink); }
 .portfolio-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: var(--c3-ink); }
 
-/* Au repos : l'image seule (coins légèrement arrondis).
-   Survol : la carte se soulève, l'image zoome, une feuille de couleur monte avec "Voir le projet",
-   le titre se souligne et le point de couleur s'étire en pastille. */
+/* Décalage vertical alterné : plus vivant qu'une rangée droite */
+.portfolio-card:nth-child(even) { margin-top: clamp(2rem, 9vh, 6rem); }
+
+.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
+/* Carte : l'image (coins légèrement arrondis), un "tampon" penché posé sur son bord haut,
+   et un grand titre qui déborde sur le bas de l'image en s'inversant (mix-blend-mode). */
 .portfolio-card-media {
+    position: relative;
     display: block;
     transition: transform 0.7s var(--ease);
 }
 
 .portfolio-card:hover .portfolio-card-media,
-.portfolio-card:focus-visible .portfolio-card-media { transform: translateY(-0.3rem); }
-
-.portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.portfolio-card:focus-visible .portfolio-card-media { transform: translateY(-0.35rem); }
 
 .portfolio-card-zoom {
     position: relative;
@@ -122,7 +121,6 @@
     background: #111;
 }
 
-/* Reflet qui suit la souris */
 .portfolio-card-inner {
     display: block;
     width: 100%;
@@ -131,28 +129,6 @@
 }
 
 .portfolio-card:hover .portfolio-card-inner { transform: scale(1.08); }
-
-/* Feuille de couleur qui monte au survol */
-.portfolio-card-sheet {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.15rem;
-    background: var(--tone);
-    color: var(--tone-ink);
-    font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    transform: translateY(101%);
-    transition: transform 0.6s var(--ease);
-}
-
-.portfolio-card:hover .portfolio-card-sheet,
-.portfolio-card:focus-visible .portfolio-card-sheet { transform: translateY(0); }
 
 .portfolio-card-inner img {
     width: 100%;
@@ -168,43 +144,60 @@
     color: var(--mute);
 }
 
-.portfolio-card-tag::before {
-    content: "";
-    flex: none;
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
+/* Le tampon : catégorie du projet, légèrement penché ; une flèche s'y ajoute au survol */
+.portfolio-card-tag {
+    position: absolute;
+    top: -0.9rem;
+    left: 1rem;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    max-width: calc(100% - 2rem);
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.55rem;
     background: var(--tone);
-    transition: width 0.7s var(--ease);
+    color: var(--tone-ink);
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.1;
+    transform: rotate(-3deg);
+    transform-origin: left bottom;
+    transition: transform 0.6s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-tag::before { width: 2rem; }
+.portfolio-card:hover .portfolio-card-tag,
+.portfolio-card:focus-visible .portfolio-card-tag { transform: rotate(1.5deg) scale(1.05); }
+
+.portfolio-card-tag .arrow {
+    display: inline-block;
+    max-width: 0;
+    margin-left: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.5s var(--ease), margin 0.5s var(--ease), opacity 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-card-tag .arrow,
+.portfolio-card:focus-visible .portfolio-card-tag .arrow {
+    max-width: 1.6em;
+    margin-left: 0.5rem;
+    opacity: 1;
+}
 
 .portfolio-card-title {
-    margin-top: 1rem;
-    font-size: clamp(1.9rem, 3.2vw, 3.4rem);
-    line-height: 0.95;
-    padding-bottom: 0.12em;
-    width: fit-content;
-    background: linear-gradient(var(--tone), var(--tone)) 0 100% / 0% 0.1em no-repeat;
-    transition: transform 0.6s var(--ease), background-size 0.7s var(--ease);
+    position: relative;
+    z-index: 2;
+    margin: -0.58em 0 0;
+    padding-left: 0.05em;
+    font-size: clamp(2.3rem, 3.7vw, 4rem);
+    line-height: 0.92;
+    /* même couleur que le fond de la page : noir sur le fond, inversé là où il chevauche l'image */
+    color: var(--bg);
+    mix-blend-mode: difference;
+    transition: transform 0.6s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-title {
-    transform: translateX(0.5rem);
-    background-size: 100% 0.1em;
-}
-
-.portfolio-card-tag {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.45rem;
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--mute);
-}
+.portfolio-card:hover .portfolio-card-title { transform: translateY(-0.12em); }
 
 /* ---------- Modal ---------- */
 

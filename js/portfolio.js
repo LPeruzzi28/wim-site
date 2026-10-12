@@ -120,11 +120,10 @@ projects.forEach(project => {
                         ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
                         : `<span class="portfolio-card-placeholder">Image bientôt disponible</span>`}
                 </span>
-                <span class="portfolio-card-sheet"><span>Voir le projet</span><span>→</span></span>
             </span>
+            <span class="portfolio-card-tag"><span>${project.tag}</span><span class="arrow" aria-hidden="true">→</span></span>
         </span>
         <h3 class="portfolio-card-title">${project.title}</h3>
-        <span class="portfolio-card-tag">${project.tag}</span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

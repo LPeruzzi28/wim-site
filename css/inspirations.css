@@ -31,16 +31,19 @@
 
 .inspo-card {
     --tone: var(--c1);
+    --tone-ink: var(--c1-ink);
+    position: relative;
     flex: none;
     display: flex;
     flex-direction: column;
     width: clamp(190px, 16vw, 270px);
     margin-right: 1.25rem;
-    transition: transform 0.6s var(--ease);
+    /* fond identique à la page : le nom s'inverse par rapport à ce fond et à l'image */
+    background: var(--bg);
 }
 
-.inspo-card:nth-child(3n+2) { --tone: var(--c2); }
-.inspo-card:nth-child(3n)   { --tone: var(--c3); }
+.inspo-card:nth-child(3n+2) { --tone: var(--c2); --tone-ink: var(--c2-ink); }
+.inspo-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: var(--c3-ink); }
 
 .inspo-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
@@ -54,7 +57,7 @@
 }
 
 .inspo-card:hover .inspo-card-media,
-.inspo-card:focus-visible .inspo-card-media { transform: translateY(-0.3rem); }
+.inspo-card:focus-visible .inspo-card-media { transform: translateY(-0.35rem); }
 
 .inspo-card-media img,
 .inspo-card-media .placeholder {
@@ -64,29 +67,6 @@
     filter: grayscale(1) contrast(1.15);
     transition: filter 0.4s ease, transform 1.2s var(--ease);
 }
-
-/* Feuille de couleur qui monte au survol */
-.inspo-card { --tone-ink: var(--c1-ink); }
-.inspo-card:nth-child(3n+2) { --tone-ink: var(--c2-ink); }
-.inspo-card:nth-child(3n)   { --tone-ink: var(--c3-ink); }
-
-.inspo-card-sheet {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.7rem 0.85rem;
-    background: var(--tone);
-    color: var(--tone-ink);
-    font-weight: 800;
-    transform: translateY(101%);
-    transition: transform 0.6s var(--ease);
-}
-
-.inspo-card:hover .inspo-card-sheet,
-.inspo-card:focus-visible .inspo-card-sheet { transform: translateY(0); }
 
 .inspo-card .placeholder {
     display: grid;
@@ -98,40 +78,45 @@
 
 .inspo-card:hover img { filter: none; transform: scale(1.1); }
 
-.inspo-card-body {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    padding: 0.75rem 0 0.25rem;
-}
-
-.inspo-card-body::before {
-    content: "";
-    flex: none;
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
+/* Pastille ↗ posée de travers sur le coin de la carte ; elle se redresse au survol */
+.inspo-card-stamp {
+    position: absolute;
+    top: -0.75rem;
+    right: 0.7rem;
+    z-index: 3;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
     background: var(--tone);
-    transform: translateY(-0.08em);
-    transition: width 0.7s var(--ease);
+    color: var(--tone-ink);
+    font-size: 1.15rem;
+    font-weight: 800;
+    transform: rotate(-14deg);
+    transition: transform 0.6s var(--ease);
 }
 
-.inspo-card:hover .inspo-card-body::before { width: 1.6rem; }
+.inspo-card:hover .inspo-card-stamp,
+.inspo-card:focus-visible .inspo-card-stamp { transform: rotate(0deg) scale(1.15); }
+
+.inspo-card-body {
+    position: relative;
+    z-index: 2;
+    margin-top: -0.6em;
+    /* le mélange s'applique à ce bloc (c'est lui qui forme le groupe), pas au titre seul */
+    mix-blend-mode: difference;
+}
 
 .inspo-card-name {
-    font-size: 1.1rem;
-    font-stretch: 112%;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    text-transform: none;
+    font-size: clamp(1.6rem, 2.1vw, 2.2rem);
+    line-height: 0.95;
+    padding-left: 0.05em;
+    color: var(--bg);
+    transition: transform 0.6s var(--ease);
 }
 
-.inspo-card-name::after {
-    content: " ↗";
-    font-weight: 600;
-    color: var(--mute);
-}
+.inspo-card:hover .inspo-card-name { transform: translateY(-0.12em); }
 
 @media (prefers-reduced-motion: reduce) {
     .inspo-track { animation: none; }

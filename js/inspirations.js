@@ -88,8 +88,8 @@ function buildInspoCard(item, hidden) {
             ${item.image
                 ? `<img src="${encodeURI(item.image)}" alt="${hidden ? "" : item.name}" loading="lazy" draggable="false">`
                 : `<div class="placeholder">Image bientôt disponible</div>`}
-            <span class="inspo-card-sheet"><span>Ouvrir</span><span>↗</span></span>
         </div>
+        <span class="inspo-card-stamp" aria-hidden="true">↗</span>
         <div class="inspo-card-body">
             <h3 class="inspo-card-name">${item.name}</h3>
         </div>
