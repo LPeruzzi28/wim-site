@@ -114,20 +114,6 @@ window.addEventListener("pointerup", () => {
     }
 });
 
-// ---------- Style des cartes (sélecteur temporaire pour comparer 3 propositions) ----------
-const cardButtons = document.querySelectorAll("[data-card-style]");
-function setCardStyle(n, persist) {
-    if (!["1", "2", "3"].includes(n)) n = "1";
-    document.documentElement.setAttribute("data-card", n);
-    cardButtons.forEach(b => b.classList.toggle("is-active", b.dataset.cardStyle === n));
-    if (persist) {
-        try { localStorage.setItem("wim-card", n); } catch (e) {}
-    }
-    updateWorkProgress();
-}
-cardButtons.forEach(b => b.addEventListener("click", () => setCardStyle(b.dataset.cardStyle, true)));
-setCardStyle(document.documentElement.getAttribute("data-card"), false);
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);

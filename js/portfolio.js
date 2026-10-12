@@ -113,17 +113,17 @@ projects.forEach(project => {
     card.className = "portfolio-card";
     card.type = "button";
     card.innerHTML = `
-        <span class="portfolio-card-media">
-            <span class="portfolio-card-zoom">
-                <span class="portfolio-card-inner">
-                    ${project.image
-                        ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
-                        : `<span class="portfolio-card-placeholder">Image bientôt disponible</span>`}
-                </span>
+        <span class="portfolio-card-zoom">
+            <span class="portfolio-card-inner">
+                ${project.image
+                    ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+                    : `<span class="portfolio-card-placeholder">Image bientôt disponible</span>`}
             </span>
-            <span class="portfolio-card-tag"><span>${project.tag}</span><span class="arrow" aria-hidden="true">→</span></span>
         </span>
-        <h3 class="portfolio-card-title"><span>${project.title}</span></h3>
+        <span class="portfolio-card-meta">
+            <h3 class="portfolio-card-title">${project.title}</h3>
+            <span class="portfolio-card-tag">${project.tag}</span>
+        </span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);

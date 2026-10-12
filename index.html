@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-card="1">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        try {
-            var k = new URLSearchParams(location.search).get("card") || localStorage.getItem("wim-card");
-            if (["1", "2", "3"].indexOf(k) > -1) document.documentElement.setAttribute("data-card", k);
-        } catch (e) {}
-    </script>
 </head>
 <body>
     <header class="bar">
@@ -95,13 +89,6 @@
             <a href="#home" id="to-top">Haut ↑</a>
         </div>
     </footer>
-
-    <div class="card-switch" id="card-switch" role="group" aria-label="Style des cartes (temporaire)">
-        <span>Cartes</span>
-        <button type="button" data-card-style="1" title="Forfait de ski">1</button>
-        <button type="button" data-card-style="2" title="Affiche">2</button>
-        <button type="button" data-card-style="3" title="Sticker">3</button>
-    </div>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>
