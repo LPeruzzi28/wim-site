@@ -108,84 +108,49 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Section work : une grande image (celle du projet actif) et, par-dessus, un panneau de verre avec l'index.
+// Section work : accordéon de bandes verticales. Chaque projet est une bande en verre flouté avec son titre à
+// la verticale ; la bande survolée s'ouvre en grand et montre son image et son titre.
 const esc = value => String(value).replace(/"/g, "&quot;");
 const imgOf = (project, alt = "") => project.image
     ? `<img src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
     : "";
-const firstSentence = text => {
-    const cut = text.search(/[.!?](\s|$)/);
-    const sentence = cut > 0 ? text.slice(0, cut + 1) : text;
-    return sentence.length > 150 ? sentence.slice(0, 147).trimEnd() + "…" : sentence;
-};
 
-const wf = document.createElement("div");
-wf.className = "wf";
-wf.innerHTML = `
-    <div class="wf-bg"></div>
-    <div class="wf-shade"></div>
-    <div class="wf-acc"></div>
-    <div class="wf-big" aria-hidden="true"><span class="wf-big-tag"></span><span class="wf-big-title"></span></div>
-    <div class="wf-thumbs"></div>
-    <div class="wf-list"></div>
-`;
-const wfBg = wf.querySelector(".wf-bg");
-const wfList = wf.querySelector(".wf-list");
-const wfAcc = wf.querySelector(".wf-acc");
-const wfThumbs = wf.querySelector(".wf-thumbs");
-const wfBigTag = wf.querySelector(".wf-big-tag");
-const wfBigTitle = wf.querySelector(".wf-big-title");
+const acc = document.createElement("div");
+acc.className = "wf-acc";
+const touchOnly = window.matchMedia("(hover: none)");
 
 function setWf(index) {
-    [[wfBg, ".wf-slide"], [wfList, ".wf-item"], [wfAcc, ".wf-panel"], [wfThumbs, ".wf-thumb"]].forEach(([parent, sel]) => {
-        parent.querySelectorAll(sel).forEach((el, i) => el.classList.toggle("is-active", i === index));
-    });
-    wfBigTag.textContent = projects[index].tag;
-    wfBigTitle.textContent = projects[index].title;
+    acc.querySelectorAll(".wf-panel").forEach((el, i) => el.classList.toggle("is-active", i === index));
 }
 
 projects.forEach((project, index) => {
-    const slide = document.createElement("div");
-    slide.className = "wf-slide";
-    slide.innerHTML = imgOf(project);
-    // le premier visuel est chargé tout de suite (c'est celui qu'on voit en premier)
-    if (index === 0) slide.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
-    wfBg.appendChild(slide);
-
-    const item = document.createElement("button");
-    item.className = "wf-item";
-    item.type = "button";
-    item.innerHTML = `<span class="wf-row"><h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span></span>`;
-    item.addEventListener("pointerenter", () => setWf(index));
-    item.addEventListener("focus", () => setWf(index));
-    item.addEventListener("click", () => openModal(project));
-    wfList.appendChild(item);
-
-    // variante accordéon : une bande par projet
     const panel = document.createElement("button");
     panel.className = "wf-panel";
     panel.type = "button";
     panel.setAttribute("aria-label", project.title);
-    panel.innerHTML = `${imgOf(project)}<span class="wf-panel-glass"></span><span class="wf-panel-v">${project.title}</span><span class="wf-panel-h"><span class="wf-panel-tag">${project.tag}</span><span class="wf-panel-title">${project.title}</span></span>`;
-    panel.addEventListener("pointerenter", () => setWf(index));
+    panel.innerHTML = `
+        ${imgOf(project)}
+        <span class="wf-panel-glass"></span>
+        <span class="wf-panel-v">${project.title}</span>
+        <span class="wf-panel-h">
+            <span class="wf-panel-tag">${project.tag}</span>
+            <span class="wf-panel-title">${project.title}</span>
+        </span>
+    `;
+    // le premier visuel est chargé tout de suite (c'est celui qu'on voit en premier)
+    if (index === 0) panel.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
+    panel.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setWf(index); });
     panel.addEventListener("focus", () => setWf(index));
-    panel.addEventListener("click", () => openModal(project));
-    wfAcc.appendChild(panel);
-
-    // variante vignettes rondes
-    const thumb = document.createElement("button");
-    thumb.className = "wf-thumb";
-    thumb.type = "button";
-    thumb.setAttribute("aria-label", project.title);
-    thumb.innerHTML = imgOf(project);
-    thumb.addEventListener("pointerenter", () => setWf(index));
-    thumb.addEventListener("focus", () => setWf(index));
-    thumb.addEventListener("click", () => openModal(project));
-    wfThumbs.appendChild(thumb);
+    panel.addEventListener("click", () => {
+        // écran tactile : un premier toucher ouvre la bande, le second ouvre le projet
+        if (touchOnly.matches && !panel.classList.contains("is-active")) { setWf(index); return; }
+        openModal(project);
+    });
+    acc.appendChild(panel);
 });
 
 setWf(0);
-grid.appendChild(wf);
+grid.appendChild(acc);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {

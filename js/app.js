@@ -60,19 +60,6 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Variante de la section work (sélecteur temporaire pour comparer 5 propositions) ----------
-const wfButtons = document.querySelectorAll("[data-wf-style]");
-function setWfStyle(n, persist) {
-    if (!["1", "2", "3", "4", "5"].includes(n)) n = "1";
-    document.documentElement.setAttribute("data-wf", n);
-    wfButtons.forEach(b => b.classList.toggle("is-active", b.dataset.wfStyle === n));
-    if (persist) {
-        try { localStorage.setItem("wim-wf", n); } catch (e) {}
-    }
-}
-wfButtons.forEach(b => b.addEventListener("click", () => setWfStyle(b.dataset.wfStyle, true)));
-setWfStyle(document.documentElement.getAttribute("data-wf"), false);
-
 // ---------- Animations (GSAP) ----------
 if (animate) {
     gsap.registerPlugin(ScrollTrigger);
@@ -91,10 +78,10 @@ if (animate) {
         });
     });
 
-    // Section work : le bloc apparaît en fondu
-    gsap.from(".wf", {
-        opacity: 0, y: 40, duration: 1.2, ease: "power3.out",
-        scrollTrigger: { trigger: ".wf", start: "top 90%" }
+    // Section work : les bandes se déploient l'une après l'autre
+    gsap.from(".wf-panel", {
+        opacity: 0, y: 60, duration: 1, stagger: 0.07, ease: "power3.out", clearProps: "transform,opacity",
+        scrollTrigger: { trigger: ".wf-acc", start: "top 88%" }
     });
 
     // Rangées d'inspirations : accélèrent quand on scrolle

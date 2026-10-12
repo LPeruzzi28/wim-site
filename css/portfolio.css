@@ -1,114 +1,13 @@
-/* ---------- Section work : grande image + panneau de verre avec l'index des projets ----------
-   L'image du projet actif remplit le bloc ; à gauche, un panneau translucide et flouté liste les projets.
-   Le projet actif se déplie (extrait + lien). Ça défile doucement tout seul tant qu'on n'y touche pas. */
+/* ---------- Section work : accordéon de bandes en verre ---------- */
 
 .work { position: relative; }
 
-.wf {
-    position: relative;
-    height: min(84vh, 780px);
-    margin: 1rem var(--gutter) 3rem;
-    overflow: hidden;
-    border-radius: 0.8rem;
-    background: #111;
-    color: #FFF4DC;
-}
-
-.wf-bg, .wf-slide { position: absolute; inset: 0; }
-
-.wf-slide { opacity: 0; transition: opacity 0.9s ease; }
-.wf-slide.is-active { opacity: 1; }
-
-.wf-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.06);
-    transition: transform 8s ease-out;
-}
-
-.wf-slide.is-active img { transform: scale(1); }
-
-.wf-shade {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(32, 12, 4, 0.4), rgba(32, 12, 4, 0) 70%);
-}
-
-.wf-list {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: min(35rem, 46%);
-    height: calc(100% - 2rem);
-    margin: 1rem;
-    padding: clamp(1.1rem, 2vw, 2rem);
-    border: 1px solid rgba(255, 244, 220, 0.3);
-    border-radius: 0.8rem;
-    background: rgba(255, 244, 220, 0.14);
-    -webkit-backdrop-filter: blur(22px) saturate(1.25);
-    backdrop-filter: blur(22px) saturate(1.25);
-}
-
-.wf-item {
-    display: block;
-    width: 100%;
-    padding: 0.6rem 0;
-    border: 0;
-    border-bottom: 1px solid rgba(255, 244, 220, 0.18);
-    background: none;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-    opacity: 0.55;
-    transition: opacity 0.4s ease;
-}
-
-.wf-item:last-child { border-bottom: 0; }
-.wf-item.is-active { opacity: 1; }
-.wf-item:focus-visible { outline: 2px solid #FFF4DC; outline-offset: 2px; }
-
-.wf-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-}
-
-.wf-title { font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.02; }
-
-.wf-tag {
-    flex: none;
-    max-width: 40%;
-    text-align: right;
-    font-size: 0.9rem;
-    font-weight: 600;
-    opacity: 0.85;
-}
-
-/* ---------- 5 compositions en verre (html[data-wf]) ----------
-   1 = panneau vertical à gauche (liste de titres)
-   2 = accordéon : une bande verticale par projet, la bande survolée s'ouvre
-   3 = grille de tuiles de verre en bas de l'image
-   4 = pastilles-onglets flottantes en haut de l'image
-   5 = vignettes rondes dans une pilule de verre + très grand titre */
-
-.wf-acc, .wf-big, .wf-thumbs { display: none; }
-
-/* ===== 2 : accordéon ===== */
-html[data-wf="2"] .wf-bg,
-html[data-wf="2"] .wf-shade,
-html[data-wf="2"] .wf-list { display: none; }
-
-html[data-wf="2"] .wf-acc {
-    position: absolute;
-    inset: 0;
+.wf-acc {
     display: flex;
     gap: 0.4rem;
-    padding: 0.4rem;
+    height: min(84vh, 780px);
+    margin: 1rem var(--gutter) 3rem;
+    padding: 0;
 }
 
 .wf-panel {
@@ -188,170 +87,17 @@ html[data-wf="2"] .wf-acc {
     text-shadow: 0 2px 30px rgba(20, 6, 0, 0.5);
 }
 
-/* ===== 3 : grille de tuiles de verre ===== */
-html[data-wf="3"] .wf-shade { background: linear-gradient(to top, rgba(32, 12, 4, 0.45), rgba(32, 12, 4, 0) 60%); }
-
-html[data-wf="3"] .wf-list {
-    position: absolute;
-    left: 0.8rem;
-    right: 0.8rem;
-    bottom: 0.8rem;
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.6rem;
-    border: 0;
-    background: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-}
-
-html[data-wf="3"] .wf-item {
-    padding: 1rem 1.1rem;
-    min-height: 6.4rem;
-    display: flex;
-    align-items: flex-end;
-    border: 1px solid rgba(255, 244, 220, 0.3);
-    border-radius: 0.7rem;
-    background: rgba(255, 244, 220, 0.14);
-    -webkit-backdrop-filter: blur(20px) saturate(1.25);
-    backdrop-filter: blur(20px) saturate(1.25);
-    opacity: 1;
-    transition: background 0.4s ease, color 0.4s ease, transform 0.6s var(--ease);
-}
-
-html[data-wf="3"] .wf-item.is-active { background: #FFF4DC; color: #2B1109; transform: translateY(-0.4rem); }
-html[data-wf="3"] .wf-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; width: 100%; }
-html[data-wf="3"] .wf-title { font-size: clamp(1.15rem, 1.7vw, 1.7rem); }
-html[data-wf="3"] .wf-tag { max-width: none; text-align: left; font-size: 0.82rem; }
-
-/* ===== 4 : pastilles-onglets flottantes en haut ===== */
-html[data-wf="4"] .wf-shade { background: linear-gradient(to bottom, rgba(32, 12, 4, 0.4), rgba(32, 12, 4, 0) 40%); }
-
-html[data-wf="4"] .wf-list {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0.5rem;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.35rem;
-    border-radius: 999px;
-}
-
-html[data-wf="4"] .wf-item {
-    width: auto;
-    padding: 0.55rem 1.15rem;
-    border: 0;
-    border-radius: 999px;
-    opacity: 1;
-    transition: background 0.4s ease, color 0.4s ease;
-}
-
-html[data-wf="4"] .wf-item:hover { background: rgba(255, 244, 220, 0.2); }
-html[data-wf="4"] .wf-item.is-active { background: #FFF4DC; color: #2B1109; }
-html[data-wf="4"] .wf-title { font-size: 1.15rem; letter-spacing: -0.01em; }
-html[data-wf="4"] .wf-tag { display: none; }
-
-html[data-wf="4"] .wf-big {
-    position: absolute;
-    left: clamp(1.25rem, 3vw, 3rem);
-    bottom: clamp(1.25rem, 3vw, 2.5rem);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    pointer-events: none;
-}
-html[data-wf="4"] .wf-big-tag { font-size: 1.05rem; font-weight: 600; }
-html[data-wf="4"] .wf-big-title {
-    font-family: var(--sans);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(2rem, 4vw, 4.2rem);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-transform: lowercase;
-}
-
-/* ===== 5 : vignettes rondes + très grand titre ===== */
-html[data-wf="5"] .wf-list { display: none; }
-html[data-wf="5"] .wf-shade { background: linear-gradient(to bottom, rgba(32, 12, 4, 0.65), rgba(32, 12, 4, 0) 60%); }
-
-html[data-wf="5"] .wf-big {
-    position: absolute;
-    left: clamp(1.25rem, 3vw, 3rem);
-    top: clamp(1.25rem, 3vw, 2.5rem);
-    right: clamp(1.25rem, 3vw, 3rem);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    pointer-events: none;
-}
-html[data-wf="5"] .wf-big-tag { font-size: 1.1rem; font-weight: 600; opacity: 0.9; }
-html[data-wf="5"] .wf-big-title {
-    font-family: var(--sans);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(3rem, 9vw, 10rem);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
-    text-transform: lowercase;
-}
-
-html[data-wf="5"] .wf-thumbs {
-    position: absolute;
-    left: 1.2rem;
-    bottom: 1.2rem;
-    z-index: 2;
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.55rem;
-    border: 1px solid rgba(255, 244, 220, 0.3);
-    border-radius: 999px;
-    background: rgba(255, 244, 220, 0.14);
-    -webkit-backdrop-filter: blur(22px) saturate(1.25);
-    backdrop-filter: blur(22px) saturate(1.25);
-}
-
-.wf-thumb {
-    width: clamp(2.8rem, 4.2vw, 4.2rem);
-    height: clamp(2.8rem, 4.2vw, 4.2rem);
-    overflow: hidden;
-    padding: 0;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    background: #111;
-    cursor: pointer;
-    opacity: 0.65;
-    transition: opacity 0.4s ease, transform 0.6s var(--ease), border-color 0.4s ease;
-}
-
-.wf-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.wf-thumb.is-active { opacity: 1; transform: scale(1.18); border-color: #FFF4DC; }
-
 @media (max-width: 800px) {
-    html[data-wf] .wf { height: auto; min-height: 34rem; }
-    html[data-wf] .wf-acc, html[data-wf] .wf-big, html[data-wf] .wf-thumbs { display: none; }
-    html[data-wf] .wf-bg, html[data-wf] .wf-shade { display: block; }
-    html[data-wf] .wf-list {
-        position: relative; inset: auto; display: flex; flex-direction: column; flex-wrap: nowrap;
-        width: auto; height: auto; margin: 4.5rem 0.8rem 0.8rem; padding: 1.1rem;
-        border: 1px solid rgba(255, 244, 220, 0.3); border-radius: 0.8rem;
-        background: rgba(255, 244, 220, 0.14);
+    .wf-acc { flex-direction: column; height: 34rem; }
+    .wf-panel { flex: 1 1 0; }
+    .wf-panel.is-active { flex-grow: 6; }
+    .wf-panel-v {
+        left: 1rem;
+        bottom: 50%;
+        transform: translateY(50%);
+        writing-mode: horizontal-tb;
     }
-    html[data-wf] .wf-item { width: 100%; padding: 0.6rem 0; border-radius: 0; background: none; color: inherit; min-height: 0; display: block; transform: none; opacity: 0.55; border: 0; }
-    html[data-wf] .wf-item.is-active { opacity: 1; background: none; color: inherit; }
-    html[data-wf] .wf-title { font-size: 1.7rem; }
+    .wf-panel-title { font-size: 2rem; }
 }
 
 /* ---------- Modal ---------- */
