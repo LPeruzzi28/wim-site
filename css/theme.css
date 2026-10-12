@@ -1,31 +1,6 @@
-/* Trois palettes, choisies via <html data-theme="...">. */
+/* Palette : bleu nuit, crème, rouge */
 
-:root,
-:root[data-theme="noir"] {
-    --bg: #000000;
-    --ink: #ECEAE4;
-    --mute: #8A8984;
-    --line: rgba(236, 234, 228, 0.2);
-    --accent: #FF3B1F;
-    --accent-2: #3A5BFF;
-    --on-accent: #000000;
-    --knock-mode: darken;
-    --knock-ink: #FFFFFF;
-}
-
-:root[data-theme="papier"] {
-    --bg: #E9E7E1;
-    --ink: #0B0B0B;
-    --mute: #6C6B66;
-    --line: rgba(11, 11, 11, 0.22);
-    --accent: #E0381A;
-    --accent-2: #1D2CFF;
-    --on-accent: #E9E7E1;
-    --knock-mode: lighten;
-    --knock-ink: #000000;
-}
-
-:root[data-theme="rouge-bleu"] {
+:root {
     --bg: #0A1030;
     --ink: #F1EEE6;
     --mute: #8D94B3;
@@ -33,11 +8,7 @@
     --accent: #FF3A2D;
     --accent-2: #4D6BFF;
     --on-accent: #F1EEE6;
-    --knock-mode: darken;
-    --knock-ink: #FFFFFF;
-}
 
-:root {
     --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
     --gutter: clamp(1rem, 2.4vw, 2.25rem);
     --ease: cubic-bezier(0.16, 1, 0.3, 1);

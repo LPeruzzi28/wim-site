@@ -3,58 +3,22 @@ const hasGsap = typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefin
 const animate = hasGsap && !prefersReducedMotion;
 const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-// ---------- Palette (sélecteur temporaire pour comparer les 3 propositions) ----------
-const themes = ["noir", "papier", "rouge-bleu"];
-const themeButtons = document.querySelectorAll("[data-set-theme]");
+// ---------- Vidéo du hero : deux copies synchronisées (lettres + fond bleu) ----------
+const heroVideos = [document.getElementById("hero-video"), document.getElementById("hero-video-bg")];
+heroVideos.forEach(v => { v.src = v.dataset.src; });
 
-function setTheme(name, persist) {
-    if (!themes.includes(name)) name = "papier";
-    document.documentElement.setAttribute("data-theme", name);
-    themeButtons.forEach(b => b.classList.toggle("is-active", b.dataset.setTheme === name));
-    if (persist) {
-        try { localStorage.setItem("wim-theme", name); } catch (e) {}
-    }
-}
-
-themeButtons.forEach(b => b.addEventListener("click", () => setTheme(b.dataset.setTheme, true)));
-setTheme(document.documentElement.getAttribute("data-theme"), false);
-
-// ---------- Variantes d'accueil (sélecteur temporaire) ----------
-const heroButtons = document.querySelectorAll("[data-set-hero]");
-const topBar = document.querySelector(".bar");
-const heroWrap = document.getElementById("home");
-
-function setHero(n, persist) {
-    if (!["1", "2", "3"].includes(n)) n = "2";
-    document.documentElement.setAttribute("data-hero", n);
-    heroButtons.forEach(b => b.classList.toggle("is-active", b.dataset.setHero === n));
-    if (persist) {
-        try { localStorage.setItem("wim-hero", n); } catch (e) {}
-    }
-    // Seule la vidéo de la variante affichée est chargée et lue.
-    document.querySelectorAll(".hero").forEach(section => {
-        const video = section.querySelector("video");
-        if (!video) return;
-        const active = section.dataset.hero === n;
-        if (active && !prefersReducedMotion) {
-            if (!video.src) video.src = video.dataset.src;
-            video.play().catch(() => {});
-        } else {
-            video.pause();
+if (prefersReducedMotion) {
+    heroVideos.forEach(v => v.pause());
+} else {
+    heroVideos.forEach(v => v.play().catch(() => {}));
+    // Resynchronise la 2e copie si elle dérive de plus d'un dixième de seconde.
+    setInterval(() => {
+        const [main, bg] = heroVideos;
+        if (!document.hidden && Math.abs(main.currentTime - bg.currentTime) > 0.1) {
+            bg.currentTime = main.currentTime;
         }
-    });
-    updateBar();
+    }, 1500);
 }
-
-// Barre du haut : claire uniquement sur la variante 1 (vidéo sombre derrière)
-function updateBar() {
-    const onVideo = document.documentElement.dataset.hero === "1" && heroWrap.getBoundingClientRect().bottom > 50;
-    topBar.classList.toggle("on-hero", onVideo);
-}
-window.addEventListener("scroll", updateBar, { passive: true });
-
-heroButtons.forEach(b => b.addEventListener("click", () => setHero(b.dataset.setHero, true)));
-setHero(document.documentElement.getAttribute("data-hero"), false);
 
 // ---------- Défilement fluide (Lenis) + ancres ----------
 let lenis = null;
