@@ -8,6 +8,7 @@
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
     scrollbar-width: none;
     padding: 1rem var(--gutter) 2.5rem;
     cursor: grab;
@@ -38,7 +39,7 @@
 
 .work-progress {
     flex: 1;
-    height: 3px;
+    height: 2px;
     margin-right: 1rem;
     background: var(--line);
 }
@@ -52,14 +53,14 @@
 }
 
 .work-arrow {
-    width: 3.4rem;
-    height: 3.4rem;
+    width: 3.2rem;
+    height: 3.2rem;
     display: grid;
     place-items: center;
-    border: 3px solid var(--c1);
+    border: 1.5px solid var(--ink);
     border-radius: 50%;
     background: transparent;
-    color: var(--c1);
+    color: var(--ink);
     font: inherit;
     font-size: 1.5rem;
     font-weight: 600;
@@ -91,18 +92,24 @@
 /* Décalage vertical alterné : plus vivant qu'une rangée droite */
 .portfolio-card:nth-child(even) { margin-top: clamp(2rem, 9vh, 6rem); }
 
-.portfolio-card-media {
-    display: block;
-    padding: 0.75rem;
-    background: var(--c1);
-    transition: transform 0.7s var(--ease);
+.portfolio-card {
+    --tone: var(--c1);
 }
 
-.portfolio-card:nth-child(3n+2) .portfolio-card-media { background: var(--c2); }
-.portfolio-card:nth-child(3n) .portfolio-card-media { background: var(--c3); }
+.portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
+.portfolio-card:nth-child(3n)   { --tone: var(--c3); }
+
+/* Au repos : l'image seule. Au survol : une ombre pleine de la couleur de la carte. */
+.portfolio-card-media {
+    display: block;
+    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+}
 
 .portfolio-card:hover .portfolio-card-media,
-.portfolio-card:focus-visible .portfolio-card-media { transform: rotate(-1.6deg) scale(1.02); }
+.portfolio-card:focus-visible .portfolio-card-media {
+    transform: translate(-0.35rem, -0.35rem);
+    box-shadow: 0.7rem 0.7rem 0 var(--tone);
+}
 
 .portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
@@ -136,6 +143,15 @@
     color: var(--mute);
 }
 
+.portfolio-card-tag::before {
+    content: "";
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--tone);
+}
+
 .portfolio-card-title {
     margin-top: 1rem;
     font-size: clamp(1.9rem, 3.2vw, 3.4rem);
@@ -144,10 +160,12 @@
     transition: transform 0.6s var(--ease), color 0.3s ease;
 }
 
-.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); color: var(--c1); }
+.portfolio-card:hover .portfolio-card-title { transform: translateX(0.5rem); }
 
 .portfolio-card-tag {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-top: 0.45rem;
     font-size: 1.15rem;
     font-weight: 700;
@@ -183,7 +201,7 @@
     max-height: 90vh;
     background: var(--bg);
     color: var(--ink);
-    border: 3px solid var(--c1);
+    border: 1px solid var(--line);
     overflow: hidden;
     animation: rise-in 0.5s var(--ease) both;
 }
@@ -262,9 +280,9 @@
 
 .portfolio-modal-links a {
     padding: 0.7rem 1.1rem;
-    border: 2px solid var(--c1);
-    background: var(--c1);
-    color: var(--on-c);
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
     font-weight: 700;
     transition: background 0.2s ease, color 0.2s ease;
 }
@@ -272,9 +290,9 @@
 .portfolio-modal-links a::after { content: " ↗"; }
 
 .portfolio-modal-links a:hover {
-    background: var(--c2);
-    border-color: var(--c2);
-    color: #2B1109;
+    background: var(--c1);
+    border-color: var(--c1);
+    color: var(--on-c);
 }
 
 @keyframes fade-in { from { opacity: 0; } }
