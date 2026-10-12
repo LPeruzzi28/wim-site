@@ -116,19 +116,25 @@ const imgOf = (project, alt = "") => project.image
 
 const wf = document.createElement("div");
 wf.className = "wf";
-wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-list"></div>`;
+wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-big" aria-hidden="true"><span class="wf-big-tag"></span><span class="wf-big-title"></span></div><div class="wf-list"></div>`;
+const wfBigTag = wf.querySelector(".wf-big-tag");
+const wfBigTitle = wf.querySelector(".wf-big-title");
 const wfBg = wf.querySelector(".wf-bg");
 const wfList = wf.querySelector(".wf-list");
 
 function setWf(index) {
     wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
     wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
+    wfBigTag.textContent = projects[index].tag;
+    wfBigTitle.textContent = projects[index].title;
 }
 
 projects.forEach((project, index) => {
     const slide = document.createElement("div");
     slide.className = "wf-slide";
     slide.innerHTML = imgOf(project);
+    // le premier visuel est chargé tout de suite (c'est celui qu'on voit en premier)
+    if (index === 0) slide.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
     wfBg.appendChild(slide);
 
     const item = document.createElement("button");
