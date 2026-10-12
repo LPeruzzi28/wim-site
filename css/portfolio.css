@@ -96,21 +96,21 @@
     --tone: var(--c1);
 }
 
-.portfolio-card:nth-child(3n+2) { --tone: var(--c2); }
-.portfolio-card:nth-child(3n)   { --tone: var(--c3); }
+.portfolio-card { --tone-ink: var(--on-c); }
+.portfolio-card:nth-child(3n+2) { --tone: var(--c2); --tone-ink: #2B1109; }
+.portfolio-card:nth-child(3n)   { --tone: var(--c3); --tone-ink: #1B2260; }
 
-/* Au repos : l'image seule.
-   Au survol : la carte s'incline en 3D en suivant la souris, l'image glisse légèrement en sens
-   inverse (profondeur), un reflet suit le curseur et une étiquette "voir" accompagne la souris.
-   Les variables --rx --ry --px --py --gx --gy sont posées par js/app.js. */
+/* Au repos : l'image seule (coins légèrement arrondis).
+   Survol commun : la carte se soulève, l'image zoome, le titre se souligne, le point s'étire.
+   Puis un effet propre à la variante choisie (html[data-hover]) :
+   1 = vagues (l'image ondule), 2 = une feuille de couleur monte, 3 = l'image défile comme une page. */
 .portfolio-card-media {
     display: block;
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0));
-    transition: transform 0.5s var(--ease);
+    transition: transform 0.7s var(--ease);
 }
 
 .portfolio-card:hover .portfolio-card-media,
-.portfolio-card:focus-visible .portfolio-card-media { --lift: -0.3rem; }
+.portfolio-card:focus-visible .portfolio-card-media { transform: translateY(-0.3rem); }
 
 .portfolio-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 
@@ -119,31 +119,49 @@
     display: block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
+    border-radius: 0.9rem;
     background: #111;
 }
 
 /* Reflet qui suit la souris */
-.portfolio-card-zoom::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.42), transparent 55%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-}
-
-.portfolio-card:hover .portfolio-card-zoom::after { opacity: 1; }
-
 .portfolio-card-inner {
     display: block;
     width: 100%;
     height: 100%;
-    transform: translate(var(--px, 0px), var(--py, 0px)) scale(var(--zoom, 1));
-    transition: transform 0.5s var(--ease);
+    transition: transform 1.2s var(--ease);
 }
 
-.portfolio-card:hover .portfolio-card-inner { --zoom: 1.12; }
+.portfolio-card:hover .portfolio-card-inner { transform: scale(1.08); }
+
+/* variante 2 : feuille de couleur */
+.portfolio-card-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.15rem;
+    background: var(--tone);
+    color: var(--tone-ink);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    transform: translateY(101%);
+    transition: transform 0.6s var(--ease);
+}
+
+html[data-hover="2"] .portfolio-card-sheet { display: flex; }
+html[data-hover="2"] .portfolio-card:hover .portfolio-card-sheet,
+html[data-hover="2"] .portfolio-card:focus-visible .portfolio-card-sheet { transform: translateY(0); }
+
+/* variante 3 : l'image défile du haut vers le bas, comme une page web */
+html[data-hover="3"] .portfolio-card-inner img { transition: object-position 3.2s ease-in-out; }
+html[data-hover="3"] .portfolio-card:hover .portfolio-card-inner img { object-position: 50% 100% !important; }
+
+/* variante 1 : vagues (le filtre SVG est piloté par js/app.js) */
+.is-rippling { filter: url(#ripple); }
 
 .portfolio-card-inner img {
     width: 100%;
@@ -226,6 +244,7 @@
     background: var(--bg);
     color: var(--ink);
     border: 1px solid var(--line);
+    border-radius: 1.2rem;
     overflow: hidden;
     animation: rise-in 0.5s var(--ease) both;
 }
@@ -304,6 +323,7 @@
 
 .portfolio-modal-links a {
     padding: 0.7rem 1.1rem;
+    border-radius: 0.7rem;
     border: 1.5px solid var(--ink);
     background: transparent;
     color: var(--ink);

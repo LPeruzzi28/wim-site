@@ -60,50 +60,50 @@ function updateActiveSection() {
 window.addEventListener("scroll", updateActiveSection, { passive: true });
 updateActiveSection();
 
-// ---------- Cartes : inclinaison 3D, reflet et étiquette qui suivent la souris ----------
-const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-if (finePointer && !prefersReducedMotion) {
-    const label = document.getElementById("cursor-label");
-    let lx = 0, ly = 0, tx = 0, ty = 0, raf = null;
+// ---------- Survol des cartes : 3 variantes à comparer ----------
+// 1 = vagues (filtre SVG animé), 2 = feuille de couleur (CSS), 3 = image qui défile (CSS)
+const hoverButtons = document.querySelectorAll("[data-hover].hover-btn");
+function setHover(n, persist) {
+    if (!["1", "2", "3"].includes(n)) n = "2";
+    document.documentElement.setAttribute("data-hover", n);
+    hoverButtons.forEach(b => b.classList.toggle("is-active", b.dataset.hover === n));
+    if (persist) {
+        try { localStorage.setItem("wim-hover", n); } catch (e) {}
+    }
+}
+hoverButtons.forEach(b => b.addEventListener("click", () => setHover(b.dataset.hover, true)));
+setHover(document.documentElement.getAttribute("data-hover"), false);
 
-    const moveLabel = () => {
-        lx += (tx - lx) * 0.2;
-        ly += (ty - ly) * 0.2;
-        label.style.transform = `translate3d(${lx}px, ${ly}px, 0)`;
-        raf = Math.abs(tx - lx) + Math.abs(ty - ly) > 0.4 ? requestAnimationFrame(moveLabel) : null;
-    };
+if (animate && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const rippleMap = document.getElementById("ripple-map");
+    const rippleTarget = card => card.querySelector(".portfolio-card-zoom, .inspo-card-media");
+    let rippling = null;
 
-    const cardSelector = ".portfolio-card, .inspo-card";
-    const mediaOf = card => card.querySelector(".portfolio-card-media, .inspo-card-media");
-
-    document.addEventListener("pointermove", e => {
-        const card = e.target.closest(cardSelector);
-        tx = e.clientX + 16;
-        ty = e.clientY + 16;
-        if (!card) { label.classList.remove("is-visible"); }
-        else {
-            label.textContent = card.classList.contains("inspo-card") ? "ouvrir ↗" : "voir";
-            label.classList.add("is-visible");
-            const media = mediaOf(card);
-            const r = media.getBoundingClientRect();
-            const x = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
-            const y = Math.min(Math.max((e.clientY - r.top) / r.height, 0), 1);
-            media.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
-            media.style.setProperty("--rx", `${(0.5 - y) * 9}deg`);
-            media.style.setProperty("--px", `${(0.5 - x) * 14}px`);
-            media.style.setProperty("--py", `${(0.5 - y) * 10}px`);
-            media.style.setProperty("--gx", `${x * 100}%`);
-            media.style.setProperty("--gy", `${y * 100}%`);
-        }
-        if (!raf) raf = requestAnimationFrame(moveLabel);
-    }, { passive: true });
+    document.addEventListener("pointerover", e => {
+        if (document.documentElement.dataset.hover !== "1") return;
+        const card = e.target.closest(".portfolio-card, .inspo-card");
+        if (!card || card.contains(e.relatedTarget)) return;
+        const target = rippleTarget(card);
+        if (rippling && rippling !== target) rippling.classList.remove("is-rippling");
+        rippling = target;
+        target.classList.add("is-rippling");
+        gsap.killTweensOf(rippleMap);
+        gsap.fromTo(rippleMap, { attr: { scale: 0 } }, {
+            attr: { scale: 24 }, duration: 0.45, ease: "power2.out",
+            onComplete: () => gsap.to(rippleMap, { attr: { scale: 5 }, duration: 1.2, ease: "power2.inOut" })
+        });
+    });
 
     document.addEventListener("pointerout", e => {
-        const card = e.target.closest(cardSelector);
+        if (document.documentElement.dataset.hover !== "1") return;
+        const card = e.target.closest(".portfolio-card, .inspo-card");
         if (!card || card.contains(e.relatedTarget)) return;
-        const media = mediaOf(card);
-        ["--rx", "--ry", "--px", "--py"].forEach(v => media.style.removeProperty(v));
-        label.classList.remove("is-visible");
+        const target = rippleTarget(card);
+        gsap.killTweensOf(rippleMap);
+        gsap.to(rippleMap, {
+            attr: { scale: 0 }, duration: 0.5, ease: "power2.out",
+            onComplete: () => target.classList.remove("is-rippling")
+        });
     });
 }
 
