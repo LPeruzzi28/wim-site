@@ -108,16 +108,27 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Mosaïque : les images ont des formats différents mais chaque rang est "justifié" (il remplit toute la
-// largeur à hauteur égale), ce qui donne un mur d'images sans trou. Aucun texte au repos : le titre et la
-// catégorie apparaissent au survol (toujours visibles sur écran tactile).
-// "ratio" = largeur / hauteur voulue pour chaque image ; "rows" = quels projets sur quel rang.
+// Section work : 5 présentations de la même liste de projets (une seule affichée selon <html data-work>) :
+// 1 = mosaïque, 2 = grande image de fond + index, 3 = visionneuse + vignettes,
+// 4 = phrase typographique avec vignettes, 5 = rangées défilantes.
+const esc = value => String(value).replace(/"/g, "&quot;");
+const imgOf = (project, alt = "") => project.image
+    ? `<img src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+    : "";
+const views = {};
+[1, 2, 3, 4, 5].forEach(n => {
+    const view = document.createElement("div");
+    view.className = "work-view";
+    view.dataset.view = n;
+    views[n] = view;
+    grid.appendChild(view);
+});
+
+// ----- 1. Mosaïque : chaque rang remplit toute la largeur (hauteur = largeur / somme des ratios) -----
 const mosaicRatios = [1.1, 1.5, 0.9, 1.4, 1.9, 0.8, 0.75, 1.5];
 const mosaicRows = [[0, 1, 2], [3, 4], [5, 6, 7]];
-
 const mosaic = document.createElement("div");
 mosaic.className = "wm";
-
 mosaicRows.forEach(indexes => {
     const row = document.createElement("div");
     row.className = "wm-row";
@@ -130,13 +141,8 @@ mosaicRows.forEach(indexes => {
         tile.type = "button";
         tile.setAttribute("aria-label", project.title);
         tile.style.setProperty("--ratio", mosaicRatios[i] || 1.2);
-        tile.style.setProperty("--tone", ["var(--c1)", "var(--c2)", "var(--c3)"][i % 3]);
         tile.innerHTML = `
-            <span class="wm-media">
-                ${project.image
-                    ? `<img src="${encodeURI(project.image)}" alt="" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
-                    : `<span class="wm-empty">Image bientôt disponible</span>`}
-            </span>
+            <span class="wm-media">${project.image ? imgOf(project) : `<span class="wm-empty">Image bientôt disponible</span>`}</span>
             <span class="wm-caption">
                 <span class="wm-tag">${project.tag}</span>
                 <span class="wm-line"><h3 class="wm-title">${project.title}</h3></span>
@@ -147,8 +153,131 @@ mosaicRows.forEach(indexes => {
     });
     mosaic.appendChild(row);
 });
+views[1].appendChild(mosaic);
 
-grid.appendChild(mosaic);
+// ----- 2. Grande image de fond + index des titres -----
+const wf = document.createElement("div");
+wf.className = "wf";
+wf.innerHTML = `<div class="wf-bg"></div><div class="wf-shade"></div><div class="wf-list"></div>`;
+const wfBg = wf.querySelector(".wf-bg");
+const wfList = wf.querySelector(".wf-list");
+function setWf(index) {
+    wfBg.querySelectorAll(".wf-slide").forEach((el, i) => el.classList.toggle("is-active", i === index));
+    wfList.querySelectorAll(".wf-item").forEach((el, i) => el.classList.toggle("is-active", i === index));
+}
+projects.forEach((project, index) => {
+    const slide = document.createElement("div");
+    slide.className = "wf-slide";
+    slide.innerHTML = imgOf(project);
+    wfBg.appendChild(slide);
+    const item = document.createElement("button");
+    item.className = "wf-item";
+    item.type = "button";
+    item.innerHTML = `<h3 class="wf-title">${project.title}</h3><span class="wf-tag">${project.tag}</span>`;
+    item.addEventListener("pointerenter", () => setWf(index));
+    item.addEventListener("focus", () => setWf(index));
+    item.addEventListener("click", () => openModal(project));
+    wfList.appendChild(item);
+});
+setWf(0);
+views[2].appendChild(wf);
+
+// ----- 3. Visionneuse : grande image + vignettes -----
+const wv = document.createElement("div");
+wv.className = "wv";
+wv.innerHTML = `
+    <button type="button" class="wv-stage" aria-label="Ouvrir le projet affiché">
+        <span class="wv-slides"></span>
+        <span class="wv-shade"></span>
+        <span class="wv-caption"><span class="wv-tag"></span><h3 class="wv-title"></h3></span>
+    </button>
+    <div class="wv-thumbs"></div>
+`;
+const wvStage = wv.querySelector(".wv-stage");
+const wvSlides = wv.querySelector(".wv-slides");
+const wvThumbs = wv.querySelector(".wv-thumbs");
+const wvTag = wv.querySelector(".wv-tag");
+const wvTitle = wv.querySelector(".wv-title");
+let wvIndex = 0;
+let wvTimer = null;
+function setWv(index) {
+    wvIndex = (index + projects.length) % projects.length;
+    wvSlides.querySelectorAll(".wv-slide").forEach((el, i) => el.classList.toggle("is-active", i === wvIndex));
+    wvThumbs.querySelectorAll(".wv-thumb").forEach((el, i) => {
+        el.classList.remove("is-active");
+        if (i === wvIndex) { void el.offsetWidth; el.classList.add("is-active"); }
+    });
+    wvTag.textContent = projects[wvIndex].tag;
+    wvTitle.textContent = projects[wvIndex].title;
+}
+function startWv() {
+    clearInterval(wvTimer);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    wvTimer = setInterval(() => {
+        if (!document.hidden && views[3].offsetParent !== null) setWv(wvIndex + 1);
+    }, 5200);
+}
+projects.forEach((project, index) => {
+    const slide = document.createElement("span");
+    slide.className = "wv-slide";
+    slide.innerHTML = imgOf(project);
+    wvSlides.appendChild(slide);
+    const thumb = document.createElement("button");
+    thumb.className = "wv-thumb";
+    thumb.type = "button";
+    thumb.setAttribute("aria-label", project.title);
+    thumb.innerHTML = `${imgOf(project)}<i></i>`;
+    thumb.addEventListener("click", () => { setWv(index); startWv(); });
+    wvThumbs.appendChild(thumb);
+});
+wvStage.addEventListener("click", () => openModal(projects[wvIndex]));
+wv.addEventListener("pointerenter", () => clearInterval(wvTimer));
+wv.addEventListener("pointerleave", startWv);
+setWv(0);
+startWv();
+views[3].appendChild(wv);
+
+// ----- 4. Phrase typographique avec vignettes -----
+const wt = document.createElement("p");
+wt.className = "wt";
+projects.forEach((project, index) => {
+    const word = document.createElement("button");
+    word.className = "wt-word";
+    word.type = "button";
+    word.innerHTML = `<span class="wt-text">${project.title}</span><span class="wt-pill">${imgOf(project)}</span>`;
+    word.addEventListener("click", () => openModal(project));
+    wt.appendChild(word);
+    if (index < projects.length - 1) wt.appendChild(document.createTextNode(" "));
+});
+views[4].appendChild(wt);
+
+// ----- 5. Rangées défilantes (comme les inspirations, en plus grand) -----
+const wr = document.createElement("div");
+wr.className = "wr";
+const half = Math.ceil(projects.length / 2);
+[projects.slice(0, half), projects.slice(half)].forEach(items => {
+    const row = document.createElement("div");
+    row.className = "wr-row";
+    const track = document.createElement("div");
+    track.className = "wr-track";
+    for (let pass = 0; pass < 2; pass++) {
+        items.forEach(project => {
+            const card = document.createElement("button");
+            card.className = "wr-card";
+            card.type = "button";
+            if (pass > 0) { card.tabIndex = -1; card.setAttribute("aria-hidden", "true"); }
+            card.innerHTML = `
+                <span class="wr-media">${project.image ? imgOf(project, pass ? "" : project.title) : ""}</span>
+                <span class="wr-meta"><h3 class="wr-title">${project.title}</h3><span class="wr-tag">${project.tag}</span></span>
+            `;
+            card.addEventListener("click", () => openModal(project));
+            track.appendChild(card);
+        });
+    }
+    row.appendChild(track);
+    wr.appendChild(row);
+});
+views[5].appendChild(wr);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {
