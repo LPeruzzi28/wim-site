@@ -95,26 +95,37 @@ function openModal(project) {
         .map(link => `<a href="${encodeURI(link.href)}" target="_blank" rel="noopener">${link.label}</a>`)
         .join("");
     modal.classList.add("open");
+    if (window.lenis) window.lenis.stop();
+    document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
     modal.classList.remove("open");
+    if (window.lenis) window.lenis.start();
+    document.body.style.overflow = "";
 }
 
-projects.forEach(project => {
+const plusIcon = `<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+
+projects.forEach((project, index) => {
     const card = document.createElement("button");
     card.className = "portfolio-card";
+    card.type = "button";
+    card.dataset.cursor = "Voir";
     card.innerHTML = `
-        ${project.image
-            ? `<div class="portfolio-card-thumb-wrap"><img class="portfolio-card-thumb" src="${encodeURI(project.image)}" alt="${project.title}" style="${project.imageStyle || ""}"></div>`
-            : `<div class="portfolio-card-thumb-wrap placeholder">Image bientôt disponible</div>`}
-        <div class="portfolio-card-body">
-            <span class="portfolio-card-tag">${project.tag}</span>
-            <h3 class="portfolio-card-title">
-                ${project.title}
-                <svg class="portfolio-card-expand" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M8 3H3V8M16 3H21V8M8 21H3V16M16 21H21V16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-            </h3>
+        <div class="portfolio-card-media">
+            <div class="portfolio-card-zoom">
+                ${project.image
+                    ? `<img src="${encodeURI(project.image)}" alt="${project.title}" loading="lazy" style="${project.imageStyle || ""}">`
+                    : `<div class="portfolio-card-placeholder">Image bientôt disponible</div>`}
+            </div>
         </div>
+        <div class="portfolio-card-meta">
+            <span class="portfolio-card-num">${String(index + 1).padStart(2, "0")}</span>
+            <span class="portfolio-card-tag">${project.tag}</span>
+        </div>
+        <h3 class="portfolio-card-title">${project.title}</h3>
+        <span class="portfolio-card-cta">Voir le projet ${plusIcon}</span>
     `;
     card.addEventListener("click", () => openModal(project));
     grid.appendChild(card);
