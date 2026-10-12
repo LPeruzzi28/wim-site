@@ -1,17 +1,12 @@
-/* ---------- Section work : grille statique de verre, 5 effets (html[data-wf]) ----------
-   La mise en page ne bouge jamais ; seuls transform / opacity / masque s'animent.
-   1 = la case survolée grossit par-dessus les autres      2 = projecteur : le verre se dissipe, les autres s'assombrissent
-   3 = inclinaison 3D qui suit la souris                    4 = lentille claire qui suit le curseur
-   5 = rideau de verre qui se relève */
+/* ---------- Section work : accordéon, 3 formats (html[data-wf-mode]) ----------
+   1 = bandes verticales   2 = rangées horizontales   3 = capsules verticales */
 
 .work { position: relative; }
 
 .wf-acc {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-    height: min(80vh, 720px);
+    gap: 0.45rem;
+    height: min(84vh, 780px);
     margin: 1rem var(--gutter) 3rem;
 }
 
@@ -20,147 +15,146 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
+    contain: layout paint;
     padding: 0;
     border: 0;
-    border-radius: 0.7rem;
+    border-radius: 0.6rem;
     background: #1a0c06;
     color: #FFF4DC;
     font: inherit;
     text-align: left;
     cursor: pointer;
-    transition: transform 0.6s var(--ease), opacity 0.5s ease, box-shadow 0.6s var(--ease);
 }
 
 .wf-panel:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+/* Images à taille fixe, centrées : la bande ne fait que les révéler */
 .wf-panel img {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    width: var(--fw);
+    height: var(--fh);
+    max-width: none;
     object-fit: cover;
-    transition: transform 1.2s var(--ease);
+    transform: translate(-50%, -50%);
 }
 
-.wf-panel-glass {
+/* Copie floutée (le "verre") : le flou est calculé une fois, puis seule l'opacité change */
+.wf-panel img.soft { filter: blur(14px) saturate(1.25); transform: translate(-50%, -50%) scale(1.18); transition: opacity 0.7s ease; }
+.wf-panel img.sharp { opacity: 0; transition: opacity 0.7s ease; }
+.wf-panel.is-active img.sharp { opacity: 1; }
+.wf-panel.is-active img.soft { opacity: 0; }
+
+.wf-panel-tint {
     position: absolute;
     inset: 0;
-    background: rgba(255, 244, 220, 0.22);
-    -webkit-backdrop-filter: blur(16px) saturate(1.2);
-    backdrop-filter: blur(16px) saturate(1.2);
-    transition: opacity 0.6s ease, transform 0.8s var(--ease);
+    background: rgba(255, 244, 220, 0.2);
+    transition: opacity 0.7s ease;
 }
 
-/* Voile sombre en bas de la case survolée : garde le titre lisible même sur une image claire */
-.wf-panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(20, 6, 0, 0.72) 0%, rgba(20, 6, 0, 0) 58%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-}
+.wf-panel.is-active .wf-panel-tint { opacity: 0; }
 
-.wf-panel.is-active::after { opacity: 1; }
-
-/* Titre de la case au repos */
+/* Titre écrit à la verticale quand la bande est fermée */
 .wf-panel-v {
     position: absolute;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
+    left: 50%;
+    bottom: 1.2rem;
+    transform: translateX(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
-    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    font-size: clamp(1.1rem, 1.7vw, 1.8rem);
     letter-spacing: -0.02em;
-    line-height: 1.05;
     text-transform: lowercase;
-    z-index: 2;
+    white-space: nowrap;
     transition: opacity 0.4s ease;
 }
 
-/* Titre de la case survolée */
+.wf-panel.is-active .wf-panel-v { opacity: 0; }
+
+/* Titre et catégorie quand la bande est ouverte */
 .wf-panel-h {
     position: absolute;
-    left: clamp(1rem, 1.6vw, 1.6rem);
+    left: clamp(1rem, 2vw, 2rem);
     right: 1rem;
-    bottom: clamp(1rem, 1.6vw, 1.5rem);
+    bottom: clamp(1rem, 2vw, 1.8rem);
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    z-index: 2;
+    gap: 0.4rem;
     opacity: 0;
     transform: translateY(0.8rem);
-    transition: opacity 0.4s ease, transform 0.6s var(--ease);
+    transition: opacity 0.35s ease, transform 0.5s var(--ease);
 }
 
-.wf-panel.is-active .wf-panel-v { opacity: 0; }
-.wf-panel.is-active .wf-panel-h { opacity: 1; transform: none; transition: opacity 0.5s ease 0.15s, transform 0.7s var(--ease) 0.15s; }
+.wf-panel.is-active .wf-panel-h { opacity: 1; transform: none; transition: opacity 0.6s ease 0.3s, transform 0.8s var(--ease) 0.3s; }
 
-.wf-panel-tag { font-size: 0.95rem; font-weight: 600; opacity: 0.9; }
+.wf-panel-tag { font-size: 1rem; font-weight: 600; opacity: 0.9; }
 
 .wf-panel-title {
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
-    font-size: clamp(1.5rem, 2.6vw, 2.8rem);
+    font-size: clamp(2rem, 4.4vw, 4.8rem);
     line-height: 0.95;
     letter-spacing: -0.035em;
     text-transform: lowercase;
-    text-shadow: 0 2px 26px rgba(20, 6, 0, 0.55);
+    text-shadow: 0 2px 30px rgba(20, 6, 0, 0.55);
 }
 
-/* ===== 1 : la case survolée grossit ===== */
-html[data-wf="1"] .wf-panel { will-change: transform; }
-html[data-wf="1"] .wf-panel.is-active { transform: scale(1.12); z-index: 5; box-shadow: 0 34px 60px -24px rgba(20, 6, 0, 0.6); }
-html[data-wf="1"] .wf-panel.is-active .wf-panel-glass { opacity: 0; }
-html[data-wf="1"] .wf-acc.has-active .wf-panel:not(.is-active) { transform: scale(0.97); opacity: 0.7; }
-
-/* ===== 2 : projecteur ===== */
-html[data-wf="2"] .wf-panel.is-active .wf-panel-glass { opacity: 0; }
-html[data-wf="2"] .wf-panel.is-active img { transform: scale(1.06); }
-html[data-wf="2"] .wf-acc.has-active .wf-panel:not(.is-active) { opacity: 0.5; }
-
-/* ===== 3 : inclinaison 3D ===== */
-html[data-wf="3"] .wf-acc { perspective: 1300px; }
-html[data-wf="3"] .wf-panel { will-change: transform; }
-html[data-wf="3"] .wf-panel.is-active {
-    z-index: 5;
-    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(1.06);
-    box-shadow: 0 34px 60px -24px rgba(20, 6, 0, 0.6);
-    transition: transform 0.25s ease-out, box-shadow 0.6s var(--ease);
+/* voile sombre pour garder le titre lisible sur une image claire */
+.wf-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20, 6, 0, 0.65) 0%, rgba(20, 6, 0, 0) 55%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
 }
-html[data-wf="3"] .wf-panel.is-active .wf-panel-glass { opacity: 0; }
-html[data-wf="3"] .wf-panel.is-active img { transform: translate(var(--px, 0px), var(--py, 0px)) scale(1.14); transition: transform 0.25s ease-out; }
-html[data-wf="3"] .wf-acc.has-active .wf-panel:not(.is-active) { opacity: 0.7; }
 
-/* ===== 4 : lentille claire qui suit le curseur ===== */
-html[data-wf="4"] .wf-panel.is-active .wf-panel-glass {
-    -webkit-mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent 0, transparent 5rem, #000 8.5rem);
-    mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent 0, transparent 5rem, #000 8.5rem);
+.wf-panel.is-active::after { opacity: 1; }
+.wf-panel-v, .wf-panel-h { z-index: 2; }
+
+/* ===== 1 : bandes verticales ===== */
+html[data-wf-mode="1"] .wf-acc {
+    grid-template-columns: var(--cols);
+    transition: grid-template-columns 0.8s var(--ease);
 }
-html[data-wf="4"] .wf-panel.is-active .wf-panel-glass { background: rgba(255, 244, 220, 0.3); }
-html[data-wf="4"] .wf-panel.is-active img { transform: scale(1.05); }
 
-/* ===== 5 : rideau de verre qui se relève ===== */
-html[data-wf="5"] .wf-panel.is-active .wf-panel-glass { transform: translateY(-101%); }
-html[data-wf="5"] .wf-panel.is-active img { transform: scale(1.05); }
-html[data-wf="5"] .wf-acc.has-active .wf-panel:not(.is-active) { opacity: 0.75; }
+/* ===== 2 : rangées horizontales ===== */
+html[data-wf-mode="2"] .wf-acc {
+    grid-template-rows: var(--rows);
+    transition: grid-template-rows 0.8s var(--ease);
+}
+
+html[data-wf-mode="2"] .wf-panel-v {
+    left: clamp(1rem, 2vw, 2rem);
+    bottom: 50%;
+    transform: translateY(50%);
+    writing-mode: horizontal-tb;
+    font-size: clamp(1.1rem, 1.8vw, 1.9rem);
+}
+
+/* ===== 3 : capsules ===== */
+html[data-wf-mode="3"] .wf-acc {
+    gap: 0.6rem;
+    grid-template-columns: var(--cols);
+    transition: grid-template-columns 0.8s var(--ease);
+}
+
+html[data-wf-mode="3"] .wf-panel { border-radius: 999px; transition: border-radius 0.8s var(--ease); }
+html[data-wf-mode="3"] .wf-panel.is-active { border-radius: 2.2rem; }
+html[data-wf-mode="3"] .wf-panel-v { bottom: 1.8rem; }
 
 @media (max-width: 800px) {
-    .wf-acc {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-template-rows: repeat(4, minmax(0, 1fr));
-        height: 40rem;
-    }
-    .wf-panel-title { font-size: 1.6rem; }
-    .wf-panel-v { font-size: 1rem; }
+    .wf-acc { height: 34rem; }
+    .wf-panel-title { font-size: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .wf-panel, .wf-panel img, .wf-panel-glass { transition: none; }
+    .wf-acc, .wf-panel, .wf-panel img, .wf-panel-tint { transition: none !important; }
 }
 
 /* ---------- Modal ---------- */

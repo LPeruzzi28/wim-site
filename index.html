@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-wf="1">
+<html lang="fr" data-wf="1" data-wf-mode="1">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,9 @@
     <script>
         try {
             var k = new URLSearchParams(location.search).get("wf") || localStorage.getItem("wim-wf");
-            if (["1", "2", "3", "4", "5"].indexOf(k) > -1) document.documentElement.setAttribute("data-wf", k);
+            if (["1", "2", "3"].indexOf(k) > -1) document.documentElement.setAttribute("data-wf", k);
+            // sur mobile : rangées horizontales (plus lisibles en hauteur)
+            document.documentElement.setAttribute("data-wf-mode", innerWidth <= 800 ? "2" : document.documentElement.getAttribute("data-wf"));
         } catch (e) {}
     </script>
 </head>
@@ -91,13 +93,11 @@
         </div>
     </footer>
 
-    <div class="work-switch" id="work-switch" role="group" aria-label="Effet de la section work (temporaire)">
+    <div class="work-switch" id="work-switch" role="group" aria-label="Format de l'accordéon (temporaire)">
         <span>Work</span>
-        <button type="button" data-wf-style="1" title="La case grossit">1</button>
-        <button type="button" data-wf-style="2" title="Projecteur">2</button>
-        <button type="button" data-wf-style="3" title="Inclinaison 3D">3</button>
-        <button type="button" data-wf-style="4" title="Lentille">4</button>
-        <button type="button" data-wf-style="5" title="Rideau de verre">5</button>
+        <button type="button" data-wf-style="1" title="Bandes verticales">1</button>
+        <button type="button" data-wf-style="2" title="Rangées horizontales">2</button>
+        <button type="button" data-wf-style="3" title="Capsules">3</button>
     </div>
 
     <div class="player" id="player">

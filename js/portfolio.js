@@ -108,12 +108,13 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-// Section work : grille statique de 8 cases de verre (4 x 2 sur ordinateur, 2 x 4 sur mobile).
-// Rien ne change la mise en page : seules des transformations / opacités s'animent (fluide, sur le GPU).
-// La case survolée reçoit la classe "is-active" ; chaque variante (html[data-wf]) décide de l'effet.
+// Section work : accordéon. Chaque projet est une bande ; la bande survolée s'ouvre et montre son image.
+// Fluidité : les colonnes / lignes de la grille s'animent, mais chaque image garde une taille fixe (celle de la
+// bande ouverte) et est seulement révélée ; le "verre" est une copie floutée pré-calculée de l'image, qu'on
+// fond avec l'image nette (opacité uniquement) : aucun filtre n'est recalculé pendant l'animation.
 const esc = value => String(value).replace(/"/g, "&quot;");
-const imgOf = (project, alt = "") => project.image
-    ? `<img src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
+const imgOf = (project, cls, alt = "") => project.image
+    ? `<img class="${cls}" src="${encodeURI(project.image)}" alt="${esc(alt)}" loading="lazy" draggable="false" style="${project.imageStyle || ""}">`
     : "";
 
 const acc = document.createElement("div");
@@ -123,7 +124,16 @@ const panels = [];
 
 function setWf(index) {
     panels.forEach((el, i) => el.classList.toggle("is-active", i === index));
-    acc.classList.toggle("has-active", index >= 0);
+    const track = on => projects.map((_, i) => (i === index ? on : "1fr")).join(" ");
+    acc.style.setProperty("--cols", track("9fr"));
+    acc.style.setProperty("--rows", track("9fr"));
+}
+
+function updateSizes() {
+    const w = acc.clientWidth, h = acc.clientHeight;
+    const rows = document.documentElement.dataset.wfMode === "2";
+    acc.style.setProperty("--fw", `${Math.round(rows ? w : w * 0.58)}px`);
+    acc.style.setProperty("--fh", `${Math.round(rows ? h * 0.62 : h)}px`);
 }
 
 projects.forEach((project, index) => {
@@ -132,35 +142,22 @@ projects.forEach((project, index) => {
     panel.type = "button";
     panel.setAttribute("aria-label", project.title);
     panel.innerHTML = `
-        ${imgOf(project)}
-        <span class="wf-panel-glass"></span>
+        ${imgOf(project, "sharp", project.title)}
+        ${imgOf(project, "soft")}
+        <span class="wf-panel-tint"></span>
         <span class="wf-panel-v">${project.title}</span>
         <span class="wf-panel-h">
             <span class="wf-panel-tag">${project.tag}</span>
             <span class="wf-panel-title">${project.title}</span>
         </span>
     `;
+    panel.querySelectorAll("img.soft").forEach(img => img.setAttribute("aria-hidden", "true"));
     // les premiers visuels sont chargés tout de suite
-    if (index < 4) panel.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
-
+    if (index < 2) panel.querySelectorAll("img").forEach(img => { img.loading = "eager"; });
     panel.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setWf(index); });
     panel.addEventListener("focus", () => setWf(index));
-
-    // Position du curseur dans la case (inclinaison 3D, lentille) : variables CSS mises à jour au vol
-    panel.addEventListener("pointermove", e => {
-        if (e.pointerType !== "mouse") return;
-        const r = panel.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        panel.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        panel.style.setProperty("--my", `${e.clientY - r.top}px`);
-        panel.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
-        panel.style.setProperty("--rx", `${(0.5 - y) * 9}deg`);
-        panel.style.setProperty("--px", `${(0.5 - x) * 16}px`);
-        panel.style.setProperty("--py", `${(0.5 - y) * 12}px`);
-    }, { passive: true });
-
     panel.addEventListener("click", () => {
-        // écran tactile : un premier toucher ouvre la case, le second ouvre le projet
+        // écran tactile : un premier toucher ouvre la bande, le second ouvre le projet
         if (touchOnly.matches && !panel.classList.contains("is-active")) { setWf(index); return; }
         openModal(project);
     });
@@ -168,9 +165,34 @@ projects.forEach((project, index) => {
     acc.appendChild(panel);
 });
 
-// quand la souris quitte la grille, tout revient au repos
-acc.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") setWf(-1); });
+// Défilement automatique : tant qu'on ne touche à rien, l'accordéon ouvre les projets l'un après l'autre.
+// Il s'arrête dès que la souris survole le bloc, et reprend quand elle le quitte.
+let autoTimer = null;
+let activeIndex = 0;
+const setWfAuto = index => { activeIndex = index; setWf(index); };
+function startAuto() {
+    clearInterval(autoTimer);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    autoTimer = setInterval(() => {
+        const r = acc.getBoundingClientRect();
+        const visible = r.bottom > 0 && r.top < window.innerHeight;
+        if (document.hidden || !visible || modal.classList.contains("open")) return;
+        setWfAuto((activeIndex + 1) % projects.length);
+    }, 3600);
+}
+panels.forEach((panel, i) => {
+    panel.addEventListener("pointerenter", () => { activeIndex = i; });
+    panel.addEventListener("focus", () => { activeIndex = i; });
+});
+acc.addEventListener("pointerenter", () => clearInterval(autoTimer));
+acc.addEventListener("pointerleave", startAuto);
+
+setWf(0);
 grid.appendChild(acc);
+startAuto();
+updateSizes();
+new ResizeObserver(updateSizes).observe(acc);
+window.addEventListener("wf-mode", updateSizes);
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {
