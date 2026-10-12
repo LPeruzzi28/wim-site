@@ -1,0 +1,42 @@
+/* Réinitialisation, réglages de la bibliothèque de défilement et typographie de base. */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Réglages recommandés par Lenis (défilement fluide) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+::selection { background: var(--c1); color: var(--on-c); }
+
+/* Titres : grande police large, toujours en minuscules */
+h1, h2, h3 {
+    margin: 0;
+    font-family: var(--sans);
+    font-stretch: 125%;
+    font-weight: 800;
+    text-transform: lowercase;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+}

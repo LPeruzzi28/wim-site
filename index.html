@@ -5,15 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WIM! · Louis Peruzzi</title>
     <meta name="description" content="What Inspire Me ! Le portfolio de Louis Peruzzi : réalisations en design et développement, et les créateurs qui l'inspirent.">
+    <meta name="theme-color" content="#F4C03C">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="WIM! · Louis Peruzzi">
+    <meta property="og:description" content="What Inspire Me ! Le portfolio de Louis Peruzzi : réalisations en design et développement, et les créateurs qui l'inspirent.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+
+    <!-- Feuilles de style chargées en parallèle (plus rapide qu'une chaîne de @import) -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/work.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/inspirations.css">
+    <link rel="stylesheet" href="css/player.css">
+
+    <!-- Bibliothèques tierces : version figée + empreinte d'intégrité (le navigateur refuse un fichier modifié) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+            integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+            integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"
+            integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Code du site (modules ES : exécutés après les bibliothèques ci-dessus, dans l'ordre du document) -->
+    <script type="module" src="js/main.js"></script>
 </head>
 <body>
-    <header class="bar">
-        <a class="bar-brand" href="#home">wim<span>!</span></a>
-        <nav class="bar-nav" aria-label="Navigation principale">
+    <header class="site-header">
+        <a class="site-header-brand" href="#home">wim<span>!</span></a>
+        <nav class="site-nav" aria-label="Navigation principale">
             <a href="#work" data-view-link="work">work</a>
             <a href="#inspo" data-view-link="inspo">inspo</a>
         </nav>
@@ -21,17 +48,17 @@
 
     <main>
         <section class="hero" id="home" data-view="home">
-            <video class="hero-video" id="hero-video" data-src="video/ski-loop.mp4" poster="video/ski-poster.jpg" muted loop playsinline preload="auto"></video>
+            <video class="hero-video hero-video--lead" data-src="video/ski-loop.mp4" poster="video/ski-poster.jpg" muted loop playsinline preload="auto"></video>
 
             <div class="hero-floor" aria-hidden="true"></div>
 
-            <div class="knock">
-                <div class="knock-bg" aria-hidden="true">
-                    <video class="hero-video" id="hero-video-bg" data-src="video/ski-loop.mp4" muted loop playsinline preload="auto"></video>
-                    <span class="knock-tint"></span>
+            <div class="hero-knockout">
+                <div class="hero-knockout-bg" aria-hidden="true">
+                    <video class="hero-video" data-src="video/ski-loop.mp4" muted loop playsinline preload="auto"></video>
+                    <span class="hero-knockout-tint"></span>
                 </div>
-                <div class="knock-text">
-                    <h1 class="hero-title" id="title" aria-label="What Inspire Me !">
+                <div class="hero-knockout-text">
+                    <h1 class="hero-title" aria-label="What Inspire Me !">
                         <span class="line"><span>what</span></span>
                         <span class="line"><span>inspire</span></span>
                         <span class="line"><span>me !</span></span>
@@ -46,50 +73,52 @@
         </section>
 
         <section class="work" id="work" data-view="work">
-            <header class="head">
+            <header class="section-head">
                 <h2>work</h2>
                 <p>Projets d'école et projets personnels.</p>
             </header>
 
-            <div id="portfolio-grid"></div>
+            <div id="work-root"></div>
         </section>
 
         <section class="inspo" id="inspo" data-view="inspo">
-            <header class="head">
+            <header class="section-head">
                 <h2>inspo</h2>
                 <p>Les créateurs, chaînes et comptes qui nourrissent mon travail.</p>
             </header>
-            <div class="inspo-rows" id="inspo-grid"></div>
+
+            <div class="inspo-rows" id="inspo-root"></div>
         </section>
     </main>
 
-    <div class="portfolio-modal" id="portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title">
-                <div class="portfolio-modal-content">
-                    <button class="portfolio-modal-close" id="portfolio-modal-close" aria-label="Fermer">Fermer ×</button>
-                    <div class="portfolio-modal-media" id="portfolio-modal-media"></div>
-                    <div class="portfolio-modal-text">
-                        <span class="portfolio-modal-tag" id="portfolio-modal-tag"></span>
-                        <h3 id="portfolio-modal-title"></h3>
-                        <p id="portfolio-modal-desc"></p>
-                        <div class="portfolio-modal-links" id="portfolio-modal-links"></div>
-                    </div>
-                </div>
+    <!-- Détail d'un projet : rempli par js/components/project-modal.js -->
+    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+        <div class="project-modal-content">
+            <button class="project-modal-close" id="project-modal-close" type="button" aria-label="Fermer">Fermer ×</button>
+            <div class="project-modal-media" id="project-modal-media"></div>
+            <div class="project-modal-text">
+                <span class="project-modal-tag" id="project-modal-tag"></span>
+                <h3 class="project-modal-title" id="project-modal-title"></h3>
+                <p class="project-modal-desc" id="project-modal-desc"></p>
+                <div class="project-modal-links" id="project-modal-links"></div>
             </div>
+        </div>
+    </div>
 
-    <footer class="foot">
-        <p class="foot-big">wim!</p>
-        <div class="foot-row">
+    <footer class="site-footer">
+        <p class="site-footer-wordmark" aria-hidden="true">wim!</p>
+        <div class="site-footer-row">
             <span>© 2026 Louis Peruzzi</span>
-            <a href="https://www.youtube.com/@LPoezzi" target="_blank" rel="noopener">YouTube ↗</a>
-            <a href="#home" id="to-top">Haut ↑</a>
+            <a href="https://www.youtube.com/@LPoezzi" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+            <a href="#home">Haut ↑</a>
         </div>
     </footer>
 
     <div class="player" id="player">
         <audio id="player-audio"></audio>
-        <button class="player-toggle" id="player-toggle" aria-label="Lecture">
-            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12"><path d="M6 4l15 8-15 8V4z" fill="currentColor"/></svg>
-            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/></svg>
+        <button class="player-toggle" id="player-toggle" type="button" aria-label="Lecture">
+            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 4l15 8-15 8V4z" fill="currentColor"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/></svg>
         </button>
         <div class="player-body">
             <p class="player-title" id="player-title">...</p>
@@ -97,17 +126,9 @@
                 <div class="player-bar-fill" id="player-bar-fill"></div>
             </div>
         </div>
-        <button class="player-next" id="player-next" aria-label="Titre suivant">
-            <svg viewBox="0 0 24 24" width="12" height="12"><path d="M6 4l12 8-12 8V4zm13 0h2v16h-2V4z" fill="currentColor"/></svg>
+        <button class="player-next" id="player-next" type="button" aria-label="Titre suivant">
+            <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 4l12 8-12 8V4zm13 0h2v16h-2V4z" fill="currentColor"/></svg>
         </button>
     </div>
-
-    <script src="js/portfolio.js"></script>
-    <script src="js/inspirations.js"></script>
-    <script src="js/player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>

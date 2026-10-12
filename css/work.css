@@ -1,0 +1,167 @@
+/**
+ * Section « work » : accordéon de bandes.
+ * Chaque projet est une bande aux coins arrondis ; celle qu'on survole s'ouvre en grand rectangle.
+ *
+ * Fluidité : les colonnes de la grille (ou les rangées, sur mobile) s'animent via --cols / --rows (définies par
+ * work-accordion.js) ; les images gardent une taille fixe (--fw / --fh) et sont seulement révélées ; le « verre »
+ * est une copie floutée pré-calculée de l'image, fondue avec l'image nette : seule l'opacité change.
+ */
+
+.work { position: relative; }
+
+.work-accordion {
+    display: grid;
+    grid-template-columns: var(--cols);
+    gap: 0.6rem;
+    height: min(84vh, 780px);
+    margin: 1rem var(--gutter) 3rem;
+    transition: grid-template-columns 0.8s var(--ease);
+}
+
+.work-panel {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    contain: layout paint;
+    padding: 0;
+    border: 0;
+    border-radius: 1.6rem;
+    background: #1a0c06;
+    color: #FFF4DC;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-radius 0.8s var(--ease), box-shadow 0.8s var(--ease);
+}
+
+.work-panel.is-active {
+    border-radius: 1rem;
+    box-shadow: 0 34px 50px -30px rgba(20, 6, 0, 0.6);
+}
+
+.work-panel:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Images à taille fixe, centrées : la bande ne fait que les révéler (--z = zoom propre à l'image) */
+.work-panel img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--fw);
+    height: var(--fh);
+    max-width: none;
+    object-fit: cover;
+    transform: translate(-50%, -50%) scale(var(--z, 1));
+}
+
+/* Copie floutée (le « verre ») : le flou est calculé une fois, puis seule l'opacité change */
+.work-panel .work-panel-soft {
+    filter: blur(14px) saturate(1.25);
+    transform: translate(-50%, -50%) scale(calc(1.18 * var(--z, 1)));
+    transition: opacity 0.7s ease;
+}
+
+.work-panel .work-panel-sharp { opacity: 0; transition: opacity 0.7s ease; }
+
+.work-panel.is-active .work-panel-sharp { opacity: 1; }
+.work-panel.is-active .work-panel-soft { opacity: 0; }
+
+.work-panel-tint {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 244, 220, 0.2);
+    transition: opacity 0.7s ease;
+}
+
+.work-panel.is-active .work-panel-tint { opacity: 0; }
+
+/* Titre écrit à la verticale quand la bande est fermée */
+.work-panel-label {
+    position: absolute;
+    left: 50%;
+    bottom: 1.8rem;
+    z-index: 2;
+    transform: translateX(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: var(--sans);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.1rem, 1.7vw, 1.8rem);
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+    white-space: nowrap;
+    transition: opacity 0.4s ease;
+}
+
+.work-panel.is-active .work-panel-label { opacity: 0; }
+
+/* Catégorie et titre quand la bande est ouverte */
+.work-panel-detail {
+    position: absolute;
+    left: clamp(1rem, 2vw, 2rem);
+    right: 1rem;
+    bottom: clamp(1rem, 2vw, 1.8rem);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    opacity: 0;
+    transform: translateY(0.8rem);
+    transition: opacity 0.35s ease, transform 0.5s var(--ease);
+}
+
+.work-panel.is-active .work-panel-detail {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.6s ease 0.3s, transform 0.8s var(--ease) 0.3s;
+}
+
+.work-panel-tag { font-size: 1rem; font-weight: 600; opacity: 0.9; }
+
+.work-panel-title {
+    font-family: var(--sans);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.4vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: lowercase;
+    text-shadow: 0 2px 30px rgba(20, 6, 0, 0.55);
+}
+
+/* Voile sombre : garde le titre lisible même sur une image claire */
+.work-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20, 6, 0, 0.65) 0%, rgba(20, 6, 0, 0) 55%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+
+.work-panel.is-active::after { opacity: 1; }
+
+/* Mobile : les bandes sont couchées et empilées (on anime les rangées au lieu des colonnes) */
+@media (max-width: 800px) {
+    .work-accordion {
+        height: 34rem;
+        grid-template-columns: none;
+        grid-template-rows: var(--rows);
+        transition: grid-template-rows 0.8s var(--ease);
+    }
+
+    .work-panel-label {
+        left: clamp(1rem, 4vw, 1.6rem);
+        bottom: 50%;
+        transform: translateY(50%);
+        writing-mode: horizontal-tb;
+        font-size: 1.1rem;
+    }
+
+    .work-panel-title { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .work-accordion, .work-panel, .work-panel img, .work-panel-tint { transition: none !important; }
+}

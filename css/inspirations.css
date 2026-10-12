@@ -1,4 +1,8 @@
-/* ---------- Inspirations : deux rangées qui défilent en sens inverse ---------- */
+/**
+ * Section « inspo » : deux rangées de cartes qui défilent en sens inverse (animation CSS, vitesse boostée
+ * par animations.js quand on scrolle vite). Les rangées contiennent leur liste dupliquée : le décalage de
+ * -50 % boucle sans coupure.
+ */
 
 .inspo { padding-bottom: 1rem; }
 
@@ -29,7 +33,7 @@
     to { transform: translateX(-50%); }
 }
 
-/* Cartes d'inspirations : image carrée en noir et blanc qui passe en couleur, nom dessous.
+/* Cartes : image carrée en noir et blanc qui passe en couleur, nom dessous.
    Au survol, un trait de couleur parcourt le filet et les autres cartes s'estompent. */
 
 .inspo-card {

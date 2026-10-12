@@ -1,0 +1,15 @@
+{
+  "name": "wim-site",
+  "version": "1.0.0",
+  "description": "Portfolio de Louis Peruzzi : site statique (HTML, CSS, JavaScript) hébergé sur Cloudflare Workers.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8934",
+    "check": "find js -name '*.js' -exec node --check {} +",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,8 +1,15 @@
-// name  : nom de l'artiste / de la chaîne / du compte
-// tag   : catégorie affichée (Musique, YouTube, TikTok, Film, Style...)
-// link  : URL vers son profil / sa chaîne
-// image : chemin vers une image (ou null pour un placeholder en attendant)
-const inspirations = [
+/**
+ * Créateurs, chaînes et comptes qui m'inspirent (section « inspo »).
+ *
+ * @typedef {Object} Inspiration
+ * @property {string} name   Nom de l'artiste / de la chaîne / du compte.
+ * @property {string} tag    Catégorie (musique, YouTube, TikTok, film, style…).
+ * @property {string} link   URL de son profil ou de sa chaîne.
+ * @property {string|null} image  Chemin d'une image (ou null pour un placeholder).
+ */
+
+/** @type {Inspiration[]} */
+export const inspirations = [
     {
         name: "Lounge4ever",
         tag: "Music inspo",
@@ -70,46 +77,3 @@ const inspirations = [
         image: "inspirations/kxd logos/Capture d’écran 2026-07-04 à 22.49.17.png"
     }
 ];
-
-const inspoGrid = document.getElementById("inspo-grid");
-
-function buildInspoCard(item, hidden) {
-    const card = document.createElement("a");
-    card.className = "inspo-card";
-    card.href = item.link;
-    card.target = "_blank";
-    card.rel = "noopener";
-    if (hidden) {
-        card.setAttribute("aria-hidden", "true");
-        card.tabIndex = -1;
-    }
-    card.innerHTML = `
-        <div class="inspo-card-media">
-            ${item.image
-                ? `<img src="${encodeURI(item.image)}" alt="${hidden ? "" : item.name}" loading="lazy" draggable="false">`
-                : `<div class="placeholder">Image bientôt disponible</div>`}
-        </div>
-        <div class="inspo-card-body">
-            <h3 class="inspo-card-name">${item.name}</h3>
-        </div>
-    `;
-    return card;
-}
-
-// Deux rangées ; chaque rangée contient sa liste deux fois pour boucler sans coupure.
-const half = Math.ceil(inspirations.length / 2);
-[inspirations.slice(0, half), inspirations.slice(half)].forEach(items => {
-    const row = document.createElement("div");
-    row.className = "inspo-row";
-    const track = document.createElement("div");
-    track.className = "inspo-track";
-    // Répète la liste assez de fois pour dépasser la largeur d'un grand écran, puis double le tout.
-    const repeat = 2;
-    for (let pass = 0; pass < 2; pass++) {
-        for (let r = 0; r < repeat; r++) {
-            items.forEach(item => track.appendChild(buildInspoCard(item, pass > 0 || r > 0)));
-        }
-    }
-    row.appendChild(track);
-    inspoGrid.appendChild(row);
-});

@@ -1,28 +1,8 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
+/* Structure du site : en-tête, hero, titres de section, pied de page. */
 
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-stopped { overflow: hidden; }
+/* ---------- En-tête ---------- */
 
-body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden;
-    transition: background 0.4s ease, color 0.4s ease;
-}
-
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-ul { list-style: none; margin: 0; padding: 0; }
-
-::selection { background: var(--c1); color: var(--on-c); }
-
-/* ---------- Barre du haut ---------- */
-
-.bar {
+.site-header {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 100;
@@ -31,24 +11,22 @@ ul { list-style: none; margin: 0; padding: 0; }
     align-items: baseline;
     padding: 1.1rem var(--gutter);
     color: var(--ink);
-    pointer-events: none;
-    transition: color 0.3s ease;
+    pointer-events: none;   /* la barre ne bloque pas le contenu dessous… */
 }
 
+.site-header > * { pointer-events: auto; }   /* …mais ses liens restent cliquables */
 
-
-.bar > * { pointer-events: auto; }
-
-.bar-brand {
+.site-header-brand {
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
     font-size: 1.15rem;
     letter-spacing: -0.03em;
-    justify-self: start;
 }
 
-.bar-nav {
+.site-header-brand span { color: var(--c1); }
+
+.site-nav {
     display: flex;
     gap: 2rem;
     font-size: 1.05rem;
@@ -56,10 +34,8 @@ ul { list-style: none; margin: 0; padding: 0; }
     font-stretch: 112%;
 }
 
-.bar-brand span { color: var(--c1); }
-
-.bar-nav a:hover,
-.bar-nav a.active {
+.site-nav a:hover,
+.site-nav a.active {
     text-decoration: underline;
     text-decoration-color: var(--c1);
     text-decoration-thickness: 2px;
@@ -67,10 +43,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 /* ---------- Hero ----------
-   La vidéo (V) est en fond, relevée par un plancher bleu (.hero-floor, "lighten") : les lettres ne
-   sont jamais plus sombres qu'un bleu clair, donc toujours lisibles. Par-dessus, le calque ".knock" est mélangé en "darken" :
-   - dans les lettres (blanches) on voit la vidéo en couleur,
-   - ailleurs on voit une 2e copie de la vidéo, très assombrie et teintée de bleu (.knock-bg). */
+   Principe : la vidéo est en fond, plafonnée par une couleur (.hero-floor, mélangée en « darken ») :
+   les lettres ne sont jamais plus claires qu'un orange brûlé, donc toujours lisibles sur le fond jaune.
+   Par-dessus, le calque .hero-knockout est mélangé en « lighten » :
+   - dans les lettres (noires, donc « percées »), on voit la vidéo ;
+   - ailleurs, on voit une 2e copie de la vidéo, très estompée et teintée de la couleur de fond. */
 
 .hero {
     position: relative;
@@ -93,7 +70,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     transform: scale(1.04);
 }
 
-#hero-video { filter: var(--video-tone) saturate(1.3) brightness(1.1); }
+.hero-video--lead { filter: var(--video-tone) saturate(1.3) brightness(1.1); }
 
 .hero-floor {
     position: absolute;
@@ -102,7 +79,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     mix-blend-mode: var(--floor-blend);
 }
 
-.knock {
+.hero-knockout {
     position: absolute;
     inset: 0;
     z-index: 1;
@@ -113,22 +90,22 @@ ul { list-style: none; margin: 0; padding: 0; }
     mix-blend-mode: var(--knock-blend);
 }
 
-.knock-bg {
+.hero-knockout-bg {
     position: absolute;
     inset: 0;
     overflow: hidden;
 }
 
-.knock-bg .hero-video { filter: var(--video-tone) saturate(0.7) brightness(0.9); }
+.hero-knockout-bg .hero-video { filter: var(--video-tone) saturate(0.7) brightness(0.9); }
 
-.knock-tint {
+.hero-knockout-tint {
     position: absolute;
     inset: 0;
     background: var(--bg);
     opacity: 0.94;
 }
 
-.knock-text {
+.hero-knockout-text {
     position: relative;
     width: 100%;
     color: var(--knock-ink);
@@ -140,6 +117,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     line-height: 0.8;
 }
 
+/* Chaque ligne est un masque : le texte y monte à l'entrée (animations.js) */
 .hero-title .line {
     display: block;
     overflow: hidden;
@@ -177,7 +155,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 /* ---------- Titres de section ---------- */
 
-.head {
+.section-head {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -185,13 +163,13 @@ ul { list-style: none; margin: 0; padding: 0; }
     padding: clamp(5rem, 11vw, 10rem) var(--gutter) 1.5rem;
 }
 
-.head h2 {
+.section-head h2 {
     font-size: clamp(3.4rem, 12vw, 13rem);
     line-height: 0.8;
     margin-left: -0.04em;
 }
 
-.head p {
+.section-head p {
     margin: 0;
     max-width: 22rem;
     color: var(--mute);
@@ -199,34 +177,33 @@ ul { list-style: none; margin: 0; padding: 0; }
     line-height: 1.35;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Pied de page ---------- */
 
-.foot {
+.site-footer {
     margin-top: clamp(4rem, 8vw, 7rem);
     padding: 0 var(--gutter) 5rem;
     border-top: 1px solid var(--line);
     overflow: hidden;
 }
 
-.foot-big {
-    margin: 0;
-    padding-top: 2rem;
+/* Gros « wim! » dont les lettres sont remplies par la photo du mur de briques */
+.site-footer-wordmark {
+    margin: 0 0 0 -0.05em;
+    padding: 2rem 0 0.05em;
     font-family: var(--sans);
     font-stretch: 125%;
     font-weight: 800;
     font-size: clamp(7rem, 33vw, 38rem);
     line-height: 0.74;
     letter-spacing: -0.06em;
-    margin-left: -0.05em;
-    padding-bottom: 0.05em;
-    color: var(--accent);
+    color: var(--c1);
     background: url("../images/plan-de-travail-1.jpg") center / cover no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.foot-row {
+.site-footer-row {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -237,19 +214,19 @@ ul { list-style: none; margin: 0; padding: 0; }
     font-size: 1.05rem;
 }
 
-.foot-row a:hover { color: var(--c1); }
+.site-footer-row a:hover { color: var(--c1); }
 
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
     .hero-title { font-size: 24vw; }
     .hero-intro { left: var(--gutter); right: var(--gutter); max-width: none; bottom: 4.25rem; font-size: 1.1rem; }
-    .knock { padding-bottom: 9rem; }
-    .head { flex-direction: column; align-items: flex-start; }
+    .hero-knockout { padding-bottom: 9rem; }
+    .section-head { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 600px) {
-    .bar-nav { gap: 1.25rem; font-size: 0.95rem; }
+    .site-nav { gap: 1.25rem; font-size: 0.95rem; }
     .hero-title { font-size: 25vw; }
-    .knock { padding-bottom: 9.5rem; }
+    .hero-knockout { padding-bottom: 9.5rem; }
 }

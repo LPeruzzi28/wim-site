@@ -1,4 +1,14 @@
+# Fichiers qui ne doivent pas être publiés avec le site (Cloudflare Workers, gitignore syntax)
 .git
+.gitignore
 .wrangler
 .DS_Store
+.editorconfig
+README.md
+package.json
+package-lock.json
+node_modules
 wrangler.jsonc
+
+# Notes de travail (texte brut) rangées à côté des projets : inutiles en ligne
+*.rtf
