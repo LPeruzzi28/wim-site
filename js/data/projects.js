@@ -18,6 +18,16 @@
 /** @type {Project[]} */
 export const projects = [
     {
+        title: "Bonnes Nouvelles 3",
+        tag: "Print · Mise en page",
+        desc: "Exercice de mise en page pour le cours de print : le programme de 20 pages d'un festival fictif de films de ski et de snowboard à Annecy. Grille, hiérarchie typographique, sommaire, pages d'ouverture par jour et fiches de films, sous InDesign. Une partie des textes est générée par IA.",
+        image: "projet-ecole/bn3/bn3-couverture.jpg",
+        imageStyle: "object-position: top;",
+        links: [
+            { label: "Voir le programme (PDF)", href: "projet-ecole/bn3/BN3_Programme_Bonnes_Nouvelles_3.pdf" }
+        ]
+    },
+    {
         title: "DiBike",
         tag: "Projet de groupe",
         desc: "Projet en groupe de 3 où nous devions mettre en place un écosystème digital pour une association de vélo, de l'idée du concept à la création d'un site web, de posts Instagram, etc.",
