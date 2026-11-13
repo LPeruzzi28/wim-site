@@ -1,4 +1,4 @@
-# WIM! · Portfolio de Louis Peruzzi
+# WIM! - Portfolio de Louis Peruzzi
 
 Site statique (HTML, CSS, JavaScript natif en modules ES, sans étape de build), hébergé sur
 Cloudflare Workers (assets statiques). En ligne : https://wim-site.lperuzzi28lperuzzi28lperuzzi28lperuzzi28.workers.dev

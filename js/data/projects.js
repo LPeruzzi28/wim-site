@@ -18,9 +18,9 @@
 /** @type {Project[]} */
 export const projects = [
     {
-        title: "Bonnes Nouvelles 3",
-        tag: "Print · Mise en page",
-        desc: "Exercice de mise en page pour le cours de print : le programme de 20 pages d'un festival fictif de films de ski et de snowboard à Annecy. Grille, hiérarchie typographique, sommaire, pages d'ouverture par jour et fiches de films, sous InDesign. Une partie des textes est générée par IA.",
+        title: "Programme de festival",
+        tag: "Print - Mise en page",
+        desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : la mise en page d'un programme de 20 pages sous InDesign (grille, hiérarchie typographique, sommaire, pages d'ouverture par jour, fiches de films). Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs. Une partie des textes est générée par IA.",
         image: "projet-ecole/bn3/bn3-couverture.jpg",
         imageStyle: "object-position: top;",
         links: [
@@ -40,7 +40,7 @@ export const projects = [
     },
     {
         title: "Vivre en Suisse",
-        tag: "PHP / SQL · Projet d'une semaine",
+        tag: "PHP / SQL - Projet d'une semaine",
         desc: "Projet d'une semaine mélangeant PHP et SQL. On a dû créer une page web qui présente divers scénarios autour de l'évolution climatique.",
         image: "projet-ecole/sae3/sae3-screenshot.png",
         imageStyle: "object-position: top;",
@@ -60,7 +60,7 @@ export const projects = [
     },
     {
         title: "Chaîne YouTube",
-        tag: "Perso · Vidéo",
+        tag: "Perso - Vidéo",
         desc: "Chaîne YouTube lancée cet hiver pour documenter et garder des souvenirs de mes journées de ski.",
         image: "projet-ecole/ytb/ytb-thumbnail.png",
         video: "video/ski-loop.mp4",
@@ -96,7 +96,7 @@ export const projects = [
     },
     {
         title: "Auditcom club de foot",
-        tag: "Projet de groupe · Communication",
+        tag: "Projet de groupe - Communication",
         desc: "Projet en groupe de deux : un club de foot suisse nous a été assigné et nous avons dû réaliser un audit de leur communication, puis un site web mettant en avant tous les rapports réalisés par les différentes équipes de la classe.",
         image: "projet-ecole/auditcom-clubfoot/auditcom-screenshot.png",
         imageStyle: "object-position: top;",
