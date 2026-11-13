@@ -21,8 +21,8 @@ export const projects = [
         title: "Mise en page",
         tag: "Print",
         desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : j'ai mis en page le programme du festival (20 pages sous InDesign) et j'ai essayé de recréer un univers graphique pour l'occasion. Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs.",
-        image: "projet-ecole/bn3/bn3-couverture.jpg",
-        imageStyle: "object-position: top;",
+        image: "projet-ecole/bn3/bn3-texte.jpg",
+        imageStyle: "object-position: center;",
         links: [
             { label: "Voir le programme (PDF)", href: "projet-ecole/bn3/BN3_Programme_Bonnes_Nouvelles_3.pdf" }
         ]
