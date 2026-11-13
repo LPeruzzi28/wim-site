@@ -34,7 +34,6 @@ export const projects = [
         image: "projet-ecole/sae4/DiBike-mockup-insta.jpg",
         links: [
             { label: "Logo", href: "projet-ecole/sae4/DiBike_logotype_baseline_1024.png" },
-            { label: "Poster (PDF)", href: "projet-ecole/sae4/DiBike-poster.pdf" },
             { label: "Présentation (PDF)", href: "projet-ecole/sae4/presentation.pdf" }
         ]
     },
