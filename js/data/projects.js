@@ -18,9 +18,9 @@
 /** @type {Project[]} */
 export const projects = [
     {
-        title: "Programme de festival",
-        tag: "Print - Mise en page",
-        desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : la mise en page d'un programme de 20 pages sous InDesign (grille, hiérarchie typographique, sommaire, pages d'ouverture par jour, fiches de films). Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs. Une partie des textes est générée par IA.",
+        title: "Mise en page",
+        tag: "Print",
+        desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : la mise en page d'un programme de 20 pages sous InDesign (grille, hiérarchie typographique, sommaire, pages d'ouverture par jour, fiches de films). Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs.",
         image: "projet-ecole/bn3/bn3-couverture.jpg",
         imageStyle: "object-position: top;",
         links: [
