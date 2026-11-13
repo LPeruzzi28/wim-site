@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Romand - AuditCom</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="src/mock-api.js" type="module"></script>
+    <script src="src/main.js" type="module" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Hero -->
+
+    <div id="hero">
+        <div class="hero-content">
+            <h1 class="hero-prefix">Le football romand à l'ère du digital</h1>
+            <div class="hero-icon">
+                <svg width="400" height="400" fill="#5F6075" viewBox="0 0 256 256">
+                    <path
+                        d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm76.52,147.42H170.9l-9.26-12.76,12.63-36.78,15-4.89,26.24,20.13A87.38,87.38,0,0,1,204.52,171.42Zm-164-34.3L66.71,117l15,4.89,12.63,36.78L85.1,171.42H51.48A87.38,87.38,0,0,1,40.47,137.12Zm10-50.64,5.51,18.6L40.71,116.77A87.33,87.33,0,0,1,50.43,86.48ZM109,152,97.54,118.65,128,97.71l30.46,20.94L147,152Zm91.07-46.92,5.51-18.6a87.33,87.33,0,0,1,9.72,30.29Zm-6.2-35.38-9.51,32.08-15.07,4.89L136,83.79V68.21l29.09-20A88.58,88.58,0,0,1,193.86,69.7ZM146.07,41.87,128,54.29,109.93,41.87a88.24,88.24,0,0,1,36.14,0ZM90.91,48.21l29.09,20V83.79L86.72,106.67l-15.07-4.89L62.14,69.7A88.58,88.58,0,0,1,90.91,48.21ZM63.15,187.42H83.52l7.17,20.27A88.4,88.4,0,0,1,63.15,187.42ZM110,214.13,98.12,180.71,107.35,168h41.3l9.23,12.71-11.83,33.42a88,88,0,0,1-36.1,0Zm55.36-6.44,7.17-20.27h20.37A88.4,88.4,0,0,1,165.31,207.69Z">
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Intro -->
+    <section class="intro">
+        <h2>Téléchargez le grand rapport de <br>la présence digitale des clubs romands.</h2>
+        <button class="btn-download">Télécharger</button>
+        <div id="messageContainer"></div>
+    </section>
+
+
+    <!-- Compteur -->
+    <div id="compteur">
+        <div class="compteur-icon">
+            <svg width="150px" height="150px" viewBox="0 -199.5 1423 1423">
+                <path d="M105.124 107.703h1142.109v796.875h-1142.109v-796.875z" fill="none" />
+                <path d="M1069.108 336.219h157.266v353.672h-157.266zM128.562 336.219h157.266v353.672h-157.266z"
+                    fill="none" />
+                <path
+                    d="M1120.438 90.125h-887.813c-78.646 0.133-142.367 63.853-142.5 142.488v558.528c0.133 78.647 63.853 142.367 142.488 142.5h887.826c78.646-0.133 142.367-63.853 142.5-142.488v-558.293c0 0 0 0 0 0 0-78.747-63.771-142.601-142.488-142.733zM651.688 626.844c-53.93-11.239-93.867-58.377-93.867-114.844s39.938-103.605 93.106-114.711l0.761 229.554zM698.563 397.156c53.93 11.239 93.867 58.377 93.867 114.844s-39.938 103.605-93.106 114.711l-0.761-229.554zM136.062 347.937h101.25c0 0 0 0 0 0 23.429 0 42.421 18.992 42.421 42.421v243.516c0 0 0 0 0 0 0 23.429-18.992 42.421-42.421 42.421 0 0 0 0 0 0h-101.25v-328.125zM136.062 791.375v-68.438h101.25c49.317 0 89.297-39.98 89.297-89.297v-242.578c0-49.317-39.98-89.297-89.297-89.297 0 0 0 0 0 0h-101.25v-68.438c0.133-52.759 42.867-95.492 95.613-95.625h420.011v212.813c-79.347 12.438-139.329 80.308-139.329 162.188 0 81.879 59.982 149.75 138.403 162.068l0.927 212.932h-419.063c-0.209 0.002-0.457 0.003-0.705 0.003-52.942 0-95.859-42.918-95.859-95.859 0-0.165 0.001-0.331 0.002-0.497zM1120.438 887h-421.875v-212.813c79.347-12.438 139.329-80.308 139.329-162.188 0-81.879-59.982-149.75-138.403-162.068l-0.927-212.932h421.875c52.759 0.133 95.492 42.866 95.625 95.613v68.45h-95.625c0 0 0 0 0 0-49.317 0-89.297 39.98-89.297 89.297v243.516c0 49.317 39.979 89.297 89.297 89.297 0 0 0 0 0 0h93.75v68.438c-0.249 52.012-41.883 94.217-93.648 95.39zM1216.063 347.937v328.125h-95.625c0 0 0 0 0 0-23.429 0-42.421-18.992-42.421-42.421 0 0 0 0 0 0v-242.578c0 0 0 0 0 0 0-23.429 18.992-42.421 42.421-42.421 0 0 0 0 0 0h93.75z"
+                    fill="#000000" />
+            </svg>
+        </div>
+        <div class="compteur-text">
+            <h3><span data-bind-global="count"></span> Clubs analysés</h3>
+            <p>Découvrez l'analyse digitale complète des clubs romands.</p>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div id="stats">
+        <div class="stats-left">
+            <h3>4 statistiques importantes</h3>
+            <div class="stats-grid">
+                <div class="stat-box">70% des clubs n'ont pas de newsletter</div>
+                <div class="stat-box">70% des clubs n'ont pas de boutique en ligne</div>
+                <div class="stat-box">45% des clubs n'ont pas de profil TikTok</div>
+                <div class="stat-box">60% des clubs n'ont style graphique défini</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipes -->
+    <div id="equipes">
+        <h3>Clubs analysés</h3>
+        <section id="teamList"></section>
+    </div>
+
+    <!-- Formulaire -->
+    <section class="form-section">
+        <form id="downloadForm">
+            <button class="close-btn">&times;</button>
+            <div class="form-row">
+                <input type="text" name="lastName" placeholder="Nom" required>
+                <input type="text" name="firstName" placeholder="Prénom" required>
+            </div>
+            <input type="email" name="email" placeholder="Email" required>
+            <label class="checkbox">
+                <input type="checkbox" name="newsletterAgreement">
+                J'accepte de recevoir la newsletter
+            </label>
+            <button type="submit" class="btn-download">Télécharger</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <h4>Agence Neruzzi</h4>
+                <p>Chemin des Peuplier 14</p>
+                <p>1765 Nyon</p>
+            </div>
+            <div class="footer-right">
+                <h4>Contacts</h4>
+                <p>Adresse@email.ch</p>
+                <p>+41 00 000 00 00</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

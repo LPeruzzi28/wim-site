@@ -99,6 +99,8 @@ export const projects = [
         desc: "Projet en groupe de deux : un club de foot suisse nous a été assigné et nous avons dû réaliser un audit de leur communication, puis un site web mettant en avant tous les rapports réalisés par les différentes équipes de la classe.",
         image: "projet-ecole/auditcom-clubfoot/auditcom-screenshot.png",
         imageStyle: "object-position: top;",
-        links: []
+        links: [
+            { label: "Voir le site (démo)", href: "projet-ecole/auditcom-clubfoot/demo/" }
+        ]
     }
 ];

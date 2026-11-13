@@ -1,0 +1,797 @@
+@import "reset.css";
+
+.saira-uniquifier{
+  font-family: "Saira", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+:root {
+    --bg: rgba(96, 97, 118, 0.46);
+    --card: #FFEDCE;
+    --dark: rgba(95, 96, 117, 96%);
+    --white: #fff;
+}
+
+html {
+    font-family: Sora;
+    background: var(--bg);
+}
+
+/* Hero */
+#hero {
+    width: 100%;
+    border-radius: 10px;
+    padding: 30px 40px;
+    height: 100vh;
+    align-content: center;
+    margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+#hero::before,
+#hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+#hero::before {
+    background: url('../Images/terrain_foot.webp') center/cover;
+    z-index: 0;
+}
+
+#hero::after {
+    background-color: rgba(255, 237, 206, 0.85); /* --card avec 85% d'opacité */
+    z-index: 1;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-prefix {
+    font-size: 128px;
+    color: var(--dark);
+    line-height: 140px;
+}
+
+.hero-icon {
+    animation: rotate 20s linear infinite;
+}
+
+/* Intro */
+.intro {
+    text-align: center;
+    padding: 50px 20px;
+    margin-bottom: 115px;
+}
+
+.intro h2 {
+    font-size: 60px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.btn-download {
+    padding: 14px 40px;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--dark);
+    color: var(--white);
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Compteur */
+#compteur{
+    background-color: var(--card);
+}
+
+.compteur-text h3 {
+    font-size: 60px;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
+.compteur-text p {
+    color: #666;
+    font-size: 30px;
+}
+
+/* Stats */
+#stats{
+    background-color: var(--card);
+}
+
+.stats-left h3 {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.stat-box {
+    background: var(--white);
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    text-align: center;
+    color: #777;
+    font-size: 20px;
+}
+
+/* Equipes */
+#equipes{
+    background-color: var(--card);
+}
+#equipes h3 {
+    font-size: 60px;
+    margin-bottom: 18px;
+    color: var(--dark);
+}
+
+#teamList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+#teamList article {
+    position: relative;
+    width: 125px;
+    height: 125px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#teamList article img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: filter 0.3s;
+}
+
+#teamList article:hover img {
+    filter: blur(4px);
+}
+
+#teamList article h2,
+#teamList article p {
+    position: absolute;
+    inset: 0 0 auto;
+    top: 50%;
+    text-align: center;
+    padding: 4px 6px;
+    color: var(--dark);
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+#teamList article h2 {
+    transform: translateY(-100%);
+    font-size: 11px;
+}
+
+#teamList article p {
+    transform: translateY(0);
+    font-size: 9px;
+    font-weight: 400;
+}
+
+#teamList article p:last-child {
+    display: none;
+}
+
+#teamList article:hover h2,
+#teamList article:hover p {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Messages */
+#messageContainer {
+    margin: 20px 0;
+}
+
+.message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.loading {
+    background: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #90caf9;
+}
+
+.progress-container {
+    margin-top: 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+}
+
+/* Form */
+.form-section {
+    display: none;
+    position: fixed;
+    inset: 0;
+    padding: 10px 0 40px;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+}
+
+.form-section.active {
+    display: flex;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    width: 35px;
+    height: 35px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-btn:hover {
+    background: #e0e0e0;
+    color: var(--accent);
+}
+
+#downloadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+#downloadForm input:not([type="checkbox"]) {
+    padding: 14px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--white);
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+#downloadForm button {
+    margin-top: 10px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark);
+    color: var(--white);
+    padding: 35px 40px;
+    margin-top: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+footer h4 {
+    font-size: 60px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+footer p {
+    margin: 4px 0;
+    font-size: 20px;
+}
+
+/* Animations */
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Sections avec animation */
+#compteur,
+#stats,
+#equipes {
+    border-radius: 10px;
+    padding: 35px 40px;
+    margin-bottom: 50px;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+}
+
+#compteur {
+    margin-right: 30%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    height: 250px;
+    animation-name: slideFromLeft;
+}
+
+#stats {
+    margin-left: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation-name: slideFromRight;
+}
+
+#equipes {
+    padding: 25px 30px;
+    margin-right: 30%;
+    margin-bottom: 30px;
+    animation-name: slideFromLeft;
+}
+
+/* Responsive - 1300px */
+@media (max-width: 1300px) {
+
+    html,
+    body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    body {
+        padding: 0 15px;
+    }
+
+    #hero {
+        height: auto;
+        min-height: 450px;
+        padding: 30px 20px;
+        margin-bottom: 40px;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-prefix {
+        font-size: 48px;
+        line-height: 1.2;
+    }
+
+    .hero-icon svg {
+        width: 180px;
+        height: 180px;
+    }
+
+    .intro {
+        padding: 40px 20px;
+        margin-bottom: 60px;
+    }
+
+    .intro h2 {
+        font-size: 24px;
+    }
+
+    .btn-download {
+        padding: 14px 35px;
+        font-size: 14px;
+    }
+
+    #compteur,
+    #stats,
+    #equipes {
+        margin: 0 0 30px 0 !important;
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    #compteur {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 25px;
+        height: auto;
+        gap: 20px;
+    }
+
+    .compteur-icon svg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .compteur-text h3 {
+        font-size: 20px;
+    }
+
+    .compteur-text p {
+        font-size: 16px;
+    }
+
+    #stats {
+        flex-direction: column;
+        padding: 30px 25px;
+        gap: 25px;
+        margin-bottom: 40px !important;
+    }
+
+    .stats-left {
+        width: 100%;
+    }
+
+    .stats-left h3 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-box {
+        font-size: 16px;
+        padding: 14px 16px;
+    }
+
+    #equipes {
+        padding: 25px 20px;
+    }
+
+    #equipes h3 {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #teamList {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    #teamList article,
+    #teamList article img {
+        width: 100px;
+        height: 100px;
+    }
+
+    #teamList article h2 {
+        font-size: 10px;
+    }
+
+    #teamList article p {
+        font-size: 8px;
+    }
+
+    #downloadForm {
+        padding: 30px 25px;
+        width: 95%;
+        max-width: 400px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    #downloadForm input:not([type="checkbox"]) {
+        font-size: 14px;
+    }
+
+    .checkbox {
+        font-size: 13px;
+    }
+
+    .close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+    }
+
+    footer {
+        padding: 30px 20px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    footer h4 {
+        font-size: 20px;
+    }
+}
+
+/* Responsive - 375px */
+@media (max-width: 375px) {
+    #hero {
+        min-height: 350px;
+        padding: 20px 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+
+    .hero-content {
+        gap: 20px;
+    }
+
+    .hero-prefix {
+        font-size: 28px;
+    }
+
+    .hero-icon svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .intro {
+        padding: 25px 15px;
+        margin-bottom: 40px;
+    }
+
+    .intro h2 {
+        font-size: 18px;
+    }
+
+    .btn-download {
+        padding: 12px 25px;
+        font-size: 13px;
+    }
+
+    #compteur,
+    #stats,
+    #equipes {
+        padding: 20px 15px;
+    }
+
+    #compteur {
+        gap: 15px;
+    }
+
+    .compteur-icon svg {
+        width: 80px;
+        height: 80px;
+    }
+
+    .compteur-text h3 {
+        font-size: 16px;
+    }
+
+    .compteur-text p {
+        font-size: 13px;
+    }
+
+    .stats-left h3 {
+        font-size: 16px;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-box {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    #equipes {
+        margin-bottom: 20px !important;
+    }
+
+    #equipes h3 {
+        font-size: 16px;
+    }
+
+    #teamList {
+        gap: 10px;
+    }
+
+    #teamList article,
+    #teamList article img {
+        width: 70px;
+        height: 70px;
+    }
+
+    #teamList article h2 {
+        font-size: 8px;
+    }
+
+    #teamList article p {
+        font-size: 6px;
+    }
+
+    #downloadForm {
+        padding: 25px 20px;
+    }
+
+    #downloadForm input:not([type="checkbox"]) {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .checkbox {
+        font-size: 11px;
+    }
+
+    .close-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+    }
+
+    footer {
+        padding: 25px 15px;
+    }
+
+    .footer-content {
+        gap: 20px;
+    }
+
+    footer h4 {
+        font-size: 16px;
+    }
+
+    footer p {
+        font-size: 12px;
+    }
+}
+
+/* ============================================
+   COMPOSANT MESSAGE (SUCCESS / ERROR / LOADING)
+============================================ */
+ 
+aside {
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+ 
+.download-status {
+    margin-top: 6px;
+    padding: 7px 13px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+ 
+ 
+/* États */
+aside.success {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+ 
+aside.error {
+    background-color: #d9534f;
+    color: #ffffff;
+}
+ 
+aside.loading {
+    background: linear-gradient(
+        to bottom,
+        #38B6FF 0%,
+        #4a9fd1 100%
+    );
+    color: #072050;
+}
+ 
+/* Icône */
+aside::before {
+    content: "ℹ️";
+    font-size: 1.2rem;
+}
+ 
+aside.success::before {
+    content: "✔️";
+}
+ 
+aside.error::before {
+    content: "❌";
+}
+ 
+aside.loading::before {
+    content: "⏳";
+}
+ 
+/* Texte */
+.aside p {
+    margin: 0;
+    line-height: 1.4;
+}
