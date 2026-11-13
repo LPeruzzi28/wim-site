@@ -20,7 +20,7 @@ export const projects = [
     {
         title: "Mise en page",
         tag: "Print",
-        desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : la mise en page d'un programme de 20 pages sous InDesign (grille, hiérarchie typographique, sommaire, pages d'ouverture par jour, fiches de films). Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs.",
+        desc: "Projet d'entraînement réalisé à l'université dans le cadre du cours de print : j'ai mis en page le programme du festival (20 pages sous InDesign) et j'ai essayé de recréer un univers graphique pour l'occasion. Je ne suis affilié ni de près ni de loin à l'événement ou à ses organisateurs.",
         image: "projet-ecole/bn3/bn3-couverture.jpg",
         imageStyle: "object-position: top;",
         links: [
