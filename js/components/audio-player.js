@@ -2,6 +2,9 @@ import { requireById } from "../lib/dom.js";
 
 /** @typedef {import("../data/clips.js").Clip} Clip */
 
+/** Volume de la musique d'ambiance (de 0 à 1) : discret pour ne pas surprendre le visiteur. */
+const PLAYER_VOLUME = 0.2;
+
 /**
  * Lecteur audio : joue des extraits dans un ordre aléatoire (sans répétition rapprochée).
  *
@@ -9,6 +12,7 @@ import { requireById } from "../lib/dom.js";
  */
 export function initAudioPlayer(clips) {
     const audio = /** @type {HTMLAudioElement} */ (requireById("player-audio"));
+    audio.volume = PLAYER_VOLUME;
     const toggle = /** @type {HTMLButtonElement} */ (requireById("player-toggle"));
     const next = /** @type {HTMLButtonElement} */ (requireById("player-next"));
     const title = requireById("player-title");
